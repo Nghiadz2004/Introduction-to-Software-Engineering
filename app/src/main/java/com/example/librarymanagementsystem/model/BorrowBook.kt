@@ -21,6 +21,7 @@ data class BorrowBook(
     val libraryCardId: String = "",
     val bookId: String = "",
     val borrowDate: Date = Date(),
+    val daysBorrow: Int = 1,
     val returnDate: Date? = null,
     val status: String = BorrowStatus.THANH_CONG.value // Lưu dưới dạng string
 ) {

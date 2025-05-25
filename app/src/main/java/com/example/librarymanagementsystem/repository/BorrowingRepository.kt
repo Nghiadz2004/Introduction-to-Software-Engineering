@@ -30,7 +30,17 @@ class BorrowingRepository(private val db: FirebaseFirestore) {
             .toObjects(BorrowBook::class.java)
     }
 
-    suspend fun reportLostBook(lostBook: LostBook): String = withContext(Dispatchers.IO) {
-        db.collection("lost_books").add(lostBook).await().id
+    suspend fun removeFromBorrow(libraryCardId: String, readerId: String, borrowDate: Date) = withContext(Dispatchers.IO) {
+        val db = FirebaseFirestore.getInstance()
+        val querySnapshot = db.collection("borrow_book")
+            .whereEqualTo("bookId", libraryCardId)
+            .whereEqualTo("readerId", readerId)
+            .whereEqualTo("borrowDate", borrowDate)
+            .get()
+            .await()
+
+        for (document in querySnapshot.documents) {
+            db.collection("borrow_book").document(document.id).delete().await()
+        }
     }
 }

@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.io.Reader
+import com.example.librarymanagementsystem.model.Reader
 
 class ReaderRepository(private val db: FirebaseFirestore) {
 

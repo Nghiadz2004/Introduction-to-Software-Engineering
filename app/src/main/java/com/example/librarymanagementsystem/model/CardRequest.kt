@@ -9,9 +9,9 @@ data class CardRequest(
     val fullName: String,
     val birthday: Date,
     val submittedAt: Date = Date(),
-    val status: RequestStatus = RequestStatus.PENDING,
-    val approvedBy: String? = null, // officerId nếu được duyệt
-    val approvedAt: Date? = null
+    var status: RequestStatus = RequestStatus.PENDING,
+    var approvedBy: String? = null, // officerId nếu được duyệt
+    var approvedAt: Date? = null
 )
 
 enum class RequestStatus(val value: String) {
