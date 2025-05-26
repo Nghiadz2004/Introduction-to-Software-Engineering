@@ -58,7 +58,7 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/profileBT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
