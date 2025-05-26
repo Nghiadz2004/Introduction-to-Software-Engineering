@@ -65,6 +65,7 @@
         android:id="@+id/pageNamePlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Page Name Placeholder"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
