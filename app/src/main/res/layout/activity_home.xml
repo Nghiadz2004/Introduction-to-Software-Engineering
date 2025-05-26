@@ -8,14 +8,44 @@
     android:background="@color/light_blue"
     tools:context=".activity.HomeActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center|start"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
     <ImageView
+        android:id="@+id/signature_logo_imgView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
-        android:background="@drawable/signature_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/signature_logo"/>
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="0dp"/>
+
+    <ImageButton
+        android:id="@+id/notifyIconImgBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/notify_icon"/>
+
+    <View
+        android:layout_width="24dp"
+        android:layout_height="0dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/avatar_account_placeholder"/>
+
+    </LinearLayout>
 
     <!-- Container cho Fragment -->
     <FrameLayout
@@ -48,11 +78,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/homeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:layout_marginRight="6dp"
             android:layout_marginLeft="12dp"
             android:padding="6dp"
@@ -67,11 +97,14 @@
             android:textSize="32px"/>
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/myBookBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:padding="6dp"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/book_icon"
@@ -83,11 +116,14 @@
             android:fontVariationSettings="'wght' 1000"/>
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/favoriteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:padding="6dp"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/favorite_icon"
@@ -99,12 +135,12 @@
             android:fontVariationSettings="'wght' 1000"/>
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/profileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:layout_marginRight="12dp"
             android:layout_marginLeft="6dp"
             android:padding="6dp"
