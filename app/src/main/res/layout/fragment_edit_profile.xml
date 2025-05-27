@@ -15,21 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:layout_width="107dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="168dp"
-        android:background="@drawable/button_corner_radius"
-        android:backgroundTint="@color/light_blue"
-        android:text="Logout"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:fontFamily="@font/inter_font"
-        android:fontVariationSettings="'wght' 700"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+
 
     <LinearLayout
         android:layout_width="353dp"
@@ -53,49 +39,47 @@
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
                 android:textSize="18dp"/>
-            
-            <TextView
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
-                android:gravity="center_vertical"
                 android:paddingLeft="30dp"
                 android:hint="Full Name"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textSize="18dp"
                 android:textColorHint="@color/white"/>
-            
+
         </LinearLayout>
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="130dp"
-            android:layout_height="match_parent"
-            android:gravity="center|start"
-            android:text="Username"
-            android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 700"
-            android:textColor="@color/black"
-            android:textSize="18dp"/>
-
-        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/button_corner_radius"
-            android:backgroundTint="@color/light_blue"
-            android:gravity="center_vertical"
-            android:paddingLeft="30dp"
-            android:hint="Username"
-            android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 700"
-            android:textSize="18dp"
-            android:textColorHint="@color/white"/>
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:text="Username"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textColor="@color/black"
+                android:textSize="18dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner_radius"
+                android:backgroundTint="@color/light_blue"
+                android:paddingLeft="30dp"
+                android:hint="Username"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textSize="18dp"
+                android:textColorHint="@color/white"/>
 
         </LinearLayout>
 
@@ -114,13 +98,12 @@
                 android:textColor="@color/black"
                 android:textSize="18dp"/>
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:paddingLeft="30dp"
-                android:gravity="center_vertical"
                 android:hint="Email"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
@@ -144,13 +127,12 @@
                 android:textColor="@color/black"
                 android:textSize="18dp"/>
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:paddingLeft="30dp"
-                android:gravity="center_vertical"
                 android:hint="Birthday"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
@@ -174,13 +156,12 @@
                 android:textColor="@color/black"
                 android:textSize="18dp"/>
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:paddingLeft="30dp"
-                android:gravity="center_vertical"
                 android:hint="Address"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
@@ -190,22 +171,45 @@
         </LinearLayout>
 
     </LinearLayout>
-    
-    <Button
-        android:layout_width="144dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="467dp"
-        android:background="@drawable/button_corner_radius"
-        android:backgroundTint="@color/light_blue"
-        android:text="Edit Profile"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:fontFamily="@font/inter_font"
-        android:fontVariationSettings="'wght' 700"
-        android:textSize="18dp"
+
+    <LinearLayout
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="492dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:background="@drawable/button_corner_radius"
+            android:backgroundTint="@color/light_purple"
+            android:text="Cancel"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 700"
+            android:textSize="18dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:background="@drawable/button_corner_radius"
+            android:backgroundTint="@color/light_purple"
+            android:text="Save"
+            android:textColor="@color/green"
+            android:gravity="center"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 700"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
