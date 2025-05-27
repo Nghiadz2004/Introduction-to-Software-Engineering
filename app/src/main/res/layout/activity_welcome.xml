@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/light_blue">
+
+
+    <TextView
+        android:id="@+id/wcHeaderText"
+        android:layout_width="295dp"
+        android:layout_height="105dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textColor="@color/white"
+        android:text="@string/welcome_header_text"/>
+
+    <ImageView
+        android:id="@+id/myImageView"
+        android:layout_width="247dp"
+        android:layout_height="233dp"
+        android:layout_gravity="center"
+        android:src="@drawable/banner">
+    </ImageView>
+
+    
+</LinearLayout>

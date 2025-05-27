@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Library Management System</string>
+    <string name="welcome_header_text">Welcome to Group 1\s Library</string>
 </resources>
