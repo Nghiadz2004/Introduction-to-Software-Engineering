@@ -76,11 +76,11 @@
         android:layout_marginEnd="10dp"/>
 
     <TextView
-        android:id="@+id/categoryTV"
+        android:id="@+id/manageBookTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Categorical"
+        android:text="Manage book"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
         android:textSize="20dp"
@@ -93,7 +93,7 @@
         android:id="@+id/section1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/categoryTV"
+        app:layout_constraintTop_toBottomOf="@+id/manageBookTV"
         app:layout_constraintBottom_toTopOf="@+id/fragment_container"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
@@ -107,57 +107,38 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/fiction"
+                android:drawableTop="@drawable/all_book_icon"
                 android:background="@color/light_blue"
-                android:text="Fiction"
+                android:text="All books"
                 android:textColor="@color/light_purple"
                 android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/detective"
                 android:background="@color/light_blue"
-                android:text="Detective"
+                android:text="Reader Cards"
                 android:textColor="@color/light_purple"
                 android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/horror"
                 android:background="@color/light_blue"
-                android:text="Horror"
+                android:text="Add Reader Cards"
                 android:textColor="@color/light_purple"
                 android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/fiction"
-                android:background="@color/light_blue"
-                android:text="Fiction"
-                android:textColor="@color/light_purple"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/fiction"
-                android:background="@color/light_blue"
-                android:text="Fiction"
-                android:textColor="@color/light_purple"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"/>
         </LinearLayout>
     </HorizontalScrollView>
 
