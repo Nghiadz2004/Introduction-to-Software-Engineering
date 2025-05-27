@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_purple"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.ProfileFragment">
+
+    <ImageView
+        android:layout_width="124dp"
+        android:layout_height="124dp"
+        android:background="@drawable/ic_launcher_background"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:layout_width="107dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="168dp"
+        android:background="@drawable/button_corner_radius"
+        android:backgroundTint="@color/light_blue"
+        android:text="Logout"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:fontFamily="@font/inter_font"
+        android:fontVariationSettings="'wght' 700"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="353dp"
+        android:layout_height="215dp"
+        android:layout_marginTop="234dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:text="Full Name"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textColor="@color/black"
+                android:textSize="18dp"/>
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner_radius"
+                android:backgroundTint="@color/light_blue"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:hint="Full Name"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textSize="18dp"
+                android:textColorHint="@color/white"/>
+            
+        </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:text="Username"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 700"
+            android:textColor="@color/black"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_corner_radius"
+            android:backgroundTint="@color/light_blue"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:hint="Username"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 700"
+            android:textSize="18dp"
+            android:textColorHint="@color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:text="Email"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textColor="@color/black"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner_radius"
+                android:backgroundTint="@color/light_blue"
+                android:paddingLeft="30dp"
+                android:gravity="center_vertical"
+                android:hint="Email"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textSize="18dp"
+                android:textColorHint="@color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:text="Birthday"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textColor="@color/black"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner_radius"
+                android:backgroundTint="@color/light_blue"
+                android:paddingLeft="30dp"
+                android:gravity="center_vertical"
+                android:hint="Birthday"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textSize="18dp"
+                android:textColorHint="@color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:text="Address"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textColor="@color/black"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_corner_radius"
+                android:backgroundTint="@color/light_blue"
+                android:paddingLeft="30dp"
+                android:gravity="center_vertical"
+                android:hint="Address"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 700"
+                android:textSize="18dp"
+                android:textColorHint="@color/white"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    <Button
+        android:layout_width="144dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="467dp"
+        android:background="@drawable/button_corner_radius"
+        android:backgroundTint="@color/light_blue"
+        android:text="Edit Profile"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:fontFamily="@font/inter_font"
+        android:fontVariationSettings="'wght' 700"
+        android:textSize="18dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
