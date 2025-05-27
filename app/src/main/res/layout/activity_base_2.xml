@@ -23,11 +23,15 @@
         android:id="@+id/signature_logo_imgView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:background="@drawable/signature_logo"/>
+        android:layout_marginStart="-24dp"
+        android:src="@drawable/signature"
+        android:adjustViewBounds="true"
+        android:maxWidth="160dp"
+        android:maxHeight="160dp"
+        android:scaleType="fitCenter"/>
 
     <View
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="0dp"/>
 
     <TextView
@@ -46,9 +50,16 @@
 
     <ImageButton
         android:id="@+id/notifyImgBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/notify_icon"/>
+        android:layout_width="21.88dp"
+        android:layout_height="25dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/notify_icon"
+        android:tint="#D9D9D9"
+        tools:ignore="UseAppTint"
+        android:adjustViewBounds="true"
+        android:maxWidth="21.88dp"
+        android:maxHeight="25dp"
+        android:scaleType="fitCenter"/>
 
     <View
         android:layout_width="24dp"
@@ -117,7 +128,8 @@
             android:padding="6dp"
             android:layout_weight="1"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/home_icon"
+            android:drawableTop="@drawable/house_solid"
+            android:drawableTint="@color/light_gray"
             android:text="Home"
             android:textColor="@color/light_gray"
             android:textAllCaps="false"
@@ -137,6 +149,7 @@
             android:padding="6dp"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/book_icon"
+            android:drawableTint="@color/light_gray"
             android:text="My Books"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
@@ -155,7 +168,8 @@
             android:layout_marginRight="6dp"
             android:padding="6dp"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/favorite_icon"
+            android:drawableTop="@drawable/favorite_fill_icon"
+            android:drawableTint="@color/light_gray"
             android:text="Favorites"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
@@ -175,6 +189,7 @@
             android:padding="6dp"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/profile_icon"
+            android:drawableTint="@color/light_gray"
             android:text="Profile"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
