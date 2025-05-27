@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_register_reader_card"
     android:background="@color/light_purple"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ProfileFragment">
@@ -20,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
+        android:id="@+id/avatar_img"
         android:layout_width="124dp"
         android:layout_height="124dp"
         android:background="@drawable/ic_launcher_background"
@@ -28,7 +30,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginStart="124dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/light_blue"
+        android:src="@drawable/edit_icon"
+        app:layout_constraintEnd_toEndOf="@id/avatar_img"
+        app:layout_constraintStart_toStartOf="@id/avatar_img"
+        app:layout_constraintTop_toTopOf="@id/avatar_img"/>
 
     <LinearLayout
         android:layout_width="353dp"
@@ -200,8 +212,8 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="144dp"
-        android:layout_height="45dp"
+        android:layout_width="124dp"
+        android:layout_height="38dp"
         android:layout_marginTop="467dp"
         android:background="@drawable/button_corner_radius"
         android:backgroundTint="@color/light_blue"

@@ -7,4 +7,6 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="CustomRatingBar" parent="@style/Widget.AppCompat.RatingBar.Small"/>
+
 </resources>
