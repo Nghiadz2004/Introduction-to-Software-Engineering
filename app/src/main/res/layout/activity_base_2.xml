@@ -137,6 +137,7 @@
             android:padding="6dp"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/book_icon"
+            android:drawableTint="@color/light_gray"
             android:text="My Books"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"

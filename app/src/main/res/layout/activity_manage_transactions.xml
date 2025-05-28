@@ -76,11 +76,11 @@
         android:layout_marginEnd="10dp"/>
 
     <TextView
-        android:id="@+id/categoryTV"
+        android:id="@+id/manageBookTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Categorical"
+        android:text="Manage Transactions"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
         android:textSize="20dp"
@@ -93,7 +93,7 @@
         android:id="@+id/section1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/categoryTV"
+        app:layout_constraintTop_toBottomOf="@+id/manageBookTV"
         app:layout_constraintBottom_toTopOf="@+id/fragment_container"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
@@ -107,57 +107,56 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/fiction"
+                android:drawableTop="@drawable/loan_icon"
                 android:background="@color/light_blue"
-                android:text="Fiction"
+                android:drawableTint="@color/light_purple"
+                android:text="Loans"
                 android:textColor="@color/light_purple"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
+                android:fontVariationSettings="'wght' 800"
+                android:fontFamily="@font/inter_font"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/detective"
+                android:drawableTop="@drawable/queues_icon"
                 android:background="@color/light_blue"
-                android:text="Detective"
+                android:text="Queues"
                 android:textColor="@color/light_purple"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
+                android:fontVariationSettings="'wght' 800"
+                android:fontFamily="@font/inter_font"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/horror"
+                android:drawableTop="@drawable/return_book"
                 android:background="@color/light_blue"
-                android:text="Horror"
+                android:text="Return Book"
                 android:textColor="@color/light_purple"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
+                android:fontVariationSettings="'wght' 800"
+                android:fontFamily="@font/inter_font"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/fiction"
+                android:drawableTop="@drawable/report_lost_icon"
                 android:background="@color/light_blue"
-                android:text="Fiction"
+                android:drawableTint="@color/light_purple"
+                android:text="Report Lost"
                 android:textColor="@color/light_purple"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/fiction"
-                android:background="@color/light_blue"
-                android:text="Fiction"
-                android:textColor="@color/light_purple"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:layout_weight="1"/>
+                android:fontVariationSettings="'wght' 800"
+                android:fontFamily="@font/inter_font"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"/>
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -166,7 +165,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="450dp"
-        android:background="@drawable/corner_bg"
+        android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
         app:layout_constraintStart_toStartOf="parent"
@@ -202,7 +201,8 @@
             android:padding="6dp"
             android:layout_weight="1"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/home_icon"
+            android:drawableTop="@drawable/house_solid"
+            android:drawableTint="@color/light_gray"
             android:text="Home"
             android:textColor="@color/light_gray"
             android:textAllCaps="false"
@@ -221,10 +221,11 @@
             android:layout_marginRight="6dp"
             android:padding="6dp"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/book_icon"
-            android:text="My Books"
+            android:drawableTop="@drawable/transaction_icon"
+            android:drawableTint="@color/light_blue"
+            android:text="Transactions"
             android:textAllCaps="false"
-            android:textColor="@color/light_gray"
+            android:textColor="@color/light_blue"
             android:fontFamily="@font/inter_font"
             android:textSize="32px"
             android:fontVariationSettings="'wght' 800"/>
@@ -240,8 +241,9 @@
             android:layout_marginRight="6dp"
             android:padding="6dp"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/favorite_icon"
-            android:text="Favorites"
+            android:drawableTop="@drawable/statistic_icon"
+            android:drawableTint="@color/light_gray"
+            android:text="Statistic"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
             android:fontFamily="@font/inter_font"
