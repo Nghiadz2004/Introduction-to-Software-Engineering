@@ -8,14 +8,14 @@
     tools:context=".fragment.ProfileFragment">
     
     <TextView
-        android:layout_width="231dp"
-        android:layout_height="27dp"
+        android:layout_width="236dp"
+        android:layout_height="30dp"
         android:layout_marginTop="18dp"
         android:text="Register Reader Card"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
         android:textColor="@color/light_blue"
-        android:textSize="19dp"
+        android:textSize="22dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -25,7 +25,7 @@
         android:layout_width="124dp"
         android:layout_height="124dp"
         android:background="@drawable/ic_launcher_background"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +63,7 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="24dp"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -71,11 +71,11 @@
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:paddingLeft="30dp"
-                android:hint="Full Name"
+                android:text="Full Name"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
-                android:textSize="18dp"
-                android:textColorHint="@color/white"/>
+                android:textSize="24dp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="24dp"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -100,11 +100,11 @@
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:paddingLeft="30dp"
-                android:hint="Email"
+                android:text="Email"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
-                android:textSize="18dp"
-                android:textColorHint="@color/white"/>
+                android:textSize="24dp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="24dp"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -129,11 +129,11 @@
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:paddingLeft="30dp"
-                android:hint="Birthday"
+                android:text="Birthday"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
-                android:textSize="18dp"
-                android:textColorHint="@color/white"/>
+                android:textSize="24dp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
@@ -150,7 +150,7 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="24dp"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -158,11 +158,11 @@
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:paddingLeft="30dp"
-                android:hint="Address"
+                android:text="Address"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
-                android:textSize="18dp"
-                android:textColorHint="@color/white"/>
+                android:textSize="24dp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
@@ -179,7 +179,7 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="24dp"/>
 
             <RadioGroup
                 android:id="@+id/type_radio_group"
@@ -222,7 +222,7 @@
         android:textColor="@color/white"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 700"
-        android:textSize="18dp"
+        android:textSize="24dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
