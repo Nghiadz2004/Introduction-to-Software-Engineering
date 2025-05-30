@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_base_2"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_blue">
@@ -18,79 +17,137 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-    <ImageView
-        android:id="@+id/signature_logo_imgView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-24dp"
-        android:src="@drawable/signature_logo"
-        android:adjustViewBounds="true"
-        android:maxWidth="160dp"
-        android:maxHeight="160dp"
-        android:scaleType="fitCenter"/>
+        <ImageView
+            android:id="@+id/signature_logo_imgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/signature_logo"/>
 
-    <View
-        android:layout_width="160dp"
-        android:layout_height="0dp"/>
+        <View
+            android:layout_width="200dp"
+            android:layout_height="0dp"/>
 
-    <TextView
-        android:id="@+id/ellipse"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginBottom="8dp"
-        android:text="1"
-        android:textSize="10sp"
-        android:textColor="@color/light_blue"
-        android:background="@drawable/circle"
-        android:backgroundTint="#D9D9D9"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:visibility="visible"/>
+        <TextView
+            android:id="@+id/ellipse"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="#D9D9D9"
+            android:gravity="center"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/light_blue"
+            android:textSize="10sp"
+            android:visibility="visible" />
 
-    <ImageButton
-        android:id="@+id/notifyImgBtn"
-        android:layout_width="21.88dp"
-        android:layout_height="25dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/notify_icon"
-        android:tint="#D9D9D9"
-        tools:ignore="UseAppTint"
-        android:adjustViewBounds="true"
-        android:maxWidth="21.88dp"
-        android:maxHeight="25dp"
-        android:scaleType="fitCenter"/>
+        <ImageButton
+            android:id="@+id/notifyImgBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/notify_icon"/>
 
-    <View
-        android:layout_width="24dp"
-        android:layout_height="0dp"/>
+        <View
+            android:layout_width="24dp"
+            android:layout_height="0dp"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/avatar_account_placeholder"/>
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/avatar_account_placeholder"/>
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/searchET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+        android:textColorHint="@color/white"
+        android:hint="Search by name, author"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:background="@drawable/rounded_search_background"
+        android:drawableEnd="@drawable/baseline_search_24"
+        android:drawableTint="#E3E3E3"
+        android:paddingStart="30dp"
+        android:paddingEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"/>
+
     <TextView
-        android:id="@+id/pageNamePlaceholder"
+        android:id="@+id/manageBookTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Page Name Placeholder"
+        android:text="Manage book"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:textColor="@color/white"
+        android:paddingStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_container"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchET" />
+
+    <HorizontalScrollView
+        android:id="@+id/section1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/manageBookTV"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_container"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/all_books_icon"
+                android:background="@color/light_blue"
+                android:drawableTint="@color/light_purple"
+                android:text="All books"
+                android:textColor="@color/light_purple"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/reader_card_icon"
+                android:background="@color/light_blue"
+                android:text="Reader Cards"
+                android:textColor="@color/light_purple"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/add_reader_card"
+                android:background="@color/light_blue"
+                android:text="Add Reader Cards"
+                android:textColor="@color/light_purple"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"/>
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <!-- Container cho Fragment -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
-        android:layout_height="555dp"
+        android:layout_height="450dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
@@ -120,21 +177,21 @@
             android:id="@+id/homeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginRight="6dp"
             android:layout_marginLeft="12dp"
-            android:padding="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/house_solid"
-            android:drawableTint="@color/light_gray"
-            android:text="Home"
-            android:textColor="@color/light_gray"
-            android:textAllCaps="false"
+            android:drawableTint="@color/light_blue"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 800"
-            android:textSize="32px"/>
+            android:padding="6dp"
+            android:text="Home"
+            android:textAllCaps="false"
+            android:textColor="@color/light_blue"
+            android:textSize="32px" />
 
         <Button
             android:id="@+id/myBookBtn"
@@ -147,9 +204,9 @@
             android:layout_marginRight="6dp"
             android:padding="6dp"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/book_icon"
+            android:drawableTop="@drawable/transaction_icon"
             android:drawableTint="@color/light_gray"
-            android:text="My Books"
+            android:text="Transactions"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
             android:fontFamily="@font/inter_font"
@@ -167,7 +224,7 @@
             android:layout_marginRight="6dp"
             android:padding="6dp"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/favorite_fill_icon"
+            android:drawableTop="@drawable/statistic_icon"
             android:drawableTint="@color/light_gray"
             android:text="Favorites"
             android:textAllCaps="false"
@@ -188,13 +245,11 @@
             android:padding="6dp"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/profile_icon"
-            android:drawableTint="@color/light_gray"
             android:text="Profile"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
             android:fontFamily="@font/inter_font"
             android:textSize="32px"
             android:fontVariationSettings="'wght' 800"/>
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
