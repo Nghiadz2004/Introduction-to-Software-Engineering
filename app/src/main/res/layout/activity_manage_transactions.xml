@@ -21,32 +21,43 @@
             android:id="@+id/signature_logo_imgView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/signature_logo"/>
+            android:layout_marginStart="-24dp"
+            android:src="@drawable/signature_logo"
+            android:adjustViewBounds="true"
+            android:maxWidth="160dp"
+            android:maxHeight="160dp"
+            android:scaleType="fitCenter"/>
 
         <View
-            android:layout_width="200dp"
+            android:layout_width="160dp"
             android:layout_height="0dp"/>
 
         <TextView
             android:id="@+id/ellipse"
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_marginBottom="8dp"
+            android:text="1"
+            android:textSize="10sp"
+            android:textColor="@color/light_blue"
             android:background="@drawable/circle"
             android:backgroundTint="#D9D9D9"
             android:gravity="center"
-            android:text="1"
             android:textAlignment="center"
-            android:textColor="@color/light_blue"
-            android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"/>
 
         <ImageButton
             android:id="@+id/notifyImgBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/notify_icon"/>
+            android:layout_width="16dp"
+            android:layout_height="21dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:maxWidth="21.88dp"
+            android:maxHeight="25dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notify_icon"
+            android:tint="#D9D9D9"
+            tools:ignore="UseAppTint" />
 
         <View
             android:layout_width="24dp"
@@ -164,10 +175,11 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
-        android:layout_height="600dp"
+        android:layout_height="0dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@id/section1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -263,6 +275,7 @@
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/profile_icon"
             android:text="Profile"
+            android:drawableTint="@color/light_gray"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
             android:fontFamily="@font/inter_font"

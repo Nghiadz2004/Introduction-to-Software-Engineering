@@ -47,18 +47,18 @@
         android:textAlignment="center"
         android:visibility="visible"/>
 
-    <ImageButton
-        android:id="@+id/notifyImgBtn"
-        android:layout_width="21.88dp"
-        android:layout_height="25dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/notify_icon"
-        android:tint="#D9D9D9"
-        tools:ignore="UseAppTint"
-        android:adjustViewBounds="true"
-        android:maxWidth="21.88dp"
-        android:maxHeight="25dp"
-        android:scaleType="fitCenter"/>
+        <ImageButton
+            android:id="@+id/notifyImgBtn"
+            android:layout_width="16dp"
+            android:layout_height="21dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:maxWidth="21.88dp"
+            android:maxHeight="25dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notify_icon"
+            android:tint="#D9D9D9"
+            tools:ignore="UseAppTint" />
 
     <View
         android:layout_width="24dp"
@@ -75,7 +75,7 @@
         android:id="@+id/pageNamePlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="12dp"
         android:text="Page Name Placeholder"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
@@ -83,7 +83,6 @@
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
         app:layout_constraintBottom_toTopOf="@+id/fragment_container"/>
 
     <!-- Container cho Fragment -->
@@ -95,7 +94,8 @@
         android:backgroundTint="@color/light_purple"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <View
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,32 +22,43 @@
             android:id="@+id/signature_logo_imgView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/signature_logo"/>
+            android:layout_marginStart="-24dp"
+            android:src="@drawable/signature_logo"
+            android:adjustViewBounds="true"
+            android:maxWidth="160dp"
+            android:maxHeight="160dp"
+            android:scaleType="fitCenter"/>
 
         <View
-            android:layout_width="200dp"
+            android:layout_width="160dp"
             android:layout_height="0dp"/>
 
         <TextView
             android:id="@+id/ellipse"
-            android:layout_width="15dp"
-            android:layout_height="wrap_content"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_marginBottom="8dp"
+            android:text="1"
+            android:textSize="10sp"
+            android:textColor="@color/light_blue"
             android:background="@drawable/circle"
             android:backgroundTint="#D9D9D9"
             android:gravity="center"
-            android:text="1"
             android:textAlignment="center"
-            android:textColor="@color/light_blue"
-            android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"/>
 
         <ImageButton
             android:id="@+id/notifyImgBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/notify_icon"/>
+            android:layout_width="16dp"
+            android:layout_height="21dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:maxWidth="21.88dp"
+            android:maxHeight="25dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notify_icon"
+            android:tint="#D9D9D9"
+            tools:ignore="UseAppTint" />
 
         <View
             android:layout_width="24dp"
@@ -165,9 +177,10 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="0dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
+        app:layout_constraintTop_toBottomOf="@id/section1"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -235,38 +248,40 @@
             android:id="@+id/favoriteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
             android:layout_marginLeft="6dp"
+            android:layout_marginTop="3dp"
             android:layout_marginRight="6dp"
-            android:padding="6dp"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1"
             android:background="#00FFFFFF"
-            android:drawableTop="@drawable/favorite_icon"
+            android:drawableTop="@drawable/favorite_fill_icon"
+            android:drawableTint="@color/light_gray"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:padding="6dp"
             android:text="Favorites"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:fontFamily="@font/inter_font"
-            android:textSize="32px"
-            android:fontVariationSettings="'wght' 800"/>
+            android:textSize="32px" />
 
         <Button
             android:id="@+id/profileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginRight="12dp"
             android:layout_marginLeft="6dp"
-            android:padding="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/profile_icon"
+            android:drawableTint="@color/light_gray"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:padding="6dp"
             android:text="Profile"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:fontFamily="@font/inter_font"
-            android:textSize="32px"
-            android:fontVariationSettings="'wght' 800"/>
+            android:textSize="32px" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
