@@ -6,8 +6,22 @@
     android:background="@color/light_purple"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ProfileFragment">
+
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="18dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back_button_icon"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/light_blue"
+        tools:ignore="UseAppTint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
     
     <TextView
+        android:id="@+id/avatarIV"
         android:layout_width="236dp"
         android:layout_height="30dp"
         android:layout_marginTop="18dp"
@@ -31,6 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/editAvatarBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="104dp"
@@ -66,6 +81,7 @@
                 android:textSize="24dp"/>
 
             <EditText
+                android:id="@+id/fullnameET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
@@ -95,6 +111,7 @@
                 android:textSize="24dp"/>
 
             <EditText
+                android:id="@+id/emailET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
@@ -124,6 +141,7 @@
                 android:textSize="24dp"/>
 
             <EditText
+                android:id="@+id/birthdayET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
@@ -153,6 +171,7 @@
                 android:textSize="24dp"/>
 
             <EditText
+                android:id="@+id/addressET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
@@ -182,7 +201,7 @@
                 android:textSize="24dp"/>
 
             <RadioGroup
-                android:id="@+id/type_radio_group"
+                android:id="@+id/typeRG"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -212,6 +231,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/submitBtn"
         android:layout_width="124dp"
         android:layout_height="38dp"
         android:layout_marginTop="467dp"

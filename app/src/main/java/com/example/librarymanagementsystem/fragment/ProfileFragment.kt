@@ -1,34 +1,29 @@
 package com.example.librarymanagementsystem.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import com.example.librarymanagementsystem.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var avatarIV: ImageView
+    private lateinit var logoutBtn: Button
+    private lateinit var fullNameTV: TextView
+    private lateinit var usernameTV: TextView
+    private lateinit var emailTV: TextView
+    private lateinit var birthdayTV: TextView
+    private lateinit var editProfileTV: TextView
+    private lateinit var typeTV: TextView
+    private lateinit var dueDateTV: TextView
+    private lateinit var statusTV: TextView
+    private lateinit var registerBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +33,63 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Initial predefine variables
+        avatarIV = view.findViewById(R.id.avatarIV)
+        logoutBtn = view.findViewById(R.id.logoutBtn)
+        fullNameTV = view.findViewById(R.id.fullNameTV)
+        usernameTV = view.findViewById(R.id.usernameTV)
+        emailTV = view.findViewById(R.id.emailTV)
+        birthdayTV = view.findViewById(R.id.birthdayTV)
+        editProfileTV = view.findViewById(R.id.editProfileBtn)
+        typeTV = view.findViewById(R.id.typeTV)
+        dueDateTV = view.findViewById(R.id.dueDateTV)
+        statusTV = view.findViewById(R.id.statusTV)
+        registerBtn = view.findViewById(R.id.registerTV)
+
+        // Load data from database
+        avatarIV.setImageURI()
+        usernameTV.text =
+        emailTV.text =
+        birthdayTV.text =
+        typeTV.text =
+        dueDateTV.text =
+        statusTV.text =
+
+        // Lắng nghe kết quả trả về từ RegisterReaderCardFragment
+        parentFragmentManager.setFragmentResultListener(
+            "readerCardRequestKey", viewLifecycleOwner
+        ) { key, bundle ->
+            val type = bundle.getString("readerCardType")
+            val due_date = bundle.getString("readerCardDueDate")
+            val status = bundle.getString("readeCardStatus")
+
+            // Cập nhật UI
+            typeTV.text = type
+            dueDateTV.text = due_date
+            statusTV.text = status
+        }
+
+        // Button click
+        logoutBtn.setOnClickListener {
+            // Logout of firebase
+
+            // Return to main page
+            val intent = Intent(requireContext(), ::class.java)
+            startActivity(intent)
+
+            activity?.finish()
+        }
+
+        registerBtn.setOnClickListener {
+            // Go to register reader card page
+            val fragment = RegisterReaderCardFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_profile, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 }
