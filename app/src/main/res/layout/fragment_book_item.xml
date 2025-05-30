@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/fragment_book_item"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:background="@color/light_purple_2"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/bookImage"
+            android:layout_width="112.40592956542969dp"
+            android:layout_height="159dp"
+            android:src="@drawable/harry_potter_cover" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bookTitle"
+                android:text="Harry Potter and Philosopher’s Stone"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 800"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:id="@+id/authorTV"
+                    android:text="Author: "
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:id="@+id/bookAuthor"
+                    android:text="J. K. Rowling"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:id="@+id/categoryTV"
+                    android:text="Category: "
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"/>
+
+                <TextView
+                    android:id="@+id/bookCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Fiction, Novel"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingTV"
+                    android:text="Rating: "
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15sp"
+                    android:textColor="@color/light_gray_2"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_gravity="center_vertical"
+                        android:isIndicator="true"
+                        android:maxHeight="20dp"
+                        android:minHeight="20dp"
+                        android:numStars="5"
+                        android:progressTint="@color/yellow"
+                        android:rating="4.15"
+                        android:stepSize="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="8.3"
+                        android:fontFamily="@font/inter_font"
+                        android:fontVariationSettings="'wght' 800"
+                        android:textSize="15sp"
+                        android:textColor="@color/light_gray_2"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:id="@+id/duedateleftTV"
+                    android:text="DueDate left: "
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"/>
+
+                <TextView
+                    android:id="@+id/bookDueDateLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="3 days"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/favButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/button_corner_radius"
+                    android:backgroundTint="@color/light_blue"
+                    android:src="@drawable/favorite_icon"/>
+
+                <Button
+                    android:id="@+id/returnButton"
+                    android:layout_width="90dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/button_corner_radius"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="Return"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"/>
+
+                <Button
+                    android:id="@+id/lostButton"
+                    android:layout_width="94dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/button_corner_radius"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="Report lost"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
