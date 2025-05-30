@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <!-- Header text -->
+    <TextView
+        android:id="@+id/lgHeaderText"
+        android:layout_width="290dp"
+        android:layout_height="105dp"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Banner image -->
+    <ImageView
+        android:id="@+id/lgBannerImage"
+        android:layout_width="410dp"
+        android:layout_height="275dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/banner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lgHeaderText" />
+
+    <!-- Banner Message holder-->
+    <ImageView
+        android:id="@+id/lgMessageHolder"
+        android:layout_width="120dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="-110dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        app:layout_constraintStart_toStartOf="@id/lgBannerImage"
+        app:layout_constraintTop_toTopOf="@id/lgBannerImage" />
+
+    <!-- Banner Message -->
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="-110dp"
+        android:layout_marginLeft="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="The library of your dream is one click away"
+        android:textSize="20sp"
+        android:textStyle="italic|bold"
+        android:textColor="@color/light_blue"
+        app:layout_constraintStart_toStartOf="@id/lgBannerImage"
+        app:layout_constraintTop_toTopOf="@id/lgBannerImage" />
+
+    <!-- Input Username field -->
+    <EditText
+        android:id="@+id/lgUsername"
+        android:layout_width="380dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:text="Username"
+        android:textSize="24sp"
+        android:textStyle="italic|bold"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:drawableStart="@drawable/register_icon"
+        android:drawableTint="@color/light_blue"
+        android:drawablePadding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lgBannerImage" />
+
+    <!-- Input Password field-->
+    <EditText
+        android:id="@+id/lgPassword"
+        android:layout_width="380dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:text="Password"
+        android:textSize="24sp"
+        android:textStyle="italic|bold"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:drawableStart="@drawable/password_icon"
+        android:drawableTint="@color/light_blue"
+        android:drawablePadding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lgUsername" />
+
+    <!-- Remember me checkbox with left side text -->
+    <LinearLayout
+        android:id="@+id/lgRememberMe"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/lgPassword"
+        app:layout_constraintTop_toBottomOf="@id/lgPassword" >
+
+        <!-- Text on the left -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember me"
+            android:textSize="20sp"
+            android:textStyle="italic|bold"
+            android:textColor="@color/white"/>
+
+        <!-- Checkbox on the right -->
+        <CheckBox
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:buttonTint="@color/white" />
+    </LinearLayout>
+
+    <!-- Navigate to forgot password-->
+    <TextView
+        android:id="@+id/lgForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="Forgot Password?"
+        android:textSize="20sp"
+        android:textStyle="italic|bold"
+        android:textColor="@color/white"
+        android:textAppearance="@style/Widget.AppCompat.Spinner.Underlined"
+        app:layout_constraintEnd_toEndOf="@id/lgPassword"
+        app:layout_constraintTop_toBottomOf="@id/lgPassword" />
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/lgErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="Please check your info and try again"
+        android:textSize="22sp"
+        android:textStyle="italic|bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/lgUsername"
+        app:layout_constraintTop_toBottomOf="@id/lgRememberMe"
+        app:layout_constraintBottom_toTopOf="@id/lgSubmit"/>
+
+    <!-- Button to Submit login info -->
+    <Button
+        android:id="@+id/lgSubmit"
+        android:layout_width="330dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:paddingLeft="20dp"
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:textSize="30sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lgErrorMessage" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
