@@ -164,7 +164,7 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="600dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
         app:layout_constraintBottom_toTopOf="@id/linearLayout2"
