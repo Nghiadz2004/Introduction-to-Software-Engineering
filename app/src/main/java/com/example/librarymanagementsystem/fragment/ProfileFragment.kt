@@ -1,6 +1,5 @@
 package com.example.librarymanagementsystem.fragment
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -39,14 +38,14 @@ class ProfileFragment : Fragment() {
         // Initial predefine variables
         avatarIV = view.findViewById(R.id.avatarIV)
         logoutBtn = view.findViewById(R.id.logoutBtn)
-        fullNameTV = view.findViewById(R.id.fullNameTV)
+//        fullNameTV = view.findViewById(R.id.fullNameTV)
         usernameTV = view.findViewById(R.id.usernameTV)
         emailTV = view.findViewById(R.id.emailTV)
         birthdayTV = view.findViewById(R.id.birthdayTV)
         editProfileTV = view.findViewById(R.id.editProfileBtn)
-        typeTV = view.findViewById(R.id.typeTV)
-        dueDateTV = view.findViewById(R.id.dueDateTV)
-        statusTV = view.findViewById(R.id.statusTV)
+//        typeTV = view.findViewById(R.id.typeTV)
+//        dueDateTV = view.findViewById(R.id.dueDateTV)
+//        statusTV = view.findViewById(R.id.statusTV)
         registerBtn = view.findViewById(R.id.registerTV)
 
         // Load data from database
@@ -54,9 +53,9 @@ class ProfileFragment : Fragment() {
         usernameTV.text =
         emailTV.text =
         birthdayTV.text =
-        typeTV.text =
-        dueDateTV.text =
-        statusTV.text =
+//        typeTV.text =
+//        dueDateTV.text =
+//        statusTV.text =
 
         // Lắng nghe kết quả trả về từ RegisterReaderCardFragment
         parentFragmentManager.setFragmentResultListener(

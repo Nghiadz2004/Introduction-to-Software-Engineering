@@ -18,64 +18,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-    <ImageView
-        android:id="@+id/signature_logo_imgView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-24dp"
-        android:src="@drawable/signature_logo"
-        android:adjustViewBounds="true"
-        android:maxWidth="160dp"
-        android:maxHeight="160dp"
-        android:scaleType="fitCenter"/>
+        <ImageView
+            android:id="@+id/signature_logo_imgView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-24dp"
+            android:src="@drawable/signature_logo"
+            android:adjustViewBounds="true"
+            android:maxWidth="160dp"
+            android:maxHeight="160dp"
+            android:scaleType="fitCenter"/>
 
-    <View
-        android:layout_width="160dp"
-        android:layout_height="0dp"/>
+        <View
+            android:layout_width="160dp"
+            android:layout_height="0dp"/>
 
-    <TextView
-        android:id="@+id/ellipse"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginBottom="8dp"
-        android:text="1"
-        android:textSize="10sp"
-        android:textColor="@color/light_blue"
-        android:background="@drawable/circle"
-        android:backgroundTint="#D9D9D9"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:visibility="visible"/>
+        <TextView
+            android:id="@+id/ellipse"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginBottom="8dp"
+            android:text="1"
+            android:textSize="10sp"
+            android:textColor="@color/light_blue"
+            android:background="@drawable/circle"
+            android:backgroundTint="#D9D9D9"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:visibility="visible"/>
 
-    <ImageButton
-        android:id="@+id/notifyImgBtn"
-        android:layout_width="21.88dp"
-        android:layout_height="25dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/notify_icon"
-        android:tint="#D9D9D9"
-        tools:ignore="UseAppTint"
-        android:adjustViewBounds="true"
-        android:maxWidth="21.88dp"
-        android:maxHeight="25dp"
-        android:scaleType="fitCenter"/>
+        <ImageButton
+            android:id="@+id/notifyImgBtn"
+            android:layout_width="21.88dp"
+            android:layout_height="25dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/notify_icon"
+            android:tint="#D9D9D9"
+            tools:ignore="UseAppTint"
+            android:adjustViewBounds="true"
+            android:maxWidth="21.88dp"
+            android:maxHeight="25dp"
+            android:scaleType="fitCenter"/>
 
-    <View
-        android:layout_width="24dp"
-        android:layout_height="0dp"/>
+        <View
+            android:layout_width="24dp"
+            android:layout_height="0dp"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/avatar_account_placeholder"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/avatar_account_placeholder"/>
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/pageNamePlaceholder"
+        android:id="@+id/pageNamePlaceholderTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="6dp"
         android:text="Page Name Placeholder"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
@@ -83,21 +83,22 @@
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_container"/>
+        app:layout_constraintTop_toBottomOf="@id/linearLayout1"/>
 
-    <!-- Container cho Fragment -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
-        android:layout_height="555dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
-        app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/pageNamePlaceholderTV"
+        app:layout_constraintBottom_toTopOf="@id/seperateLineV"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <View
+        android:id="@+id/seperateLineV"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light_blue"

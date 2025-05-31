@@ -26,6 +26,7 @@
                 android:id="@+id/avatarIV"
                 android:layout_width="124dp"
                 android:layout_height="124dp"
+                android:layout_marginStart=""
                 android:layout_marginTop="28dp"
                 android:contentDescription="Avatar Image"
                 android:src="@drawable/ic_launcher_background"
@@ -51,7 +52,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:orientation="vertical">
 
@@ -65,38 +66,38 @@
                     android:textSize="24sp"
                     tools:ignore="HardcodedText,UnusedAttribute" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="16dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Full Name"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Full Name"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/fullNameTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:text="Full Name"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/fullNameTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:text="Full Name"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute" />-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -173,7 +174,7 @@
                         android:layout_width="130dp"
                         android:layout_height="match_parent"
                         android:gravity="center|start"
-                        android:text="Birthday"
+                        android:text="Password"
                         android:fontFamily="@font/inter_font"
                         android:fontVariationSettings="'wght' 700"
                         android:textColor="@color/black"
@@ -190,44 +191,44 @@
                         android:fontVariationSettings="'wght' 700"
                         android:gravity="center_vertical"
                         android:paddingStart="30dp"
-                        android:text="Birthday"
+                        android:text="Password"
                         android:textColor="@color/white"
                         android:textSize="24sp"
                         tools:ignore="HardcodedText,RtlSymmetry,UnusedAttribute"/>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="10dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Address"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Address"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:paddingLeft="30dp"
-                        android:gravity="center_vertical"
-                        android:text="Address"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textSize="24sp"
-                        android:textColor="@color/white"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:text="Address"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textSize="24sp"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
             </LinearLayout>
 
@@ -249,12 +250,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="315dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="146dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="29dp"
                     android:text="Reader Card"
                     android:fontFamily="@font/inter_font"
@@ -263,243 +264,232 @@
                     android:textSize="24sp"
                     tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="16dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Full Name"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Full Name"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/fullNameReaderCardTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:text="Full Name"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/fullNameReaderCardTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:text="Full Name"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute" />-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="16dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Email"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Email"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/emailReaderCardTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:text="Email"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/emailReaderCardTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:text="Email"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="16dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Birthday"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Birthday"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/birthdayReaderCardTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:text="Birthday"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/birthdayReaderCardTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:text="Birthday"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="16dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Address"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Address"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/addressReaderCardTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:text="Address"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/addressReaderCardTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:text="Address"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="16dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Type"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Type"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/typeTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:text="X"
-                        android:textColor="@color/white"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/typeTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:text="X"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="16dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Due Date"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Due Date"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/dueDateTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:text="Due Date"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textSize="24sp"
-                        android:textColor="@color/white"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/dueDateTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:text="Due Date"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textSize="24sp"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:layout_marginTop="10dp">-->
 
-                    <TextView
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:text="Status"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="130dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="Status"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="24sp"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                    <TextView
-                        android:id="@+id/statusTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_corner_radius"
-                        android:backgroundTint="@color/light_blue"
-                        android:paddingLeft="30dp"
-                        android:gravity="center_vertical"
-                        android:text="Ok"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 700"
-                        android:textSize="24sp"
-                        android:textColor="@color/white"
-                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/statusTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@drawable/button_corner_radius"-->
+<!--                        android:backgroundTint="@color/light_blue"-->
+<!--                        android:paddingLeft="30dp"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:text="Ok"-->
+<!--                        android:fontFamily="@font/inter_font"-->
+<!--                        android:fontVariationSettings="'wght' 700"-->
+<!--                        android:textSize="24sp"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>-->
 
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/inter_font"
-                    android:fontVariationSettings="'wght' 700"
-                    android:text="Notes: If you don’t have Reader Card or Card Expired, click here to register new Reader Card"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,UnusedAttribute"/>
+<!--                </LinearLayout>-->
 
                 <Button
                     android:id="@+id/registerTV"
