@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_marginEnd="8dp"
+    android:background="@color/light_purple"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/imgCoverIV"
+        android:layout_width="115.23dp"
+        android:layout_height="163dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/harry_potter_cover"/>
+
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_width="115.23dp"
+        android:layout_height="wrap_content"
+        android:text="Harry Potter and the Goblet of Fire"
+        android:fontFamily="@font/inter_font"
+        android:fontVariationSettings="'wght' 800"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tvAuthor"
+        android:layout_width="115.23dp"
+        android:layout_height="wrap_content"
+        android:text="by J.K. Rowling"
+        android:textSize="12sp"
+        android:fontFamily="@font/inter_font"
+        android:fontVariationSettings="'wght' 800"
+        android:maxLines="1"
+        android:textColor="@color/light_gray_2"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp">
+
+        <ImageView android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/star_icon"
+            android:tint="@color/yellow" />
+        <ImageView android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/star_icon"
+            android:tint="@color/yellow" />
+        <ImageView android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/star_icon"
+            android:tint="@color/yellow" />
+        <ImageView android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/star_icon"
+            android:tint="@color/yellow" />
+        <ImageView android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/star_icon"
+            android:tint="@color/white_2"/>
+
+    </LinearLayout>
+</LinearLayout>
