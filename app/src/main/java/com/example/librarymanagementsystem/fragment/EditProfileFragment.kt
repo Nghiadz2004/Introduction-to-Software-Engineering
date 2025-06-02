@@ -1,34 +1,31 @@
 package com.example.librarymanagementsystem.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.librarymanagementsystem.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var avatarIV: ImageView
+    private lateinit var editAvatarBtn: ImageButton
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var userNameET: EditText
+    private lateinit var emailET: EditText
+    private lateinit var passwordET: EditText
+    private lateinit var confirmPasswordET: EditText
+
+    private lateinit var cancelBtn: Button
+    private lateinit var saveBtn: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +35,51 @@ class EditProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Initial predefine variables
+        avatarIV = view.findViewById(R.id.avatarIV)
+        editAvatarBtn = view.findViewById(R.id.editAvatarBtn)
+
+        userNameET = view.findViewById(R.id.userNameET)
+        emailET = view.findViewById(R.id.emailET)
+        passwordET = view.findViewById(R.id.passwordET)
+        confirmPasswordET = view.findViewById(R.id.confirmPasswordET)
+
+        cancelBtn = view.findViewById(R.id.cancelBtn)
+        saveBtn = view.findViewById(R.id.saveBtn)
+
+        // TODO: Load data from database
+//        avatarIV.setImageResource()
+
+        // Button click
+        // Register the ActivityResultLauncher and handle edit button click
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                avatarIV.setImageURI(it)
             }
+        }
+        editAvatarBtn.setOnClickListener {
+            imagePickerLauncher.launch("image/*")
+        }
+
+        // Handle submit button, Return reader card information to profile page
+        // and send data to database and return to profile page
+        saveBtn.setOnClickListener {
+            // TODO: Update to database
+
+            // Return reader card information
+            val result = Bundle().apply {
+                putString("profileUserName", userNameET.text.toString())
+                putString("profileEmail", emailET.text.toString())
+            }
+            parentFragmentManager.setFragmentResult("editProfileRequestKey", result)
+            parentFragmentManager.popBackStack() // Return to ProfileFragment
+        }
+
+        cancelBtn.setOnClickListener {
+            parentFragmentManager.popBackStack() // Return to ProfileFragment
+        }
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/fragment_favorite_book_item"
@@ -19,7 +20,8 @@
             android:id="@+id/bookImage"
             android:layout_width="112.40592956542969dp"
             android:layout_height="159dp"
-            android:src="@drawable/harry_potter_cover" />
+            android:src="@drawable/harry_potter_cover"
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -35,7 +37,8 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 800"
                 android:textColor="@color/black"
-                android:textSize="15dp"/>
+                android:textSize="15sp"
+                tools:ignore="HardcodedText,UnusedAttribute" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -43,26 +46,28 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/authorTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:id="@+id/authorTV"
-                    android:text="Author: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
-                    android:textColor="@color/light_gray_2"/>
+                    android:gravity="start"
+                    android:text="Author: "
+                    android:textColor="@color/light_gray_2"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextContrastCheck" />
 
                 <TextView
+                    android:id="@+id/bookAuthor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:id="@+id/bookAuthor"
-                    android:text="J. K. Rowling"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
-                    android:textColor="@color/light_gray_2"/>
+                    android:gravity="start"
+                    android:text="J. K. Rowling"
+                    android:textColor="@color/light_gray_2"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -72,26 +77,28 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/categoryTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:id="@+id/categoryTV"
-                    android:text="Category: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
-                    android:textColor="@color/light_gray_2"/>
+                    android:gravity="start"
+                    android:text="Category: "
+                    android:textColor="@color/light_gray_2"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/bookCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Fiction, Novel"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
-                    android:textColor="@color/light_gray_2"/>
+                    android:gravity="start"
+                    android:text="Fiction, Novel"
+                    android:textColor="@color/light_gray_2"
+                    android:textSize="15sp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -102,14 +109,15 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/ratingTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ratingTV"
-                    android:text="Rating: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
+                    android:text="Rating: "
+                    android:textColor="@color/light_gray_2"
                     android:textSize="15sp"
-                    android:textColor="@color/light_gray_2"/>
+                    tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -130,35 +138,38 @@
                         android:numStars="5"
                         android:progressTint="@color/yellow"
                         android:rating="4.15"
-                        android:stepSize="1" />
+                        android:stepSize="1"
+                        tools:ignore="VisualLintBounds" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="8.3"
                         android:fontFamily="@font/inter_font"
                         android:fontVariationSettings="'wght' 800"
+                        android:text="8.3"
+                        android:textColor="@color/light_gray_2"
                         android:textSize="15sp"
-                        android:textColor="@color/light_gray_2"/>
+                        tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/returnButton"
+                android:id="@+id/removeBtn"
                 android:layout_width="110dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="23dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="23dp"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
-                android:text="Remove"
-                android:textAllCaps="false"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 800"
+                android:text="Remove"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textColor="@color/white"/>
+                tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck,TouchTargetSizeCheck,VisualLintBounds" />
 
         </LinearLayout>
     </LinearLayout>

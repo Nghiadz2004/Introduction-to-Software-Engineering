@@ -17,7 +17,7 @@ class MyBookFragment :
     Fragment()
 {
     private lateinit var recycleView: RecyclerView
-    private lateinit var bookAdapter: MyBookAdapter
+    private lateinit var myBookAdapter: MyBookAdapter
     private var bookList = mutableListOf<Book>()
     private var bookRepository = BookRepository()
 
@@ -33,14 +33,21 @@ class MyBookFragment :
         super.onViewCreated(view, savedInstanceState)
 
         recycleView = view.findViewById(R.id.myBookRV)
+        myBookAdapter = MyBookAdapter(bookList) {book ->
+            // TODO: Go to book detail activity when being pressed.
+            val intent = Intent(this, ::class.java)
+
+            startActivity(intent)
+        }
+        recycleView.adapter = myBookAdapter
 
         // Load dữ liệu (ví dụ từ repository)
 //        lifecycleScope.launch {
 //            bookRepository.getBooks { books ->
 //                bookList.clear()
 //                bookList.addAll(books)
-//
-//                bookAdapter = MyBookAdapter(bookList) { book ->
+//                // Book detail is fragment:
+//                myBookAdapter = MyBookAdapter(bookList) { book ->
 //                    val fragment = BookDetailFragment.newInstance(book.id ?: "")
 //                    parentFragmentManager.beginTransaction()
 //                        .replace(R.id.fragmentContainer, fragment)
@@ -48,7 +55,17 @@ class MyBookFragment :
 //                        .commit()
 //                }
 //
-//                recycleView.adapter = bookAdapter
+//                recycleView.adapter = myBookAdapter
+//
+//                // Book detail is activity
+//                myBookAdapter = MyBookAdapter(bookList) {book ->
+//                    // TODO: Go to book detail activity when being pressed.
+//                    val intent = Intent(this, ::class.java)
+//
+//                    startActivity(intent)
+//                }
+//
+//                recycleView.adapter = myBookAdapter
 //            }
 //        }
     }

@@ -8,16 +8,18 @@
     tools:context=".fragment.ProfileFragment">
 
     <ImageView
-        android:id="@+id/avatar_img"
+        android:id="@+id/avatarIV"
         android:layout_width="124dp"
         android:layout_height="124dp"
         android:background="@drawable/ic_launcher_background"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"/>
     
     <ImageButton
+        android:id="@+id/editAvatarBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="104dp"
@@ -25,13 +27,14 @@
         android:background="@drawable/circle"
         android:backgroundTint="@color/light_blue"
         android:src="@drawable/edit_icon"
-        app:layout_constraintEnd_toEndOf="@id/avatar_img"
-        app:layout_constraintStart_toStartOf="@id/avatar_img"
-        app:layout_constraintTop_toTopOf="@id/avatar_img"/>
+        app:layout_constraintEnd_toEndOf="@id/avatarIV"
+        app:layout_constraintStart_toStartOf="@id/avatarIV"
+        app:layout_constraintTop_toTopOf="@id/avatarIV"
+        tools:ignore="ContentDescription"/>
 
     <LinearLayout
         android:layout_width="353dp"
-        android:layout_height="215dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="234dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,36 +43,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
-
-            <TextView
-                android:layout_width="130dp"
-                android:layout_height="match_parent"
-                android:gravity="center|start"
-                android:text="Full Name"
-                android:fontFamily="@font/inter_font"
-                android:fontVariationSettings="'wght' 700"
-                android:textColor="@color/black"
-                android:textSize="24dp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/button_corner_radius"
-                android:backgroundTint="@color/light_blue"
-                android:paddingLeft="30dp"
-                android:hint="Full Name"
-                android:fontFamily="@font/inter_font"
-                android:fontVariationSettings="'wght' 700"
-                android:textSize="24dp"
-                android:textColorHint="@color/white"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="130dp"
@@ -79,25 +53,28 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="24dp"/>
+                android:textSize="24dp"
+                tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
             <EditText
+                android:id="@+id/userNameET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
-                android:paddingLeft="30dp"
+                android:paddingStart="30dp"
                 android:hint="Username"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textSize="24dp"
-                android:textColorHint="@color/white"/>
+                android:textColorHint="@color/white"
+                tools:ignore="Autofill,HardcodedText,RtlSymmetry,SpUsage,TextFields,UnusedAttribute" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <TextView
@@ -108,77 +85,100 @@
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="24dp"/>
+                android:textSize="24dp"
+                tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
             <EditText
+                android:id="@+id/emailET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
-                android:paddingLeft="30dp"
+                android:paddingStart="30dp"
                 android:hint="Email"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textSize="24dp"
-                android:textColorHint="@color/white"/>
+                android:textColorHint="@color/white"
+                tools:ignore="Autofill,HardcodedText,RtlSymmetry,SpUsage,TextFields,UnusedAttribute" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
                 android:gravity="center|start"
-                android:text="Birthday"
+                android:text="Password"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="24dp"/>
+                android:textSize="24dp"
+                tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
             <EditText
+                android:id="@+id/passwordET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
-                android:paddingLeft="30dp"
-                android:hint="Birthday"
+                android:paddingStart="30dp"
+                android:hint="Password"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textSize="24dp"
-                android:textColorHint="@color/white"/>
+                android:textColorHint="@color/white"
+                tools:ignore="Autofill,HardcodedText,RtlSymmetry,SpUsage,TextFields,UnusedAttribute" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="130dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center|start"
-                android:text="Address"
+                android:text="Confirm Password"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
                 android:textColor="@color/black"
-                android:textSize="24dp"/>
+                android:textSize="24dp"
+                tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/confirmPasswordLayoutET"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:scrollbarSize="25dp"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
-                android:paddingLeft="30dp"
-                android:hint="Address"
-                android:fontFamily="@font/inter_font"
-                android:fontVariationSettings="'wght' 700"
-                android:textSize="24dp"
-                android:textColorHint="@color/white"/>
+                android:paddingStart="30dp"
+                tools:ignore="RtlSymmetry">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirmPasswordET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:ems="20"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 700"
+                    android:textSize="24dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="textPassword"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
@@ -193,16 +193,18 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:layout_width="130dp"
-            android:layout_height="30dp"
+            android:id="@+id/cancelBtn"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
             android:background="@drawable/button_corner_radius"
-            android:backgroundTint="@color/light_purple"
+            android:backgroundTint="@color/red"
             android:text="Cancel"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:gravity="center"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
-            android:textSize="24dp"/>
+            android:textSize="24dp"
+            tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         <View
             android:layout_width="0dp"
@@ -210,16 +212,18 @@
             android:layout_weight="1" />
 
         <Button
-            android:layout_width="130dp"
-            android:layout_height="30dp"
+            android:id="@+id/saveBtn"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
             android:background="@drawable/button_corner_radius"
-            android:backgroundTint="@color/light_purple"
+            android:backgroundTint="@color/green"
             android:text="Save"
-            android:textColor="@color/green"
+            android:textColor="@color/white"
             android:gravity="center"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
-            android:textSize="24dp"/>
+            android:textSize="24dp"
+            tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
     </LinearLayout>
 

@@ -51,7 +51,7 @@
                     android:id="@+id/usernameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nghiadz"
+                    android:text="<UserName>"
                     android:textSize="28sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/inter_font"
@@ -59,9 +59,10 @@
                     tools:ignore="HardcodedText,UnusedAttribute"/>
 
                 <TextView
+                    android:id="@+id/profileEmailTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="nghia2k4@gmail.com"
+                    android:text="<email>"
                     android:textSize="20sp"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 700"
@@ -213,7 +214,7 @@
                                     tools:ignore="ContentDescription,UseAppTint"/>
 
                                 <TextView
-                                    android:id="@+id/registerDateTV"
+                                    android:id="@+id/birthdayTV"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
@@ -258,6 +259,38 @@
 
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/alarm_icon"
+                                    android:adjustViewBounds="true"
+                                    android:maxWidth="20dp"
+                                    android:maxHeight="20dp"
+                                    android:scaleType="fitCenter"
+                                    android:tint="@color/black"
+                                    tools:ignore="ContentDescription,UseAppTint"/>
+
+                                <TextView
+                                    android:id="@+id/dueDateTV"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:text=""
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/inter_font"
+                                    android:fontVariationSettings="'wght' 700"
+                                    tools:ignore="HardcodedText,UnusedAttribute"/>
+
+                            </LinearLayout>
+
                         </LinearLayout>
 
 
@@ -273,7 +306,6 @@
                             android:id="@+id/statusIV"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:layout_marginStart="16dp"
                             android:adjustViewBounds="true"
                             android:maxWidth="32dp"
                             android:maxHeight="32dp"
@@ -306,7 +338,7 @@
                 android:layout_height="0dp"
                 android:background="@drawable/card_overlay_background"
                 android:elevation="8dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/libraryCV"
                 app:layout_constraintEnd_toEndOf="@id/libraryCV"
                 app:layout_constraintTop_toTopOf="@id/libraryCV"
