@@ -20,4 +20,6 @@ class AcquisitionRepository(private val db: FirebaseFirestore) {
             .await()
             .toObjects(BookAcquisition::class.java)
     }
+
+
 }

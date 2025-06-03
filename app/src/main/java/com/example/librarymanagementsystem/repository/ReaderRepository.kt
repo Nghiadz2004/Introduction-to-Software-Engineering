@@ -5,20 +5,20 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import com.example.librarymanagementsystem.model.Reader
+import com.example.librarymanagementsystem.model.User
 
 class ReaderRepository(private val db: FirebaseFirestore) {
 
-    suspend fun createReader(reader: Reader): String = withContext(Dispatchers.IO) {
+    suspend fun createReader(reader: User): String = withContext(Dispatchers.IO) {
         db.collection("readers").add(reader).await().id
     }
 
-    suspend fun getReaderByUsername(username: String): Reader? = withContext(Dispatchers.IO) {
+    suspend fun getReaderByUsername(username: String): User? = withContext(Dispatchers.IO) {
         db.collection("readers")
             .whereEqualTo("username", username)
             .get()
             .await()
-            .toObjects(Reader::class.java)
+            .toObjects(User::class.java)
             .firstOrNull()
     }
 

@@ -8,7 +8,9 @@ data class Fine(
     // Nếu không, bạn có thể cân nhắc thêm một 'id' riêng (integer [primary key, increment])
     // nếu hệ thống DB của bạn yêu cầu một khóa chính độc lập.
     // Giả định readerId sẽ là ID của tài liệu trong Firestore hoặc khóa chính.
-    @DocumentId
     val readerId: Int = 0, // reader_id integer [not null, unique]
-    var fineAmount: Int = 0 // fine_amount integer [not null]
+    val fineAmount: Int = 0, // fine_amount integer [not null]
+    val requestId: String = "", // request_id integer [not null]
+    val copyId: String,
+    val bookId: String,
 )
