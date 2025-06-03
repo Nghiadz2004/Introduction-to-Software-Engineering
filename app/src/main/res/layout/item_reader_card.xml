@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_purple"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/cardIdTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_font"
+        android:fontVariationSettings="'wght' 800"
+        android:text="Card ID: RC01"
+        android:textColor="@color/pale_blue"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/FullNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_font"
+        android:fontVariationSettings="'wght' 800"
+        android:text="Full name: Nguyen Minh Nghia"
+        android:textSize="18sp"
+        android:textColor="@color/light_gray_2" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email: abcd@gmail.com"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:textSize="18sp"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <TextView
+        android:id="@+id/tvBirthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Birthday: 01/01/2025"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:textSize="18sp"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address: HCM city"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:textSize="18sp"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type: X"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:textSize="18sp"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <TextView
+        android:id="@+id/tvIssuer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Issuer: Librarian abc"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:textSize="18sp"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <TextView
+        android:id="@+id/tvIssueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Issue Date: 01/01/2025"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:textSize="18sp"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <TextView
+        android:id="@+id/tvDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Due Date: 01/01/2025"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:textSize="18sp"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: ok"
+        android:textSize="18sp"
+        android:textColor="@color/light_gray_2"
+        android:fontFamily="@font/inter_font"
+        android:fontVariationSettings="'wght' 800"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/btnRemove"
+            android:layout_width="101dp"
+            android:layout_height="31dp"
+            android:text="Remove"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/light_blue"
+            android:background="@drawable/button_corner_radius"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="10dp" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="84dp"
+            android:layout_height="31dp"
+            android:text="Edit"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_font"
+            android:textAllCaps="false"
+            android:background="@drawable/button_corner_radius"
+            android:fontVariationSettings="'wght' 800"
+            android:backgroundTint="@color/light_blue"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</LinearLayout>

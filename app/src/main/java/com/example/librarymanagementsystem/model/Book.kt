@@ -25,5 +25,7 @@ data class Book(
     var publishYear: Int = 0, // publish_year integer [not null]
     var publisher: String? = null, // publisher varchar(100) -> Có thể null
     var price: Int = 0, // price integer [not null]
-    var quantity: Int = 0 // quantity integer [not null]
+    var quantity: Int = 0, // quantity integer [not null]
+    val rating: Float,
+    val copyCount: Int
 )
