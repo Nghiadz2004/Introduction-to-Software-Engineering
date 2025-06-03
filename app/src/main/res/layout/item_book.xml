@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/fragment_book_item"
@@ -16,7 +17,7 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/bookImage"
+            android:id="@+id/bookImg"
             android:layout_width="112.40592956542969dp"
             android:layout_height="159dp"
             android:src="@drawable/harry_potter_cover" />
@@ -28,9 +29,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/bookTitleTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/bookTitle"
                 android:text="Harry Potter and Philosopher’s Stone"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 800"
@@ -43,10 +44,10 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/authorTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:id="@+id/authorTV"
                     android:text="Author: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
@@ -54,10 +55,10 @@
                     android:textColor="@color/light_gray_2"/>
 
                 <TextView
+                    android:id="@+id/bookAuthorTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:id="@+id/bookAuthor"
                     android:text="J. K. Rowling"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
@@ -72,10 +73,10 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/categoryTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:id="@+id/categoryTV"
                     android:text="Category: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
@@ -83,7 +84,7 @@
                     android:textColor="@color/light_gray_2"/>
 
                 <TextView
-                    android:id="@+id/bookCategory"
+                    android:id="@+id/bookCategoryTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
@@ -102,9 +103,9 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/ratingTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ratingTV"
                     android:text="Rating: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
@@ -133,6 +134,7 @@
                         android:stepSize="1" />
 
                     <TextView
+                        android:id="@+id/ratingBarScoreTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
@@ -141,6 +143,7 @@
                         android:fontVariationSettings="'wght' 800"
                         android:textSize="15sp"
                         android:textColor="@color/light_gray_2"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -151,10 +154,10 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/duedateleftTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:id="@+id/duedateleftTV"
                     android:text="DueDate left: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
@@ -162,7 +165,7 @@
                     android:textColor="@color/light_gray_2"/>
 
                 <TextView
-                    android:id="@+id/bookDueDateLeft"
+                    android:id="@+id/bookDueDateLeftTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
@@ -180,15 +183,21 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/favButton"
+                    android:id="@+id/favBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
-                    android:src="@drawable/favorite_icon"/>
+                    android:maxWidth="20dp"
+                    android:maxHeight="20dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/favorite_icon"
+                    android:tint="@color/white"
+                    tools:ignore="UseAppTint"/>
 
                 <Button
-                    android:id="@+id/returnButton"
+                    android:id="@+id/returnBtn"
                     android:layout_width="90dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
@@ -203,7 +212,7 @@
                     android:textColor="@color/white"/>
 
                 <Button
-                    android:id="@+id/lostButton"
+                    android:id="@+id/lostBtn"
                     android:layout_width="94dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"

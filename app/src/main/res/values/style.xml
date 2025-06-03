@@ -3,7 +3,7 @@
 
     <style name="CustomRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:button">@drawable/custom_radio_selector</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

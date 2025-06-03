@@ -1,8 +1,8 @@
 package com.example.librarymanagementsystem.fragment
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,20 +10,38 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.repository.UserRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
+    // Profile information
     private lateinit var avatarIV: ImageView
-    private lateinit var logoutBtn: Button
-    private lateinit var fullNameTV: TextView
     private lateinit var usernameTV: TextView
+    private lateinit var profileEmailTV: TextView
+    // Card information
+    private lateinit var fullNameTV: TextView
     private lateinit var emailTV: TextView
     private lateinit var birthdayTV: TextView
-    private lateinit var editProfileTV: TextView
-    private lateinit var typeTV: TextView
+    private lateinit var addressTV: TextView
     private lateinit var dueDateTV: TextView
-    private lateinit var statusTV: TextView
+    // Card overlay register button
     private lateinit var registerBtn: Button
+    // Buttons
+    private lateinit var editProfileBtn: Button
+    private lateinit var logoutBtn: Button
+    // Status
+    private lateinit var statusIV: ImageView
+    private lateinit var statusTV: TextView
+    // User
+    private lateinit var userID: String
+    // Repository
+    private val userRepository = UserRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,48 +51,96 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+    companion object {
+        fun newInstance(userID: String): ProfileFragment {
+            val fragment = ProfileFragment()
+            val args = Bundle()
+            args.putString("USER_ID", userID)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userID = arguments?.getString("USER_ID") ?: ""
+        if (userID.isBlank()) {
+            Toast.makeText(requireContext(), "Invalid user ID", Toast.LENGTH_LONG).show()
+            return
+        }
+
         // Initial predefine variables
+        // Profile information
         avatarIV = view.findViewById(R.id.avatarIV)
-        logoutBtn = view.findViewById(R.id.logoutBtn)
         fullNameTV = view.findViewById(R.id.fullNameTV)
+        profileEmailTV = view.findViewById(R.id.profileEmailTV)
+        // Card information
         usernameTV = view.findViewById(R.id.usernameTV)
-        emailTV = view.findViewById(R.id.emailTV)
         birthdayTV = view.findViewById(R.id.birthdayTV)
-        editProfileTV = view.findViewById(R.id.editProfileBtn)
-        typeTV = view.findViewById(R.id.typeTV)
-        dueDateTV = view.findViewById(R.id.dueDateTV)
         statusTV = view.findViewById(R.id.statusTV)
-        registerBtn = view.findViewById(R.id.registerTV)
+        statusIV = view.findViewById(R.id.statusIV)
+        dueDateTV = view.findViewById(R.id.dueDateTV)
+        // Card overlay register button
+        registerBtn = view.findViewById(R.id.registerBtn)
+        // Buttons
+        editProfileBtn = view.findViewById(R.id.editProfileBtn)
+        logoutBtn = view.findViewById(R.id.logoutBtn)
 
         // Load data from database
-        avatarIV.setImageURI()
-        usernameTV.text =
-        emailTV.text =
-        birthdayTV.text =
-        typeTV.text =
-        dueDateTV.text =
-        statusTV.text =
+        lifecycleScope.launch {
+            val user = userRepository.getUserById(userID)
 
-        // Lắng nghe kết quả trả về từ RegisterReaderCardFragment
+            user?.let {
+                usernameTV.text = it.username
+                profileEmailTV.text = it.email
+
+                it.avatar?.let { avatarPath ->
+                    val storageRef = FirebaseStorage.getInstance().reference.child(avatarPath)
+                    storageRef.downloadUrl.addOnSuccessListener { uri ->
+                        Glide.with(avatarIV)
+                            .load(uri)
+                            .placeholder(R.drawable.ic_launcher_background)
+                            .into(avatarIV)
+                    }.addOnFailureListener { e ->
+                        avatarIV.setImageResource(R.drawable.ic_launcher_background)
+                        Log.e("ProfileFragment", "Failed to load avatar", e)
+                    }
+                } ?: run {
+                    avatarIV.setImageResource(R.drawable.ic_launcher_background)
+                }
+            } ?: run {
+                Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        // Listen information return when librarian accept the register card request
         parentFragmentManager.setFragmentResultListener(
             "readerCardRequestKey", viewLifecycleOwner
-        ) { key, bundle ->
-            val type = bundle.getString("readerCardType")
-            val due_date = bundle.getString("readerCardDueDate")
-            val status = bundle.getString("readeCardStatus")
+        ) { _, bundle ->
+            val fullname = bundle.getString("readerCardFullName")
+            val email = bundle.getString("readerCardEmail")
 
-            // Cập nhật UI
-            typeTV.text = type
-            dueDateTV.text = due_date
-            statusTV.text = status
+            // Update UI
+            fullNameTV.text = fullname
+            emailTV.text = email
+        }
+
+        parentFragmentManager.setFragmentResultListener(
+            "profileRequestKey", viewLifecycleOwner
+        ) { key, bundle ->
+            val fullname = bundle.getString("readerCardFullName")
+            val email = bundle.getString("readerCardEmail")
+
+            // Update UI
+            fullNameTV.text = fullname
+            emailTV.text = email
         }
 
         // Button click
         logoutBtn.setOnClickListener {
             // Logout of firebase
+            FirebaseAuth.getInstance().signOut()
 
             // Return to main page
             val intent = Intent(requireContext(), ::class.java)
@@ -83,11 +149,19 @@ class ProfileFragment : Fragment() {
             activity?.finish()
         }
 
+        editProfileBtn.setOnClickListener {
+            val editFragment = EditProfileFragment.newInstance(userID)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_profile, editFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
         registerBtn.setOnClickListener {
             // Go to register reader card page
-            val fragment = RegisterReaderCardFragment()
+            val registerFragment = RegisterReaderCardFragment()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_profile, fragment)
+                .replace(R.id.fragment_profile, registerFragment)
                 .addToBackStack(null)
                 .commit()
         }
