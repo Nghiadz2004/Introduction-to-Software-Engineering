@@ -105,6 +105,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btnLoans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/loan_icon"
@@ -119,6 +120,7 @@
                 android:layout_marginEnd="10dp"/>
 
             <Button
+                android:id="@+id/btnQueues"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/queues_icon"
@@ -132,6 +134,7 @@
                 android:layout_marginEnd="10dp" />
 
             <Button
+                android:id="@+id/btnReturnBook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/return_book"
@@ -145,6 +148,7 @@
                 android:layout_marginEnd="10dp"/>
 
             <Button
+                android:id="@+id/btnReportLost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/report_lost_icon"
@@ -179,94 +183,94 @@
         app:layout_contraintEnd_toEndOf="parent"
         app:layout_contraintStart_toStartOf="parent"/>
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/light_purple"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/light_purple"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/homeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginLeft="12dp"
-            android:padding="6dp"
-            android:layout_weight="1"
-            android:background="#00FFFFFF"
-            android:drawableTop="@drawable/house_solid"
-            android:drawableTint="@color/light_gray"
-            android:text="Home"
-            android:textColor="@color/light_gray"
-            android:textAllCaps="false"
-            android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
-            android:textSize="32px"/>
+            <Button
+                android:id="@+id/homeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginLeft="12dp"
+                android:padding="6dp"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:drawableTop="@drawable/house_solid"
+                android:drawableTint="@color/light_gray"
+                android:text="Home"
+                android:textColor="@color/light_gray"
+                android:textAllCaps="false"
+                android:fontFamily="@font/inter_font"
+                android:fontVariationSettings="'wght' 800"
+                android:textSize="32px"/>
 
-        <Button
-            android:id="@+id/myBookBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:padding="6dp"
-            android:background="#00FFFFFF"
-            android:drawableTop="@drawable/transaction_icon"
-            android:drawableTint="@color/light_blue"
-            android:text="Transactions"
-            android:textAllCaps="false"
-            android:textColor="@color/light_blue"
-            android:fontFamily="@font/inter_font"
-            android:textSize="32px"
-            android:fontVariationSettings="'wght' 800"/>
+            <Button
+                android:id="@+id/myBookBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:padding="6dp"
+                android:background="#00FFFFFF"
+                android:drawableTop="@drawable/transaction_icon"
+                android:drawableTint="@color/light_blue"
+                android:text="Transactions"
+                android:textAllCaps="false"
+                android:textColor="@color/light_blue"
+                android:fontFamily="@font/inter_font"
+                android:textSize="32px"
+                android:fontVariationSettings="'wght' 800"/>
 
-        <Button
-            android:id="@+id/favoriteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:padding="6dp"
-            android:background="#00FFFFFF"
-            android:drawableTop="@drawable/statistic_icon"
-            android:drawableTint="@color/light_gray"
-            android:text="Statistic"
-            android:textAllCaps="false"
-            android:textColor="@color/light_gray"
-            android:fontFamily="@font/inter_font"
-            android:textSize="32px"
-            android:fontVariationSettings="'wght' 800"/>
+            <Button
+                android:id="@+id/favoriteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:padding="6dp"
+                android:background="#00FFFFFF"
+                android:drawableTop="@drawable/statistic_icon"
+                android:drawableTint="@color/light_gray"
+                android:text="Statistic"
+                android:textAllCaps="false"
+                android:textColor="@color/light_gray"
+                android:fontFamily="@font/inter_font"
+                android:textSize="32px"
+                android:fontVariationSettings="'wght' 800"/>
 
-        <Button
-            android:id="@+id/profileBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="6dp"
-            android:padding="6dp"
-            android:background="#00FFFFFF"
-            android:drawableTop="@drawable/profile_icon"
-            android:text="Profile"
-            android:textAllCaps="false"
-            android:textColor="@color/light_gray"
-            android:fontFamily="@font/inter_font"
-            android:textSize="32px"
-            android:fontVariationSettings="'wght' 800"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/profileBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="6dp"
+                android:padding="6dp"
+                android:background="#00FFFFFF"
+                android:drawableTop="@drawable/profile_icon"
+                android:text="Profile"
+                android:textAllCaps="false"
+                android:textColor="@color/light_gray"
+                android:fontFamily="@font/inter_font"
+                android:textSize="32px"
+                android:fontVariationSettings="'wght' 800"/>
+        </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
