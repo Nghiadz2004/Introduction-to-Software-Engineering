@@ -18,11 +18,41 @@ class BookRepository(private val db: FirebaseFirestore) {
     }
 
     suspend fun getBookById(bookId: String): Book? = withContext(Dispatchers.IO) {
-        val doc = db.collection("books").document(bookId).get().await()
-        doc.toObject(Book::class.java)
+        db.collection("books")
+          .document(bookId)
+          .get().await().toObject(Book::class.java)
     }
 
     suspend fun updateBookQuantity(bookId: String, newQuantity: Int) = withContext(Dispatchers.IO) {
         db.collection("books").document(bookId).update("quantity", newQuantity).await()
+    }
+
+    suspend fun getBookByAuthor(author: String): List<Book> = withContext(Dispatchers.IO) {
+        db.collection("books")
+          .whereEqualTo("author", author)
+          .get().await().toObjects(Book::class.java)
+    }
+
+    suspend fun getBookByTitle(title: String): List<Book> = withContext(Dispatchers.IO) {
+        db.collection("books")
+            .whereEqualTo("title", title)
+            .get().await().toObjects(Book::class.java)
+    }
+    suspend fun getBookByCategory(category: String): List<Book> = withContext(Dispatchers.IO) {
+        db.collection("books")
+            .whereEqualTo("category", category)
+            .get().await().toObjects(Book::class.java)
+    }
+
+    suspend fun getBookByPublishYear(publishYear: Int): List<Book> = withContext(Dispatchers.IO) {
+        db.collection("books")
+            .whereEqualTo("publishYear", publishYear)
+            .get().await().toObjects(Book::class.java)
+    }
+
+    suspend fun getBookByPublisher(publisher: String): List<Book> = withContext(Dispatchers.IO) {
+        db.collection("books")
+            .whereEqualTo("publisher", publisher)
+            .get().await().toObjects(Book::class.java)
     }
 }

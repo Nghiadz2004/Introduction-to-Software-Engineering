@@ -10,11 +10,12 @@ data class CardRequest(
     val birthday: Date,
     val address: String,
     val email: String,
-    val type: ReaderType,
+    val type: String,
     val requestAt: Date = Date(),
     var status: String = RequestStatus.PENDING.value
 ) {
     fun getStatusEnum(): RequestStatus? = RequestStatus.fromString(status)
+    fun getTypeEnum(): ReaderType? = ReaderType.fromString(type)
 }
 
 enum class ReaderType(val value: String) {

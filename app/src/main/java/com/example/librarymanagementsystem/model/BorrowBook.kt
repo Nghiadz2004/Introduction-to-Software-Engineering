@@ -6,6 +6,7 @@ import java.util.Date
 data class BorrowBook(
     @DocumentId
     val requestId: String? =null,
+    val libraryCardId: String,
     val copyId: String,
     val readerId: String,
     val bookId: String,
