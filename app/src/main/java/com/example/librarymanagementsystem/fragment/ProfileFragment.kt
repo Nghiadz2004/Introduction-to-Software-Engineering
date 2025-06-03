@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.repository.UserRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
     // Profile information
@@ -31,6 +38,10 @@ class ProfileFragment : Fragment() {
     // Status
     private lateinit var statusIV: ImageView
     private lateinit var statusTV: TextView
+    // User
+    private lateinit var userID: String
+    // Repository
+    private val userRepository = UserRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +51,24 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+    companion object {
+        fun newInstance(userID: String): ProfileFragment {
+            val fragment = ProfileFragment()
+            val args = Bundle()
+            args.putString("USER_ID", userID)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userID = arguments?.getString("USER_ID") ?: ""
+        if (userID.isBlank()) {
+            Toast.makeText(requireContext(), "Invalid user ID", Toast.LENGTH_LONG).show()
+            return
+        }
 
         // Initial predefine variables
         // Profile information
@@ -54,7 +81,6 @@ class ProfileFragment : Fragment() {
         statusTV = view.findViewById(R.id.statusTV)
         statusIV = view.findViewById(R.id.statusIV)
         dueDateTV = view.findViewById(R.id.dueDateTV)
-//        typeTV = view.findViewById(R.id.typeTV)
         // Card overlay register button
         registerBtn = view.findViewById(R.id.registerBtn)
         // Buttons
@@ -62,38 +88,46 @@ class ProfileFragment : Fragment() {
         logoutBtn = view.findViewById(R.id.logoutBtn)
 
         // Load data from database
-//        avatarIV.setImageURI()
-//        usernameTV.text =
-//        emailTV.text =
-//        birthdayTV.text =
-//        typeTV.text =
-//        dueDateTV.text =
-//        statusTV.text =
+        lifecycleScope.launch {
+            val user = userRepository.getUserById(userID)
 
-       // Listen information return when librarian accept the register card request
-//        parentFragmentManager.setFragmentResultListener(
-//            "readerCardRequestKey", viewLifecycleOwner
-//        ) { key, bundle ->
-//            val fullname = bundle.getString("readerCardFullName")
-//            val email = bundle.getString("readerCardEmail")
-//            val birthday = bundle.getString("readerCardBirthday")
-//            val address = bundle.getString("readerCardAddress")
-//            val dueDate = bundle.getString("readerDueDate")
-//            val type = bundle.getString("readerCardType")
-//
-//            // Update UI
-//            fullNameTV.text = fullname
-//            emailTV.text = email
-//            birthdayTV.text = birthday
-//            addressTV.text = address
-//            dueDateTV.text = dueDate
-//            type.text = type
-//            statusIV.setColorFilter(ContextCompat.getColor(view.context, R.color.green))
-//            statusTV.text = "Activate"
-//        }
+            user?.let {
+                usernameTV.text = it.username
+                profileEmailTV.text = it.email
+
+                it.avatar?.let { avatarPath ->
+                    val storageRef = FirebaseStorage.getInstance().reference.child(avatarPath)
+                    storageRef.downloadUrl.addOnSuccessListener { uri ->
+                        Glide.with(avatarIV)
+                            .load(uri)
+                            .placeholder(R.drawable.ic_launcher_background)
+                            .into(avatarIV)
+                    }.addOnFailureListener { e ->
+                        avatarIV.setImageResource(R.drawable.ic_launcher_background)
+                        Log.e("ProfileFragment", "Failed to load avatar", e)
+                    }
+                } ?: run {
+                    avatarIV.setImageResource(R.drawable.ic_launcher_background)
+                }
+            } ?: run {
+                Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        // Listen information return when librarian accept the register card request
+        parentFragmentManager.setFragmentResultListener(
+            "readerCardRequestKey", viewLifecycleOwner
+        ) { _, bundle ->
+            val fullname = bundle.getString("readerCardFullName")
+            val email = bundle.getString("readerCardEmail")
+
+            // Update UI
+            fullNameTV.text = fullname
+            emailTV.text = email
+        }
 
         parentFragmentManager.setFragmentResultListener(
-            "editProfileRequestKey", viewLifecycleOwner
+            "profileRequestKey", viewLifecycleOwner
         ) { key, bundle ->
             val fullname = bundle.getString("readerCardFullName")
             val email = bundle.getString("readerCardEmail")
@@ -106,6 +140,7 @@ class ProfileFragment : Fragment() {
         // Button click
         logoutBtn.setOnClickListener {
             // Logout of firebase
+            FirebaseAuth.getInstance().signOut()
 
             // Return to main page
             val intent = Intent(requireContext(), ::class.java)
@@ -115,18 +150,18 @@ class ProfileFragment : Fragment() {
         }
 
         editProfileBtn.setOnClickListener {
-            val fragment = EditProfileFragment()
+            val editFragment = EditProfileFragment.newInstance(userID)
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_profile, fragment)
+                .replace(R.id.fragment_profile, editFragment)
                 .addToBackStack(null)
                 .commit()
         }
 
         registerBtn.setOnClickListener {
             // Go to register reader card page
-            val fragment = RegisterReaderCardFragment()
+            val registerFragment = RegisterReaderCardFragment()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_profile, fragment)
+                .replace(R.id.fragment_profile, registerFragment)
                 .addToBackStack(null)
                 .commit()
         }

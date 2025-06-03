@@ -38,14 +38,6 @@ class RegisterReaderCardFragment : Fragment() {
         typeRG = view.findViewById(R.id.typeRG)
         submitBtn = view.findViewById(R.id.submitBtn)
 
-        // TODO: Load data from database
-//        avatarIV.setImageResource()
-//        fullNameET.hint =
-//        emailET.hint =
-//        birthdayET.hint =
-//        addressET.hint =
-//        typeRG.isSelected =
-
         // Button click
         // Handle submit button, Return reader card information to profile page
         // and send data to database and return to profile page

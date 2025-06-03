@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class BookRepository(private val db: FirebaseFirestore) {
+class BookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
     suspend fun addBook(book: Book): String = withContext(Dispatchers.IO) {
         val docRef = db.collection("books").add(book).await()

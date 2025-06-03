@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
-import com.example.librarymanagementsystem.adapter.MyBookAdapter
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.adapter.MyFavoriteAdapter
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
@@ -32,33 +33,20 @@ class MyFavoriteFragment : Fragment() {
 
         recycleView = view.findViewById(R.id.myBookRV)
 
-
         // Load dữ liệu (ví dụ từ repository)
-//        lifecycleScope.launch {
-//            bookRepository.getBooks { books ->
-//                bookList.clear()
-//                bookList.addAll(books)
-//
-//                // Book detail is fragment:
-//                myFavoriteAdapter = MyFavoriteAdapter(bookList) { book ->
-//                    val fragment = BookDetailFragment.newInstance(book.id ?: "")
-//                    parentFragmentManager.beginTransaction()
-//                        .replace(R.id.fragmentContainer, fragment)
-//                        .addToBackStack(null)
-//                        .commit()
-//                }
-//
-//                recycleView.adapter = myFavoriteAdapter
-//
-//                // Book detail is activity:
-//                myFavoriteAdapter = MyFavoriteAdapter(bookList) {book ->
-//                    // TODO: Go to book detail activity when being pressed.
-//                    val intent = Intent(this, ::class.java)
-//
-//                    startActivity(intent)
-//                }
-//                recycleView.adapter = myFavoriteAdapter
-//            }
-//        }
+        lifecycleScope.launch {
+            val books = bookRepository.getBooks()
+
+            bookList.clear()
+            bookList.addAll(books)
+
+            myFavoriteAdapter = MyFavoriteAdapter(bookList) { book ->
+                val intent = Intent(requireContext(), BookDetailActivity::class.java)
+                intent.putExtra("BOOK_ID", book.id)
+                startActivity(intent)
+            }
+
+            recycleView.adapter = myFavoriteAdapter
+        }
     }
 }

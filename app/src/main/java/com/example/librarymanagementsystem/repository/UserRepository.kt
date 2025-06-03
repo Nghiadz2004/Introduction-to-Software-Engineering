@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class UserRepository(private val db: FirebaseFirestore) {
+class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
     suspend fun createUser(user: User): String = withContext(Dispatchers.IO) {
         db.collection("users").add(user).await().id

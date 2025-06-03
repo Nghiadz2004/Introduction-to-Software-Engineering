@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,40 +34,21 @@ class MyBookFragment :
         super.onViewCreated(view, savedInstanceState)
 
         recycleView = view.findViewById(R.id.myBookRV)
-        myBookAdapter = MyBookAdapter(bookList) {book ->
-            // TODO: Go to book detail activity when being pressed.
-            val intent = Intent(this, ::class.java)
 
-            startActivity(intent)
+        // Load data from data base
+        lifecycleScope.launch {
+            val books = bookRepository.getBooks()
+
+            bookList.clear()
+            bookList.addAll(books)
+
+            myBookAdapter = MyBookAdapter(bookList) { book ->
+                val intent = Intent(requireContext(), BookDetailActivity::class.java)
+                intent.putExtra("BOOK_ID", book.id)
+                startActivity(intent)
+            }
+
+            recycleView.adapter = myBookAdapter
         }
-        recycleView.adapter = myBookAdapter
-
-        // Load dữ liệu (ví dụ từ repository)
-//        lifecycleScope.launch {
-//            bookRepository.getBooks { books ->
-//                bookList.clear()
-//                bookList.addAll(books)
-//                // Book detail is fragment:
-//                myBookAdapter = MyBookAdapter(bookList) { book ->
-//                    val fragment = BookDetailFragment.newInstance(book.id ?: "")
-//                    parentFragmentManager.beginTransaction()
-//                        .replace(R.id.fragmentContainer, fragment)
-//                        .addToBackStack(null)
-//                        .commit()
-//                }
-//
-//                recycleView.adapter = myBookAdapter
-//
-//                // Book detail is activity
-//                myBookAdapter = MyBookAdapter(bookList) {book ->
-//                    // TODO: Go to book detail activity when being pressed.
-//                    val intent = Intent(this, ::class.java)
-//
-//                    startActivity(intent)
-//                }
-//
-//                recycleView.adapter = myBookAdapter
-//            }
-//        }
     }
 }
