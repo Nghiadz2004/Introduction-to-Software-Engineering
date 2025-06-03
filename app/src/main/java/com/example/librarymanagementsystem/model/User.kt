@@ -23,7 +23,8 @@ data class User(
     var email: String? = null, // email varchar(50)
     val roleId: String, // role varchar(20) [not null]
     val createdAt: Date = Date(), // created_at datetime
-    var status: String = UserStatus.ACTIVE.value // status varchar(20)
+    var status: String = UserStatus.ACTIVE.value, // status varchar(20)
+    var avatar: String? = null // avatar varchar(255)
 ){
     fun getEnumStatus(): UserStatus? = UserStatus.fromString(status)
 }

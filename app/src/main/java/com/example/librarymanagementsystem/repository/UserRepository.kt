@@ -35,6 +35,14 @@ class UserRepository(private val db: FirebaseFirestore) {
             .get().await().toObjects(User::class.java)
     }
 
+    suspend fun getUserByStatus(status: String): List<User> = withContext(Dispatchers.IO) {
+        db.collection("users")
+            .whereEqualTo("status",status)
+            .get()
+            .await()
+            .toObjects(User::class.java)
+    }
+
     suspend fun updateUser(user: User) = withContext(Dispatchers.IO) {
         db.collection("users").document(user.id!!).set(user).await()
     }
