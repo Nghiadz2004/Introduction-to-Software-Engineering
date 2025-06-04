@@ -43,6 +43,15 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
             .toObjects(User::class.java)
     }
 
+    suspend fun getUserByEmail(email: String): User? = withContext(Dispatchers.IO) {
+        db.collection("users")
+            .whereEqualTo("email",email)
+            .get()
+            .await()
+            .toObjects(User::class.java)
+            .firstOrNull()
+    }
+
     suspend fun updateUser(user: User) = withContext(Dispatchers.IO) {
         db.collection("users").document(user.id!!).set(user).await()
     }

@@ -5,6 +5,7 @@ import java.util.Date // Để sử dụng kiểu Date cho created_at
 
 enum class UserStatus(val value: String) {
     ACTIVE("Đang hoạt động"),
+    INACTIVE("Ngừng hoạt động"),
     BANNED("Bị cấm");
 
     companion object {
@@ -18,7 +19,7 @@ data class User(
     @DocumentId // Nếu bạn đang làm việc với Firestore và muốn ID tài liệu trùng với thuộc tính này
     val id: String? = null, // id integer [primary key, increment] -> Có thể null khi thêm mới
     var username: String = "", // username varchar(50) [not null, unique]
-    var password: String = "", // password varchar(50) [not null]
+    var birthday: Date, // password varchar(50) [not null]
     val fullname: String, // fullname varchar(50)
     var email: String? = null, // email varchar(50)
     val roleId: String, // role varchar(20) [not null]
@@ -26,5 +27,18 @@ data class User(
     var status: String = UserStatus.ACTIVE.value, // status varchar(20)
     var avatar: String? = null // avatar varchar(255)
 ){
+    // Constructor không đối số để Firestore deserialize
+    constructor() : this(
+        id = null,
+        username = "",
+        birthday = Date(),
+        fullname = "",
+        email = null,
+        roleId = "",
+        createdAt = Date(),
+        status = UserStatus.ACTIVE.value,
+        avatar = null
+    )
+
     fun getEnumStatus(): UserStatus? = UserStatus.fromString(status)
 }

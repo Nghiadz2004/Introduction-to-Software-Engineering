@@ -40,7 +40,7 @@ class MyFavoriteAdapter(
 //        holder.bookImg.src = book.url
         holder.bookTitleTV.text = book.title
         holder.bookAuthorTV.text = book.author
-        holder.bookCategoryTV.text = book.category.value
+        holder.bookCategoryTV.text = book.category
 //        holder.ratingBar.rating = book.rating
 //        holder.ratingBarScoreTV.text = book.rating
 //        holder.bookDueDateLeftTV.text = book.duedate

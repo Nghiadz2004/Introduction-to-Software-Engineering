@@ -14,5 +14,4 @@ data class Book(
     val publisher: String? = null, // publisher varchar(100) -> Có thể null
     val price: Int = 0, // price integer [not null]
     var quantity: Int = 0, // quantity integer [not null]
-    val summary: String? = null, // summary text -> Có thể null
 )
