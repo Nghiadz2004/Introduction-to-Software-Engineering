@@ -103,7 +103,11 @@ class LoginActivity : AppCompatActivity() {
                     errorMessage.text = "Login successfully! Please wait..."
                     errorMessage.visibility = View.VISIBLE
                     loadingDialog.dismiss()
-                    // TODO: updateUI(user) hoặc chuyển màn hình
+                    // If nguoi dung la reader
+
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } catch (e: Exception) {
                     loadingDialog.dismiss()
                     errorMessage.text = "Incorrect username or password"
