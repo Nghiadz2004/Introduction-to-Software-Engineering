@@ -10,5 +10,6 @@ data class LibraryCard(
     val readerId: String = "", // reader_id integer [not null] -> Đổi thành camelCase
     val librarianId: String = "", // librarian_id integer [not null] -> Đổi thành camelCase
     val birthday: Date = Date(), // birthday datetime [not null]
-    val createdAt: Date = Date() // created_at datetime [not null, default: `CURRENT_TIMESTAMP`] -> Đổi thành camelCase
+    val createdAt: Date = Date(), // created_at datetime [not null, default: `CURRENT_TIMESTAMP`] -> Đổi thành camelCase
+    val address: String = ""
 )

@@ -16,6 +16,9 @@
             android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.ActivityBase2"
+            android:exported="false" />
+        <activity
             android:name=".activity.PasswordResetActivity"
             android:exported="false" />
         <activity
