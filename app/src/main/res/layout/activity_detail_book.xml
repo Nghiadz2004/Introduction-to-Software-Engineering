@@ -412,7 +412,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
-                    android:maxlines="10"
+                    android:maxLines="10"
                     android:text="@string/bdBookSummary"
                     android:textColor="@color/light_gray_2"
                     android:textSize="20sp"

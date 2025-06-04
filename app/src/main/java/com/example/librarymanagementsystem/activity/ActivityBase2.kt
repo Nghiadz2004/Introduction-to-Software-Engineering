@@ -10,8 +10,12 @@ import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.fragment.MyFavoriteFragment
 import com.example.librarymanagementsystem.fragment.ProfileFragment
 import com.example.librarymanagementsystem.fragment.StatisticFragment
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class ActivityBase2 : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -25,7 +29,10 @@ class ActivityBase2 : AppCompatActivity() {
         val pageID = intent.getStringExtra("PAGE_ID")
 
         if (pageID == "Profile_ID") {
-            val userID = "example_user_id" // TODO: get userID from database
+
+            auth = Firebase.auth
+
+            val userID = auth.currentUser!!.uid
             val profileFragment = ProfileFragment.newInstance(userID)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, profileFragment)

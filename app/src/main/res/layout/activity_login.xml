@@ -24,9 +24,9 @@
     <!-- Banner image -->
     <ImageView
         android:id="@+id/lgBannerImage"
-        android:layout_width="410dp"
-        android:layout_height="275dp"
-        android:layout_gravity="center"
+        android:layout_width="205dp"
+        android:layout_height="137.5dp"
+        android:layout_gravity=""
         android:layout_marginTop="80dp"
         android:src="@drawable/banner"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,33 +34,30 @@
         app:layout_constraintTop_toBottomOf="@id/lgHeaderText" />
 
     <!-- Banner Message holder-->
-    <ImageView
-        android:id="@+id/lgMessageHolder"
-        android:layout_width="120dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="-110dp"
-        android:layout_marginLeft="10dp"
+    <TextView
+        android:id="@+id/lgErrorMessage"
+        android:text="The library of your dream \nis one click away"
+        android:textColor="@color/light_blue"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        app:layout_constraintStart_toStartOf="@id/lgBannerImage"
-        app:layout_constraintTop_toTopOf="@id/lgBannerImage" />
-
-    <!-- Banner Message -->
-    <TextView
-        android:layout_width="120dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="-110dp"
-        android:layout_marginLeft="10dp"
-        android:padding="10dp"
         android:gravity="center"
-        android:text="The library of your dream is one click away"
         android:textSize="20sp"
         android:textStyle="italic|bold"
-        android:textColor="@color/light_blue"
-        app:layout_constraintStart_toStartOf="@id/lgBannerImage"
-        app:layout_constraintTop_toTopOf="@id/lgBannerImage" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/lgBannerImage" />
+
+
+    <!-- Banner Message -->
 
     <!-- Input Username field -->
+
+
     <EditText
         android:id="@+id/lgUsername"
         android:layout_width="380dp"
@@ -69,8 +66,8 @@
         android:paddingLeft="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:text="Username"
-        android:textSize="24sp"
+        android:hint="Username/Email"
+        android:textSize="16sp"
         android:textStyle="italic|bold"
         android:textAllCaps="false"
         android:textColor="@color/light_blue"
@@ -90,8 +87,8 @@
         android:paddingLeft="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:text="Password"
-        android:textSize="24sp"
+        android:hint="Password"
+        android:textSize="16sp"
         android:textStyle="italic|bold"
         android:textAllCaps="false"
         android:textColor="@color/light_blue"
@@ -109,70 +106,80 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintStart_toStartOf="@id/lgPassword"
-        app:layout_constraintTop_toBottomOf="@id/lgPassword" >
+        app:layout_constraintTop_toBottomOf="@id/lgPassword">
 
-        <!-- Text on the left -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remember me"
-            android:textSize="20sp"
-            android:textStyle="italic|bold"
+            android:textSize="18sp"
+            android:textStyle="italic"
             android:textColor="@color/white"/>
 
-        <!-- Checkbox on the right -->
         <CheckBox
+            android:layout_marginTop="3sp"
+            android:id="@+id/rememberMeCheckbox"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:buttonTint="@color/white" />
     </LinearLayout>
 
+
     <!-- Navigate to forgot password-->
+
     <TextView
         android:id="@+id/lgForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:gravity="center"
         android:text="Forgot Password?"
-        android:textSize="20sp"
-        android:textStyle="italic|bold"
-        android:textColor="@color/white"
         android:textAppearance="@style/Widget.AppCompat.Spinner.Underlined"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="@id/lgPassword"
         app:layout_constraintTop_toBottomOf="@id/lgPassword" />
 
-    <!-- Error message -->
     <TextView
-        android:id="@+id/lgErrorMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:text="Please check your info and try again"
+        android:id="@+id/lgRegister"
+        android:text="New here? Register now."
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="italic|bold"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@id/lgUsername"
-        app:layout_constraintTop_toBottomOf="@id/lgRememberMe"
-        app:layout_constraintBottom_toTopOf="@id/lgSubmit"/>
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/lgSubmit"/>
 
     <!-- Button to Submit login info -->
     <Button
         android:id="@+id/lgSubmit"
         android:layout_width="330dp"
         android:layout_height="65dp"
-        android:layout_marginTop="40dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:paddingLeft="20dp"
         android:text="Login"
         android:textAllCaps="false"
         android:textColor="@color/light_blue"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textStyle="italic|bold"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lgErrorMessage" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

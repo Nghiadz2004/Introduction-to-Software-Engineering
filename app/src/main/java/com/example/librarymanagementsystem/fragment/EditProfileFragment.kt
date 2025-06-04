@@ -135,7 +135,7 @@ class EditProfileFragment : Fragment() {
                     if (newPassword.isNotBlank() && newPassword.length >= MIN_PASSWORD_LENGTH) {
                         if (newPassword == confirmPassword) {
                             // Hash password before saving!
-                            existingUser.password = newPassword
+                            // existingUser.password = newPassword
                         }
                     }
 

@@ -14,8 +14,11 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.activity.LoginActivity
 import com.example.librarymanagementsystem.repository.UserRepository
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 
@@ -143,8 +146,9 @@ class ProfileFragment : Fragment() {
             FirebaseAuth.getInstance().signOut()
 
             // Return to main page
-            val intent = Intent(requireContext(), ::class.java)
+            val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
+            Firebase.auth.signOut()
 
             activity?.finish()
         }

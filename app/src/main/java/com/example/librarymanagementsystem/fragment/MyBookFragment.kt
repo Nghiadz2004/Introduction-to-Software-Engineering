@@ -43,9 +43,10 @@ class MyBookFragment :
             bookList.addAll(books)
 
             myBookAdapter = MyBookAdapter(bookList) { book ->
-                val intent = Intent(requireContext(), BookDetailActivity::class.java)
-                intent.putExtra("BOOK_ID", book.id)
-                startActivity(intent)
+                // TODO: BookDetailActivity
+//                val intent = Intent(requireContext(), BookDetailActivity::class.java)
+//                intent.putExtra("BOOK_ID", book.id)
+//                startActivity(intent)
             }
 
             recycleView.adapter = myBookAdapter

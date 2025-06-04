@@ -41,9 +41,10 @@ class MyFavoriteFragment : Fragment() {
             bookList.addAll(books)
 
             myFavoriteAdapter = MyFavoriteAdapter(bookList) { book ->
-                val intent = Intent(requireContext(), BookDetailActivity::class.java)
-                intent.putExtra("BOOK_ID", book.id)
-                startActivity(intent)
+                // TODO: Push BookDetailActivity
+//                val intent = Intent(requireContext(), BookDetailActivity::class.java)
+//                intent.putExtra("BOOK_ID", book.id)
+//                startActivity(intent)
             }
 
             recycleView.adapter = myFavoriteAdapter

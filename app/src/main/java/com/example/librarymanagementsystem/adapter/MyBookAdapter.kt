@@ -38,34 +38,34 @@ class MyBookAdapter(
     }
 
     override fun onBindViewHolder(holder: MyBookViewHolder, position: Int) {
-        val book = bookList[position]
-//        holder.bookImg.src = book.url
-        holder.bookTitleTV.text = book.title
-        holder.bookAuthorTV.text = book.author
-        holder.bookCategoryTV.text = book.category.value
-//        holder.ratingBar.rating = book.rating
-//        holder.ratingBarScoreTV.text = book.rating
-//        holder.bookDueDateLeftTV.text = book.duedate
-        var color = if (book.isFavorite) R.color.red else R.color.white
-        holder.favBtn.setColorFilter(ContextCompat.getColor(holder.itemView.context, color))
-
-        holder.favBtn.setOnClickListener {
-            book.isFavorite = !book.isFavorite
-            color = if (book.isFavorite) R.color.red else R.color.white
-            holder.favBtn.setColorFilter(ContextCompat.getColor(holder.itemView.context, color))
-        }
-
-        holder.returnBtn.setOnClickListener {
-
-        }
-
-        holder.lostBtn.setOnClickListener {
-
-        }
-
-        holder.itemView.setOnClickListener {
-            onItemClick(book)
-        }
+//        val book = bookList[position]
+////        holder.bookImg.src = book.url
+//        holder.bookTitleTV.text = book.title
+//        holder.bookAuthorTV.text = book.author
+//        holder.bookCategoryTV.text = book.category.value
+////        holder.ratingBar.rating = book.rating
+////        holder.ratingBarScoreTV.text = book.rating
+////        holder.bookDueDateLeftTV.text = book.duedate
+//        var color = if (book.isFavorite) R.color.red else R.color.white
+//        holder.favBtn.setColorFilter(ContextCompat.getColor(holder.itemView.context, color))
+//
+//        holder.favBtn.setOnClickListener {
+//            book.isFavorite = !book.isFavorite
+//            color = if (book.isFavorite) R.color.red else R.color.white
+//            holder.favBtn.setColorFilter(ContextCompat.getColor(holder.itemView.context, color))
+//        }
+//
+//        holder.returnBtn.setOnClickListener {
+//
+//        }
+//
+//        holder.lostBtn.setOnClickListener {
+//
+//        }
+//
+//        holder.itemView.setOnClickListener {
+//            onItemClick(book)
+//        }
     }
 
     override fun getItemCount(): Int = bookList.size
