@@ -173,11 +173,11 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Container cho Fragment -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvReaderCards"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:padding="8dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
         app:layout_constraintTop_toBottomOf="@id/section1"

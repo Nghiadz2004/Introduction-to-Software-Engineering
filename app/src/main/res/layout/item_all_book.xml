@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/bookImage"
             android:layout_width="112.40592956542969dp"
-            android:layout_height="159dp"
+            android:layout_height="150dp"
             android:src="@drawable/harry_potter_cover" />
 
         <LinearLayout
@@ -104,56 +104,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rating: "
-                    android:fontFamily="@font/inter_font"
-                    android:fontVariationSettings="'wght' 800"
-                    android:textSize="15sp"
-                    android:textColor="@color/light_gray_2"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <RatingBar
-                        android:id="@+id/ratingBar"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_gravity="center_vertical"
-                        android:isIndicator="true"
-                        android:maxHeight="20dp"
-                        android:minHeight="20dp"
-                        android:numStars="5"
-                        android:progressTint="@color/yellow"
-                        android:rating="4.15"
-                        android:stepSize="1" />
-
-                    <TextView
-                        android:id="@+id/ratingTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="6dp"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 800"
-                        android:text="8.3"
-                        android:textColor="@color/light_gray_2"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Copy left: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
@@ -173,7 +123,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp">
 
                 <Button
                     android:id="@+id/removeBT"
