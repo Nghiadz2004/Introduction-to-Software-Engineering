@@ -10,6 +10,7 @@ class FavoriteManager(
     private val favoriteRepository: FavoriteRepository,
     private val bookRepository: BookRepository
 ) {
+    // Lấy danh sách các quyển sách (bản logic) yêu thích của một độc giả
     suspend fun getFavoriteBooks(readerId: String): List<Book> = withContext(Dispatchers.IO) {
         val favorite = favoriteRepository.getFavoriteBooksId(readerId)
         val bookIds = favorite?.bookIdList ?: emptyList()
