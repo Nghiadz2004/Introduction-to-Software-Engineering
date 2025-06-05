@@ -48,7 +48,6 @@ class BorrowingRepository(private val db: FirebaseFirestore) {
             .await()
             .toObjects(BorrowBook::class.java)
     }
-
     suspend fun getBorrowBooksByReader(readerId: String): List<BorrowBook> = withContext(Dispatchers.IO) {
         db.collection("borrow_book")
             .whereEqualTo("readerId", readerId)
