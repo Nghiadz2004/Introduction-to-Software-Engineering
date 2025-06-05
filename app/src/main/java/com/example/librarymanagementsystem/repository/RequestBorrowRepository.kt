@@ -38,7 +38,7 @@ class RequestBorrowRepository(private val db: FirebaseFirestore) {
             .toObjects(BorrowRequest::class.java)
     }
 
-    // Cập nhật trạng thái yêu cầu mượn sách
+    // Cập nhật trạng thái yêu cầu mượn sách (đang chờ -> đã được duyệt/bị từ chối)
     suspend fun updateRequestBorrowStatus(
         requestId: String,
         status: RequestStatus

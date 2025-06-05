@@ -10,23 +10,27 @@ import java.util.Date
 
 class AcquisitionRepository(private val db: FirebaseFirestore) {
 
+    // Ghi nhận một quyển sách mới được nhập vào kho
     suspend fun recordAcquisition(acquisition: BookAcquisition): String = withContext(Dispatchers.IO) {
         db.collection("book_acquisitions").add(acquisition).await().id
     }
 
+    // Trả về danh sách các sách đã được nhập vào kho bởi thủ kho
     suspend fun getAcquisitions(): List<BookAcquisition> = withContext(Dispatchers.IO) {
         db.collection("book_acquisitions").get().await().toObjects(BookAcquisition::class.java)
     }
 
-    suspend fun getAcquisitionByCopy(copyId: String): List<BookAcquisition> = withContext(
-        Dispatchers.IO) {
-        db.collection("book_acquisition")
+    // Trả về chi tiết một copy (bản vật lý của sách) được nhập kho
+    suspend fun getAcquisitionByCopy(copyId: String): BookAcquisition? = withContext(Dispatchers.IO) {
+        val snapshot = db.collection("book_acquisition")
             .whereEqualTo("copyId", copyId)
             .get()
             .await()
-            .toObjects(BookAcquisition::class.java)
+
+        return@withContext snapshot.documents.firstOrNull()?.toObject(BookAcquisition::class.java)
     }
 
+    // Trả về danh sách dữ liệu nhập kho của một cuốn sách
     suspend fun getAcquisitionByBook(bookId: String): List<BookAcquisition> = withContext(
         Dispatchers.IO) {
         db.collection("book_acquisition")
@@ -36,6 +40,7 @@ class AcquisitionRepository(private val db: FirebaseFirestore) {
             .toObjects(BookAcquisition::class.java)
     }
 
+    // Trả về danh sách dữ liệu nhập kho trong một thời điểm nào đó
     suspend fun getAcquisitionByDate(acquisitionDate: Date): List<BookAcquisition> = withContext(
         Dispatchers.IO) {
         db.collection("book_acquisition")
@@ -45,6 +50,7 @@ class AcquisitionRepository(private val db: FirebaseFirestore) {
             .toObjects(BookAcquisition::class.java)
     }
 
+    // Trả về danh sách dữ liệu nhập kho do một thủ kho nào đó ghi nhận
     suspend fun getAcquisitionByRecorder(recorderId: String): List<BookAcquisition> = withContext(
         Dispatchers.IO) {
         db.collection("book_acquisition")
