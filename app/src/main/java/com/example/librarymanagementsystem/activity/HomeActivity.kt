@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.fragment.HomeFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -24,6 +25,11 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Gắn HomeFragment lần đầu khi activity khởi động
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, HomeFragment())
+            .commit()
 
         myBookBtn = findViewById(R.id.myBookBtn)
         favoriteBtn = findViewById(R.id.favoriteBtn)

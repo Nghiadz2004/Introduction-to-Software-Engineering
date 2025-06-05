@@ -10,8 +10,8 @@ data class Book(
     val category: String = "",
     val summary: String = "",
     var author: String? = null, // author varchar(100) -> Có thể null
-    val publishYear: Int = 0, // publish_year integer [not null]
+    val publishYear: Int? = 0, // publish_year integer [not null]
     val publisher: String? = null, // publisher varchar(100) -> Có thể null
-    val price: Int = 0, // price integer [not null]
-    var quantity: Int = 0, // quantity integer [not null]
+    val price: Int? = 0, // price integer [not null]
+    var quantity: Int? = 0, // quantity integer [not null]
 )
