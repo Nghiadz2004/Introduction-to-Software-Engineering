@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.Book
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -55,4 +56,24 @@ class BookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
             .whereEqualTo("publisher", publisher)
             .get().await().toObjects(Book::class.java)
     }
+
+    suspend fun getBooksByIds(bookIds: List<String>): List<Book> = withContext(Dispatchers.IO) {
+        if (bookIds.isEmpty()) return@withContext emptyList()
+
+        val books = mutableListOf<Book>()
+        val chunkedIds = bookIds.chunked(10)
+
+        for (chunk in chunkedIds) {
+            val snapshot = db.collection("books")
+                .whereIn(FieldPath.documentId(), chunk)
+                .get()
+                .await()
+            books.addAll(snapshot.documents.mapNotNull { doc ->
+                doc.toObject(Book::class.java)?.copy(id = doc.id)
+            })
+        }
+
+        return@withContext books
+    }
+
 }
