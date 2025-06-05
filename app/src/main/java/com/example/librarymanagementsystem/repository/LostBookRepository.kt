@@ -21,6 +21,15 @@ class LostBookRepository(private val db: FirebaseFirestore) {
             .toObjects(LostBook::class.java)
     }
 
+    suspend fun getReaderPendingRequests(readerId: String): List<LostBook> = withContext(Dispatchers.IO) {
+        db.collection("lost_requests")
+            .whereEqualTo("status", LostRequestStatus.PENDING.value)
+            .whereEqualTo("readerId", readerId)
+            .get()
+            .await()
+            .toObjects(LostBook::class.java)
+    }
+
     suspend fun updateLostRequestStatus(
         requestId: String,
         librarianId: String

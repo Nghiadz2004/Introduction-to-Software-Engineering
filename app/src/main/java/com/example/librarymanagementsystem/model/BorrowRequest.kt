@@ -8,6 +8,7 @@ data class BorrowRequest(
     @DocumentId
     val id: String? =null, // Firestore document ID nếu bạn cần
     val libraryCardId: String = "",
+    val readerId: String,
     val bookId: String = "",
     val borrowDate: Date = Date(),
     val daysBorrow: Int = 1,

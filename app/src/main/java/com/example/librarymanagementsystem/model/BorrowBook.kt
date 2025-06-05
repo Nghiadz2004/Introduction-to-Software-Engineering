@@ -12,6 +12,7 @@ data class BorrowBook(
     val bookId: String,
     val borrowDate: Date,
     val confirmDate: Date = Date(),
+    val expectedReturnDate: Date,
     val actualReturnDate: Date = Date(),
     val librarianId: String
 )

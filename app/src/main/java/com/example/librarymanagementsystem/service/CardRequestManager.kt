@@ -29,10 +29,10 @@ fun calculateAge(birthday: Date): Int {
 
 
 class CardRequestManager (
-    private val libraryCardRepository: LibraryCardRepository,
     private val cardRequestRepository: CardRequestRepository
 ) {
     val db = FirebaseFirestore.getInstance()
+
 
     suspend fun rejectRequest(request: CardRequest, librarianId: String) {
         // Lưu request vào Firestore
