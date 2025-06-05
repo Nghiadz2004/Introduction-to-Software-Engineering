@@ -95,6 +95,7 @@
         android:text="Categorical"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
+        android:textStyle="bold"
         android:textSize="20dp"
         android:textColor="@color/white"
         android:paddingStart="16dp"
@@ -106,7 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/categoryTV"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_container"
+        app:layout_constraintBottom_toTopOf="@+id/listBookRV"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp">
@@ -174,7 +175,7 @@
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvReaderCards"
+        android:id="@+id/listBookRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
