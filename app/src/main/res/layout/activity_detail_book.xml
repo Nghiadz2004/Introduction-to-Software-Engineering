@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/light_blue"
+    android:orientation="vertical">
+
+    <!-- Header -->
+    <!-- Header background -->
+    <ImageView
+        android:id="@+id/bdHeaderHolder"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@color/light_purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bdScrollContent"/>
+
+    <!-- Header text -->
+    <TextView
+        android:id="@+id/bdHeaderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Book Detail"
+        android:textSize="34sp"
+        android:textStyle="italic|bold"
+        android:textColor="@color/light_blue"
+        app:layout_constraintStart_toStartOf="@id/bdHeaderHolder"
+        app:layout_constraintEnd_toEndOf="@id/bdHeaderHolder"
+        app:layout_constraintTop_toTopOf="@id/bdHeaderHolder"
+        app:layout_constraintBottom_toBottomOf="@id/bdHeaderHolder" />
+
+    <!-- Back button -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:paddingStart="13dp"
+        android:src="@drawable/back_button_icon"
+        android:contentDescription="Back button"
+        app:tint="@color/light_blue"
+        android:padding="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@id/bdHeaderHolder"
+        app:layout_constraintTop_toTopOf="@id/bdHeaderHolder"
+        app:layout_constraintBottom_toBottomOf="@id/bdHeaderHolder" />
+
+    <!-- Book infomation -->
+    <!-- Book information holder -->
+    <ScrollView
+        android:id="@+id/bdScrollContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/bdFavoriteHolder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bdHeaderHolder">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Basic information -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bdBookDetailHolder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Book Cover -->
+                <ImageView
+                    android:id="@+id/bdBookCover"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="Book Cover"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/harry_potter_cover"
+                    app:layout_constraintBottom_toBottomOf="@id/bdBookDetailHolder"
+                    app:layout_constraintStart_toStartOf="@id/bdBookDetailHolder"
+                    app:layout_constraintTop_toTopOf="@id/bdBookDetailHolder"
+                    app:layout_constraintWidth_percent="0.4" />
+
+                <!--Book information text -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bdInfoTextHolder"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@id/bdBookDetailHolder"
+                    app:layout_constraintStart_toEndOf="@id/bdBookCover"
+                    app:layout_constraintTop_toTopOf="@id/bdBookDetailHolder"
+                    app:layout_constraintWidth_percent="0.55">
+
+                    <!-- Book's Name -->
+                    <TextView
+                        android:id="@+id/bdBookTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Harry Potter and Philosopher's Stone"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintEnd_toEndOf="@id/bdInfoTextHolder"
+                        app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
+                        app:layout_constraintTop_toTopOf="@id/bdInfoTextHolder" />
+
+                    <!-- Book's Author -->
+                    <TextView
+                        android:id="@+id/bdBookAuthor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="by J.K.Rowling"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
+                        app:layout_constraintTop_toBottomOf="@id/bdBookTitle" />
+
+                    <!-- Book's Rating-->
+                    <LinearLayout
+                        android:id="@+id/bdRatingHolder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
+                        app:layout_constraintTop_toBottomOf="@id/bdBookAuthor">
+
+                        <!-- Rating -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Rating:"
+                            android:textColor="@color/light_gray_2"
+                            android:textSize="20sp"
+                            android:textStyle="italic|bold" />
+
+                        <!-- Star Rating Group-->
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/star_icon"
+                            app:tint="@color/yellow" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/star_icon"
+                            app:tint="@color/yellow" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/star_icon"
+                            app:tint="@color/yellow" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/star_icon"
+                            app:tint="@color/yellow" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/star_icon"
+                            app:tint="@color/white_2" />
+
+                        <!-- Number Rating-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="3dp"
+                            android:text="8.3"
+                            android:textColor="@color/light_gray_2"
+                            android:textSize="20sp"
+                            android:textStyle="italic|bold" />
+                    </LinearLayout>
+
+                    <!-- Category -->
+                    <TextView
+                        android:id="@+id/bdBookCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Category: Fiction, Novel, Fantasy"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintEnd_toEndOf="@id/bdInfoTextHolder"
+                        app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
+                        app:layout_constraintTop_toBottomOf="@id/bdRatingHolder" />
+
+                    <!-- Series-->
+                    <TextView
+                        android:id="@+id/bdBookSeries"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Series: Harry Potter"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintEnd_toEndOf="@id/bdInfoTextHolder"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
+                        app:layout_constraintTop_toBottomOf="@id/bdBookCategory" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Queues waiting for borrow book and Number of borrower -->
+            <LinearLayout
+                android:id="@+id/bdQueueBorrowHolder"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_corner_radius"
+                android:backgroundTint="@color/light_purple"
+                android:divider="@drawable/vertical_line"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:tint="@color/light_purple"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bdBookDetailHolder">
+
+                <TextView
+                    android:id="@+id/bdQueue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/queues_icon"
+                    android:drawablePadding="20dp"
+                    android:drawableTint="@color/light_blue"
+                    android:gravity="center_vertical"
+                    android:text="3 Queues"
+                    android:textColor="@color/light_blue"
+                    android:textSize="24sp"
+                    android:textStyle="italic|bold"
+                    app:layout_constraintStart_toStartOf="@id/bdQueueBorrowHolder"
+                    app:layout_constraintTop_toTopOf="@id/bdQueueBorrowHolder" />
+
+                <TextView
+                    android:id="@+id/bdBorrower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/borrower_icon"
+                    android:drawablePadding="20dp"
+                    android:drawableTint="@color/light_blue"
+                    android:gravity="center_vertical"
+                    android:text="46 Borrower"
+                    android:textColor="@color/light_blue"
+                    android:textSize="24sp"
+                    android:textStyle="italic|bold" />
+            </LinearLayout>
+
+            <!-- Detail information -->
+            <!-- Detail Holder -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_purple"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintTop_toBottomOf="@id/bdQueueBorrowHolder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+>
+
+                <!-- Detail title -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Detail"
+                    android:textColor="@color/light_blue"
+                    android:textSize="24sp"
+                    android:textStyle="italic|bold" />
+
+                <!-- Copy number -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <!-- label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="Copy Number"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold" />
+
+                    <!-- content -->
+                    <TextView
+                        android:id="@+id/bdBookCopyNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:text="20 copy"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold" />
+                </LinearLayout>
+
+                <!-- Total pages -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <!-- label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="Total pages"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold" />
+
+                    <!-- content -->
+                    <TextView
+                        android:id="@+id/bdBookTotalPages"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:text="223 pages"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold" />
+                </LinearLayout>
+
+                <!-- Copy number -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <!-- label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="Published"
+                        android:textColor="@color/light_gray_2"
+                        android:textSize="20sp"
+                        android:textStyle="italic|bold" />
+
+                    <!-- content -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:orientation="vertical">
+
+                        <!-- Publish date -->
+                        <TextView
+                            android:id="@+id/bdBookPublishDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="June 26th 1997"
+                            android:textColor="@color/light_gray_2"
+                            android:textSize="20sp"
+                            android:textStyle="italic|bold" />
+
+                        <!-- Publisher -->
+                        <TextView
+                            android:id="@+id/bdBookPublisher"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="by Bloomsbury"
+                            android:textColor="@color/light_gray_2"
+                            android:textSize="20sp"
+                            android:textStyle="italic|bold" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Summary -->
+                <!-- Summary Label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Summary"
+                    android:textColor="@color/light_blue"
+                    android:textSize="24sp"
+                    android:textStyle="italic|bold" />
+
+                <!-- Summary content -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:maxLines="10"
+                    android:text="@string/bdBookSummary"
+                    android:textColor="@color/light_gray_2"
+                    android:textSize="20sp"
+                    android:textStyle="italic|bold" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+    <!-- Button group -->
+    <!-- Favorite Background -->
+    <ImageView
+        android:id="@+id/bdFavoriteHolder"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:src="@color/orange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.46"/>
+
+    <!-- Favorite button -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/bdBtnFavorite"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/favorite_icon"
+        android:contentDescription="Favorite button"
+        app:tint="@color/light_blue"
+        android:scaleType="centerInside"
+        android:padding="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@id/bdFavoriteHolder"
+        app:layout_constraintEnd_toEndOf="@id/bdFavoriteHolder"
+        app:layout_constraintTop_toTopOf="@id/bdFavoriteHolder"
+        app:layout_constraintBottom_toBottomOf="@id/bdFavoriteHolder" />
+
+    <!-- Borrow background -->
+    <ImageView
+        android:id="@+id/bdBorrowHolder"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:src="@color/light_blue"
+        android:contentDescription="Borrow background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.55"/>
+
+    <!-- Borrow button -->
+    <Button
+        android:id="@+id/bdBtnBorrow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Borrow"
+        android:textSize="30sp"
+        android:textStyle="italic|bold"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        app:tint="@color/light_blue"
+        android:scaleType="centerInside"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@id/bdBorrowHolder"
+        app:layout_constraintEnd_toEndOf="@id/bdBorrowHolder"
+        app:layout_constraintTop_toTopOf="@id/bdBorrowHolder"
+        app:layout_constraintBottom_toBottomOf="@id/bdBorrowHolder" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

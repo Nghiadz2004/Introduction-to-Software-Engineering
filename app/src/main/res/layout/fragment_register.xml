@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <!-- Header text -->
+    <TextView
+        android:id="@+id/rgHeaderText"
+        android:layout_width="290dp"
+        android:layout_height="105dp"
+        android:gravity="center"
+        android:text="Register"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Input Full name field -->
+
+    <!-- Input Username field -->
+    <EditText
+        android:id="@+id/rgFullname"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:drawableStart="@drawable/full_name_icon"
+        android:drawablePadding="15dp"
+        android:drawableTint="@color/light_blue"
+        android:hint="Full name"
+        android:paddingLeft="20dp"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:textSize="16sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgHeaderText" />
+
+    <EditText
+        android:id="@+id/rgUsername"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:hint="Username"
+        android:textSize="16sp"
+        android:textStyle="italic|bold"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:drawableStart="@drawable/register_icon"
+        android:drawableTint="@color/light_blue"
+        android:drawablePadding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgFullname" />
+
+    <!-- Input Password field-->
+    <EditText
+        android:id="@+id/rgPassword"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:hint="Password"
+        android:textSize="16sp"
+        android:textStyle="italic|bold"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:drawableStart="@drawable/password_icon"
+        android:drawableTint="@color/light_blue"
+        android:drawablePadding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgUsername" />
+
+    <!-- Input Email field-->
+    <EditText
+        android:id="@+id/rgEmail"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:hint="Email"
+        android:textSize="16sp"
+        android:textStyle="italic|bold"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:drawableStart="@drawable/login_icon"
+        android:drawableTint="@color/light_blue"
+        android:drawablePadding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgPassword" />
+
+    <!-- Input Birthday field-->
+    <EditText
+        android:id="@+id/rgBirthday"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="25dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:hint="Birthday"
+        android:inputType="none"
+        android:textSize="16sp"
+        android:textStyle="italic|bold"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:drawableStart="@drawable/birthday_icon"
+        android:drawableTint="@color/light_blue"
+        android:drawablePadding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgEmail" />
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/rgErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="Notes: Please make sure the \ninformations above are all correct"
+        android:textSize="15sp"
+        android:textStyle="italic|bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/rgFullname"
+        app:layout_constraintEnd_toEndOf="@id/rgFullname"
+        app:layout_constraintTop_toBottomOf="@id/rgBirthday"
+        app:layout_constraintBottom_toTopOf="@id/rgSubmit"/>
+
+    <!-- Button to Submit register info -->
+    <Button
+        android:id="@+id/rgSubmit"
+        android:layout_width="330dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rectangle_border_bg"
+        android:backgroundTint="@color/light_purple"
+        android:paddingLeft="20dp"
+        android:text="Register"
+        android:textAllCaps="false"
+        android:textColor="@color/light_blue"
+        android:textSize="30sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgErrorMessage" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

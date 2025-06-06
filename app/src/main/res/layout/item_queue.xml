@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/queueItem"
+    android:backgroundTint="@color/light_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:background="@color/light_purple_2">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_weight="3"
+            android:src="@drawable/harry_potter_cover"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+
+            <!-- Book Title -->
+            <TextView
+                android:id="@+id/lBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Harry potter and Philosopher's Stone"
+                android:textSize="18sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/black" />
+
+            <!-- Book Author -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Author: J.K.Rowling"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Book Copy left -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Copy left: 11"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Borrowed by -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Borrowed by: RC01"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Queue Status -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Status: ok"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="Reject"
+                    android:textSize="16sp"
+                    android:textStyle="italic|bold"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_corner_radius"
+                    app:backgroundTint="@color/red" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="40dp"
+                    android:gravity="center"
+                    android:text="Approve"
+                    android:textSize="16sp"
+                    android:textStyle="italic|bold"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_corner_radius"
+                    android:backgroundTint="@color/green" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

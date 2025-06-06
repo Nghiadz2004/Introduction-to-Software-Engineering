@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_purple"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:text="Request "
+            android:textColor="@color/pale_blue"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/requestIdTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:text="1"
+            android:textColor="@color/pale_blue"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:text="Full name: "
+            android:textSize="18sp"
+            android:textColor="@color/light_gray_2" />
+
+        <TextView
+            android:id="@+id/FullNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:text="Nguyen Minh Nghia"
+            android:textSize="18sp"
+            android:textColor="@color/light_gray_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email: "
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+
+        <TextView
+            android:id="@+id/emailTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="abcd@gmail.com"
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Birthday: "
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+
+        <TextView
+            android:id="@+id/birthdayTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01/01/2025"
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address: "
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+
+        <TextView
+            android:id="@+id/addressTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HCM city"
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type: "
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+
+        <TextView
+            android:id="@+id/typeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X"
+            android:textColor="@color/light_gray_2"
+            android:fontFamily="@font/inter_font"
+            android:textSize="18sp"
+            android:fontVariationSettings="'wght' 800"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/btnReject"
+            android:layout_width="100dp"
+            android:layout_height="31dp"
+            android:text="Reject"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/red"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_corner_radius"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnApprove"
+            android:layout_width="100dp"
+            android:layout_height="31dp"
+            android:text="Approve"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:background="@drawable/button_corner_radius"
+            android:fontFamily="@font/inter_font"
+            android:fontVariationSettings="'wght' 800"
+            android:backgroundTint="@color/green"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</LinearLayout>

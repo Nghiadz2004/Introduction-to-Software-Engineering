@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loanItem"
+    android:backgroundTint="@color/light_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:background="@color/light_purple_2">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="230dp"
+            android:layout_weight="3"
+            android:src="@drawable/harry_potter_cover"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <!-- Book Title -->
+            <TextView
+                android:id="@+id/lBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Harry potter and Philosopher's Stone"
+                android:textSize="18sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/black" />
+
+            <!-- Book Author -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Author: J.K.Rowling"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Book Copy ID -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="CopyID: 01"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Book Borrowed by -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Borrowed by: RC01"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Book Processed by -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Processed by: LB01"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Loan date -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Loan date: 23 May 2025"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Due date -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Due date: 28 May 2025"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+
+            <!-- Book Status -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Status: 5 days left"
+                android:textSize="16sp"
+                android:textStyle="italic|bold"
+                android:textColor="@color/light_gray_2"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
