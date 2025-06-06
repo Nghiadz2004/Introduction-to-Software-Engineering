@@ -102,65 +102,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/ratingTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_font"
-                    android:fontVariationSettings="'wght' 800"
-                    android:text="Rating: "
-                    android:textColor="@color/light_gray_2"
-                    android:textSize="15sp"
-                    tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <RatingBar
-                        android:id="@+id/ratingBar"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_gravity="center_vertical"
-                        android:isIndicator="true"
-                        android:maxHeight="20dp"
-                        android:minHeight="20dp"
-                        android:numStars="5"
-                        android:progressTint="@color/yellow"
-                        android:rating="4.15"
-                        android:stepSize="1"
-                        tools:ignore="VisualLintBounds" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:fontFamily="@font/inter_font"
-                        android:fontVariationSettings="'wght' 800"
-                        android:text="8.3"
-                        android:textColor="@color/light_gray_2"
-                        android:textSize="15sp"
-                        tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck" />
-                </LinearLayout>
-
-            </LinearLayout>
-
             <Button
                 android:id="@+id/removeBtn"
                 android:layout_width="110dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="23dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:fontFamily="@font/inter_font"

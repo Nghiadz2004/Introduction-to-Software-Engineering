@@ -47,7 +47,7 @@ dependencies {
     implementation ("com.google.android.material:material:1.9.0")
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.auth.ktx)
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.androidx.media3.common.ktx)
     kapt("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class LibraryCardRepository(private val db: FirebaseFirestore) {
+class LibraryCardRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
     // Ghi nhận một thẻ thư viện mới
     suspend fun createLibraryCard(card: LibraryCard): String = withContext(Dispatchers.IO) {
         db.collection("library_cards").add(card).await().id

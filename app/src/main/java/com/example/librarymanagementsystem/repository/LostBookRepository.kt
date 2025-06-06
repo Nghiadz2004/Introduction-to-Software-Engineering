@@ -8,7 +8,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
 
-class LostBookRepository(private val db: FirebaseFirestore) {
+class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
     // Gửi yêu cầu mất sách
     suspend fun submitLostRequest(request: LostBook): String = withContext(Dispatchers.IO) {
         db.collection("lost_requests").add(request).await().id

@@ -11,7 +11,10 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
 
     // Tạo một người dùng mới
     suspend fun createUser(user: User): String = withContext(Dispatchers.IO) {
-        db.collection("users").add(user).await().id
+        // Giả sử user.id là uid đã được cung cấp
+        val uid = user.id ?: throw IllegalArgumentException("User ID (UID) must not be null")
+        db.collection("users").document(uid).set(user).await()
+        uid // Trả về uid làm ID của document
     }
 
     // Lấy ra danh sách tất cả các người dùng có trong cơ sở dữ liệu
