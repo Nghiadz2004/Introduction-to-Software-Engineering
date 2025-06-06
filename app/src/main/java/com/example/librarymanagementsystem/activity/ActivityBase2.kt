@@ -54,4 +54,6 @@ class ActivityBase2 : AppCompatActivity() {
                 .commit()
         }
     }
+
+
 }
