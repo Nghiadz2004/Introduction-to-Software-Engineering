@@ -9,10 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MyBookManager(
-    private val requestBorrowRepository: RequestBorrowRepository,
-    private val bookRepository: BookRepository,
-    private val borrowingRepository: BorrowingRepository,
-    private val lostBookRepository: LostBookRepository
+    private val requestBorrowRepository: RequestBorrowRepository = RequestBorrowRepository(),
+    private val bookRepository: BookRepository = BookRepository(),
+    private val borrowingRepository: BorrowingRepository = BorrowingRepository(),
+    private val lostBookRepository: LostBookRepository = LostBookRepository()
 ) {
     // Lấy danh sách các quyển sách đang được người dùng yêu cầu mượn để hiển thị trong section "My Book"
     suspend fun getReaderPendingBooks(readerId: String): List<Book> = withContext(Dispatchers.IO) {

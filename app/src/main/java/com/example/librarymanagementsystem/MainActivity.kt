@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         //startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-        startActivity(Intent(this@MainActivity, HomeActivity::class.java))
+        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
         finish()
     }
 }

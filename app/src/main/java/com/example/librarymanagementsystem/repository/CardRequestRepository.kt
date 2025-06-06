@@ -9,7 +9,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
 
-class CardRequestRepository(private val db: FirebaseFirestore) {
+class CardRequestRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
     // Gửi yêu cầu tạo thẻ
     suspend fun submitCardRequest(request: CardRequest): String = withContext(Dispatchers.IO) {

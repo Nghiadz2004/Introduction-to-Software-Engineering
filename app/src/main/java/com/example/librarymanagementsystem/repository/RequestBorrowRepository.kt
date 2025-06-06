@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class RequestBorrowRepository(private val db: FirebaseFirestore) {
+class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
     // Lấy tất cả các yêu cầu mượn sách của 1 người dùng (bao gồm đang yêu cầu mượn, bị từ chối, đã trả)
     suspend fun getRequestBooksByReader(readerId: String): List<BorrowRequest> = withContext(

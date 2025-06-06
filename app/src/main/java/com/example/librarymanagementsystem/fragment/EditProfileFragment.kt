@@ -18,10 +18,14 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.repository.UserRepository
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 private const val MIN_PASSWORD_LENGTH = 12
+private const val EDIT_REQUEST = "editProfileRequestKey"
 
 class EditProfileFragment : Fragment() {
     private lateinit var avatarIV: ImageView
@@ -40,6 +44,7 @@ class EditProfileFragment : Fragment() {
 
     private val userRepository = UserRepository()
 
+    private var selectedAvatarUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,15 +68,10 @@ class EditProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userID = arguments?.getString("USER_ID") ?: ""
-        if (userID.isBlank()) {
-            Toast.makeText(requireContext(), "Invalid user ID", Toast.LENGTH_LONG).show()
-            return
-        }
 
         // Initial predefine variables
         avatarIV = view.findViewById(R.id.avatarIV)
         editAvatarBtn = view.findViewById(R.id.editAvatarBtn)
-
         userNameET = view.findViewById(R.id.userNameET)
         emailET = view.findViewById(R.id.emailET)
         passwordET = view.findViewById(R.id.passwordET)
@@ -86,23 +86,9 @@ class EditProfileFragment : Fragment() {
             user?.let {
                 userNameET.setText(it.username)
                 emailET.setText(it.email)
-
-                it.avatar?.let { avatarPath ->
-                    val storageRef = FirebaseStorage.getInstance().reference.child(avatarPath)
-                    storageRef.downloadUrl.addOnSuccessListener { uri ->
-                        Glide.with(avatarIV)
-                            .load(uri)
-                            .placeholder(R.drawable.ic_launcher_background)
-                            .into(avatarIV)
-                    }.addOnFailureListener { e ->
-                        avatarIV.setImageResource(R.drawable.ic_launcher_background)
-                        Log.e("ProfileFragment", "Failed to load avatar", e)
-                    }
-                } ?: run {
-                    avatarIV.setImageResource(R.drawable.ic_launcher_background)
-                }
-            } ?: run {
-                Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+                Glide.with(avatarIV)
+                    .load(it.avatar)
+                    .into(avatarIV)
             }
         }
 
@@ -111,9 +97,10 @@ class EditProfileFragment : Fragment() {
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 avatarIV.setImageURI(it)
-                avatarIV.tag = it
+                selectedAvatarUri = it
             }
         }
+
         editAvatarBtn.setOnClickListener {
             imagePickerLauncher.launch("image/*")
         }
@@ -125,35 +112,58 @@ class EditProfileFragment : Fragment() {
                 val existingUser = userRepository.getUserById(userID)
 
                 if (existingUser != null) {
-                    // Update fields with new values from EditText
+                    // Update text fields
                     existingUser.username = userNameET.text.toString()
                     existingUser.email = emailET.text.toString()
 
-                    // validate and compare passwords before setting
+                    // Xử lý mật khẩu
                     val newPassword = passwordET.text.toString()
                     val confirmPassword = confirmPasswordET.text.toString()
                     if (newPassword.isNotBlank() && newPassword.length >= MIN_PASSWORD_LENGTH) {
                         if (newPassword == confirmPassword) {
-                            // Hash password before saving!
-                            // existingUser.password = newPassword
+                            try {
+                                Firebase.auth.currentUser?.updatePassword(newPassword)
+                                Toast.makeText(requireContext(), "Password updated", Toast.LENGTH_SHORT).show()
+                            } catch (e: Exception) {
+                                Toast.makeText(requireContext(), "Failed to update password", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
 
-                    // TODO: Upload avatar to Firebase Storage (if changed)
+                    // Xử lý avatar: upload lên Storage nếu có ảnh mới
+                    if (selectedAvatarUri != null) {
+                        val storageRef = FirebaseStorage.getInstance().reference
+                        val avatarRef = storageRef.child("avatars/${userID}.jpg")
 
+                        try {
+                            val uploadTask = avatarRef.putFile(selectedAvatarUri!!)
+                            val urlTask = uploadTask.continueWithTask { task ->
+                                if (!task.isSuccessful) throw task.exception!!
+                                avatarRef.downloadUrl
+                            }.await()
+
+                            existingUser.avatar = urlTask.toString() // Lấy URL ảnh sau khi upload
+                        } catch (e: Exception) {
+                            Toast.makeText(requireContext(), "Failed to upload avatar", Toast.LENGTH_SHORT).show()
+                            Log.e("Upload", "Error uploading avatar", e)
+                        }
+                    }
+
+                    // Cập nhật thông tin lên Firestore
+                    userRepository.updateUser(existingUser)
+
+                    // Trả kết quả về Fragment trước đó
+                    val result = Bundle().apply {
+                        putString("profileUserName", existingUser.username)
+                        putString("profileEmail", existingUser.email)
+                        putString("profileAvatar", existingUser.avatar)
+                    }
+                    parentFragmentManager.setFragmentResult(EDIT_REQUEST, result)
+                    parentFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            // Return user information
-            val result = Bundle().apply {
-                putString("profileUserName", userNameET.text.toString())
-                putString("profileEmail", emailET.text.toString())
-            }
-
-            parentFragmentManager.setFragmentResult("profileRequestKey", result)
-            parentFragmentManager.popBackStack() // Return to ProfileFragment
         }
 
         cancelBtn.setOnClickListener {

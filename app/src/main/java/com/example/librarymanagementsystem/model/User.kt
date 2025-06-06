@@ -4,9 +4,9 @@ import com.google.firebase.firestore.DocumentId // Giả sử bạn đang dùng 
 import java.util.Date // Để sử dụng kiểu Date cho created_at
 
 enum class UserStatus(val value: String) {
-    ACTIVE("Đang hoạt động"),
-    INACTIVE("Ngừng hoạt động"),
-    BANNED("Bị cấm");
+    ACTIVE("ACTIVE"),
+    INACTIVE("INACTIVE"),
+    BANNED("BANNED");
 
     companion object {
         fun fromString(value: String): UserStatus? {
