@@ -1,10 +1,13 @@
 package com.example.librarymanagementsystem.activity
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.librarymanagementsystem.R
@@ -57,6 +60,42 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("PAGE_ID", "PROFILE_ID")
             startActivity(intent)
             finish()
+        }
+        val categoryButtonContainer = findViewById<LinearLayout>(R.id.categoryButtonContainer)
+        val categories = listOf("Art & Photography",
+                                "Biographies & Memoirs",
+                                "Business & Economics",
+                                "How-to - Self Help",
+                                "Fiction - Literature",
+                                "Education - Teaching",
+                                "Magazines",
+                                "Medical Books",
+                                "Science - Technology",
+                                "History, Politics & Social Sciences",
+                                "Travel & Holiday",
+                                "Cookbooks, Food & Wine")
+
+        for (category in categories) {
+            val button = Button(this).apply {
+                text = category
+                setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue))
+                setTextColor(ContextCompat.getColor(context, R.color.light_purple))
+                textSize = 16f
+                typeface = Typeface.DEFAULT_BOLD
+                // Thêm icon nếu muốn (setCompoundDrawablesWithIntrinsicBounds)
+                // setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_fiction, 0, 0)
+                setPadding(16, 8, 16, 8)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    marginEnd = 16
+                }
+                setOnClickListener {
+                    // Xử lý sự kiện click button ở đây
+                }
+            }
+            categoryButtonContainer.addView(button)
         }
 
     }
