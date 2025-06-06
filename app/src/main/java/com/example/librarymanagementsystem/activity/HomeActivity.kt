@@ -65,8 +65,7 @@ class HomeActivity : AppCompatActivity() {
                 setTextColor(ContextCompat.getColor(context, R.color.light_purple))
                 textSize = 16f
                 typeface = Typeface.DEFAULT_BOLD
-                // Thêm icon nếu muốn (setCompoundDrawablesWithIntrinsicBounds)
-                // setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_fiction, 0, 0)
+
                 setPadding(16, 8, 16, 8)
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
