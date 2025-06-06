@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.repository
 
+import com.example.librarymanagementsystem.model.BookAcquisition
 import com.example.librarymanagementsystem.model.User
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -8,18 +9,22 @@ import kotlinx.coroutines.withContext
 
 class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
+    // Tạo một người dùng mới
     suspend fun createUser(user: User): String = withContext(Dispatchers.IO) {
         db.collection("users").add(user).await().id
     }
 
+    // Lấy ra danh sách tất cả các người dùng có trong cơ sở dữ liệu
     suspend fun getUsers(): List<User> = withContext(Dispatchers.IO) {
         db.collection("users").get().await().toObjects(User::class.java)
     }
 
+    // Tìm kiếm người dùng theo Id
     suspend fun getUserById(id: String): User? = withContext(Dispatchers.IO) {
         db.collection("users").document(id).get().await().toObject(User::class.java)
     }
 
+    // Tìm kiếm người dùng theo username
     suspend fun getUserByUsername(username: String): User? = withContext(Dispatchers.IO) {
         db.collection("users")
             .whereEqualTo("username", username)
@@ -29,12 +34,14 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
             .firstOrNull()
     }
 
+    // Tìm kiếm người dùng theo role
     suspend fun getUserByRoleId(roleId: String): List<User> = withContext(Dispatchers.IO) {
         db.collection("users")
             .whereEqualTo("roleId", roleId)
             .get().await().toObjects(User::class.java)
     }
 
+    // Tìm kiếm người dùng theo trạng thái
     suspend fun getUserByStatus(status: String): List<User> = withContext(Dispatchers.IO) {
         db.collection("users")
             .whereEqualTo("status",status)
@@ -43,15 +50,17 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
             .toObjects(User::class.java)
     }
 
+    // Tìm kiếm người dùng theo địa chỉ email đã đăng ký
     suspend fun getUserByEmail(email: String): User? = withContext(Dispatchers.IO) {
-        db.collection("users")
-            .whereEqualTo("email",email)
+        val snapshot = db.collection("users")
+            .whereEqualTo("email", email)
             .get()
             .await()
-            .toObjects(User::class.java)
-            .firstOrNull()
+
+        return@withContext snapshot.documents.firstOrNull()?.toObject(User::class.java)
     }
 
+    // Cập nhật thông tin người dùng
     suspend fun updateUser(user: User) = withContext(Dispatchers.IO) {
         db.collection("users").document(user.id!!).set(user).await()
     }

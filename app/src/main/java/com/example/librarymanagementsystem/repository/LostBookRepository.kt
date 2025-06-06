@@ -9,10 +9,12 @@ import kotlinx.coroutines.withContext
 import java.util.Date
 
 class LostBookRepository(private val db: FirebaseFirestore) {
+    // Gửi yêu cầu mất sách
     suspend fun submitLostRequest(request: LostBook): String = withContext(Dispatchers.IO) {
         db.collection("lost_requests").add(request).await().id
     }
 
+    // Lấy tất cả yêu cầu mất sách
     suspend fun getPendingRequests(): List<LostBook> = withContext(Dispatchers.IO) {
         db.collection("lost_requests")
             .whereEqualTo("status", LostRequestStatus.PENDING.value)
@@ -21,6 +23,7 @@ class LostBookRepository(private val db: FirebaseFirestore) {
             .toObjects(LostBook::class.java)
     }
 
+    // Lấy tất cả yêu cầu mất sách đang chờ được duyệt
     suspend fun getReaderPendingRequests(readerId: String): List<LostBook> = withContext(Dispatchers.IO) {
         db.collection("lost_requests")
             .whereEqualTo("status", LostRequestStatus.PENDING.value)
@@ -30,6 +33,7 @@ class LostBookRepository(private val db: FirebaseFirestore) {
             .toObjects(LostBook::class.java)
     }
 
+    // Cập nhật trạng thái yêu cầu mất sách (đang chờ -> đã được duyệt)
     suspend fun updateLostRequestStatus(
         requestId: String,
         librarianId: String
