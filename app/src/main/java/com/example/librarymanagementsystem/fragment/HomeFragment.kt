@@ -20,6 +20,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var recyclerFeatured: RecyclerView
     private lateinit var recyclerNewRelease: RecyclerView
+    private lateinit var seeAllNewReleaseTV: View
     private val bookRepository = BookRepository()
 
     override fun onCreateView(
@@ -30,9 +31,16 @@ class HomeFragment : Fragment() {
 
         recyclerFeatured = view.findViewById(R.id.recyclerFeatured)
         recyclerNewRelease = view.findViewById(R.id.recyclerNewRelease)
+        seeAllNewReleaseTV = view.findViewById(R.id.seeAllNewReleaseTV)
+
+        seeAllNewReleaseTV.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, NewReleaseFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
+        }
 
         loadBooksFromFirestore()
-
         return view
     }
 
