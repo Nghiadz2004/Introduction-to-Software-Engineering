@@ -56,7 +56,20 @@ class HomeActivity : AppCompatActivity() {
             finish()
         }
         val categoryButtonContainer = findViewById<LinearLayout>(R.id.categoryButtonContainer)
-        val categories = listOf("Fiction", "Detective", "Horror", "Romance", "Science")
+        val categories = listOf(
+            "Art & Photography",
+            "Biographies & Memoirs",
+            "Business & Economics",
+            "How-to - Self Help",
+            "Education - Teaching",
+            "Fiction - Literature",
+            "Magazines",
+            "Medical Books",
+            "Science - Technology",
+            "History, Politics & Social Sciences",
+            "Travel & Holiday",
+            "Cookbooks, Food & Wine"
+        )
 
         for (category in categories) {
             val button = Button(this).apply {
