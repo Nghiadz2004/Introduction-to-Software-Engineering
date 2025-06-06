@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.repository.BookRepository
+import com.example.librarymanagementsystem.repository.BorrowingRepository
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 
+class FeaturedBooksFragment : Fragment() {
 
-class NewReleaseFragment : Fragment() {
-
-    private lateinit var rvNewReleaseAll: RecyclerView
+    private lateinit var rvFeaturedBooksAll: RecyclerView
     private lateinit var titleTextView: TextView
 
     override fun onCreateView(
@@ -30,17 +34,17 @@ class NewReleaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvNewReleaseAll = view.findViewById(R.id.rvNewReleaseAll)
+        rvFeaturedBooksAll = view.findViewById(R.id.rvNewReleaseAll)
         titleTextView = view.findViewById(R.id.newReleaseTitle)
 
-        titleTextView.text = "New Releases"
-        rvNewReleaseAll.layoutManager = GridLayoutManager(requireContext(), 3)
+        titleTextView.text = "Featured"
+        rvFeaturedBooksAll.layoutManager = GridLayoutManager(requireContext(), 3)
 
-        val newReleaseBooks = arguments?.getParcelableArrayList<Book>("newReleaseBooks")
-        if (!newReleaseBooks.isNullOrEmpty()) {
-            rvNewReleaseAll.adapter = BookHomeAdapter(newReleaseBooks)
+        val featuredBooks = arguments?.getParcelableArrayList<Book>("featuredBooks")
+        if (!featuredBooks.isNullOrEmpty()) {
+            rvFeaturedBooksAll.adapter = BookHomeAdapter(featuredBooks)
         } else {
-            Toast.makeText(requireContext(), "Không nhận được danh sách sách mới", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Không nhận được danh sách featured books", Toast.LENGTH_SHORT).show()
         }
     }
 }

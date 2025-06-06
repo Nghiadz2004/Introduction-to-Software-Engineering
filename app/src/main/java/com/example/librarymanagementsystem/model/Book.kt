@@ -1,7 +1,10 @@
 package com.example.librarymanagementsystem.model
 
+import android.os.Parcelable
 import com.google.firebase.firestore.DocumentId // Giả sử bạn đang dùng Firestore
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Book(
     @DocumentId // Nếu bạn đang làm việc với Firestore và muốn ID tài liệu trùng với thuộc tính này
     val id: String? = null,
@@ -14,7 +17,7 @@ data class Book(
     val publisher: String? = null, // publisher varchar(100) -> Có thể null
     val price: Int? = 0, // price integer [not null]
     var quantity: Int? = 0, // quantity integer [not null]
-){
+): Parcelable {
     constructor() : this(
         id = null,
         cover = null,
