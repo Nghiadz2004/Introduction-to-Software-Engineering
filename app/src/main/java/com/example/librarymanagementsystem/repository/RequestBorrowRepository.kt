@@ -48,4 +48,14 @@ class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirest
         )
         db.collection("request_borrow").document(requestId).update(updateData).await()
     }
+
+    // Lấy danh sách số người đang chờ mượn một quyển sách (bản logic)
+    suspend fun getBookPendingRequests(bookId: String): List<BorrowRequest> = withContext(Dispatchers.IO) {
+        db.collection("request_borrow")
+            .whereEqualTo("status", RequestStatus.PENDING.value)
+            .whereEqualTo("bookId", bookId)
+            .get()
+            .await()
+            .toObjects(BorrowRequest::class.java)
+    }
 }
