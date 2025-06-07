@@ -15,6 +15,7 @@ import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
+import com.example.librarymanagementsystem.service.BookStatistics
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
@@ -75,11 +76,9 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val allBooks = bookRepository.getBooks()
+                val bookStatistics = BookStatistics(borrowingRepository, bookRepository)
 
-                val booksWithBorrowCount = allBooks.map { book ->
-                    val borrowList = borrowingRepository.getBorrowByBook(book.id!!)
-                    Pair(book, borrowList.size)
-                }
+                val booksWithBorrowCount = bookStatistics.getNumBorrowByBook()
 
                 featuredBooks = booksWithBorrowCount
                     .sortedByDescending { it.second }
