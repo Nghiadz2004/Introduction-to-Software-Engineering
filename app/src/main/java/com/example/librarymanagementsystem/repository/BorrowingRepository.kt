@@ -9,6 +9,10 @@ import kotlinx.coroutines.withContext
 import java.util.Date
 
 class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
+    // Lấy danh sách tất cả các bản ghi dữ liệu mượn sách trong cơ sở dữ liệu
+    suspend fun getAllBorrows(): List<BorrowBook> = withContext(Dispatchers.IO) {
+        db.collection("borrow_book").get().await().toObjects(BorrowBook::class.java)
+    }
 
     // Thêm một quyển sách được mượn vào cơ sở dữ liệu
     suspend fun addBorrowBook(borrow: BorrowBook): String = withContext(Dispatchers.IO) {
