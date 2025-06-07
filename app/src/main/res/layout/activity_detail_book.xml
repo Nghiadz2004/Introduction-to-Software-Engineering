@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_detail_book"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/light_blue"
     android:orientation="vertical">
@@ -37,6 +38,7 @@
 
     <!-- Back button -->
     <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/bdBtnBack"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -85,6 +87,7 @@
                     android:contentDescription="Book Cover"
                     android:scaleType="centerInside"
                     android:src="@drawable/harry_potter_cover"
+                    android:backgroundTint="@color/light_blue"
                     app:layout_constraintBottom_toBottomOf="@id/bdBookDetailHolder"
                     app:layout_constraintStart_toStartOf="@id/bdBookDetailHolder"
                     app:layout_constraintTop_toTopOf="@id/bdBookDetailHolder"
@@ -107,7 +110,6 @@
                         android:id="@+id/bdBookTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:text="Harry Potter and Philosopher's Stone"
                         android:textColor="@color/black"
                         android:textSize="24sp"
@@ -129,67 +131,6 @@
                         app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
                         app:layout_constraintTop_toBottomOf="@id/bdBookTitle" />
 
-                    <!-- Book's Rating-->
-                    <LinearLayout
-                        android:id="@+id/bdRatingHolder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
-                        app:layout_constraintTop_toBottomOf="@id/bdBookAuthor">
-
-                        <!-- Rating -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Rating:"
-                            android:textColor="@color/light_gray_2"
-                            android:textSize="20sp"
-                            android:textStyle="italic|bold" />
-
-                        <!-- Star Rating Group-->
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/star_icon"
-                            app:tint="@color/yellow" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/star_icon"
-                            app:tint="@color/yellow" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/star_icon"
-                            app:tint="@color/yellow" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/star_icon"
-                            app:tint="@color/yellow" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/star_icon"
-                            app:tint="@color/white_2" />
-
-                        <!-- Number Rating-->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="3dp"
-                            android:text="8.3"
-                            android:textColor="@color/light_gray_2"
-                            android:textSize="20sp"
-                            android:textStyle="italic|bold" />
-                    </LinearLayout>
-
                     <!-- Category -->
                     <TextView
                         android:id="@+id/bdBookCategory"
@@ -202,7 +143,7 @@
                         android:textStyle="italic|bold"
                         app:layout_constraintEnd_toEndOf="@id/bdInfoTextHolder"
                         app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
-                        app:layout_constraintTop_toBottomOf="@id/bdRatingHolder" />
+                        app:layout_constraintTop_toBottomOf="@id/bdBookAuthor" />
 
                     <!-- Series-->
                     <TextView
@@ -321,35 +262,7 @@
                         android:textStyle="italic|bold" />
                 </LinearLayout>
 
-                <!-- Total pages -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
-
-                    <!-- label -->
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="Total pages"
-                        android:textColor="@color/light_gray_2"
-                        android:textSize="20sp"
-                        android:textStyle="italic|bold" />
-
-                    <!-- content -->
-                    <TextView
-                        android:id="@+id/bdBookTotalPages"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="6"
-                        android:text="223 pages"
-                        android:textColor="@color/light_gray_2"
-                        android:textSize="20sp"
-                        android:textStyle="italic|bold" />
-                </LinearLayout>
-
-                <!-- Copy number -->
+                <!-- Publish information -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -408,6 +321,7 @@
 
                 <!-- Summary content -->
                 <TextView
+                    android:id="@+id/bdSummary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

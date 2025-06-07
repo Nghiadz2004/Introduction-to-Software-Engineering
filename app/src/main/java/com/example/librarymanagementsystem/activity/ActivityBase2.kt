@@ -41,11 +41,10 @@ class ActivityBase2 : AppCompatActivity() {
             insets
         }
 
-        val pageID = intent.getStringExtra("PAGE_ID")
+        val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         Log.d("ActivityBase2", "pageID = $pageID")
 
-        auth = Firebase.auth
-        val userID = auth.currentUser!!.uid
+        val userID = Firebase.auth.currentUser!!.uid
 
         pageNamePlaceholderTV = findViewById(R.id.pageNamePlaceholderTV)
         homeBtn = findViewById(R.id.homeBtn)

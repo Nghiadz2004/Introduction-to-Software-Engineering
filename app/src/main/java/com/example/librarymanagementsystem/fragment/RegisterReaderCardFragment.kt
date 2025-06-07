@@ -112,7 +112,7 @@ class RegisterReaderCardFragment : Fragment() {
                 status = RequestStatus.PENDING.value
             )
 
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     cardRequestRepository.submitCardRequest(cardRequest)
                     Toast.makeText(requireContext(), "Gửi yêu cầu thành công", Toast.LENGTH_SHORT).show()
