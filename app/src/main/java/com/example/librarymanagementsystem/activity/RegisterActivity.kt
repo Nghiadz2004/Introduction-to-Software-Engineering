@@ -18,6 +18,7 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.User
 import com.example.librarymanagementsystem.model.UserStatus
+import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.UserRepository
 import com.example.librarymanagementsystem.service.calculateAge
 import com.google.firebase.Firebase
@@ -34,6 +35,7 @@ import java.util.Calendar
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private val userRepository = UserRepository()
+    private val favRepository = FavoriteRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +133,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     // Cập nhật displayName (nếu cần)
                     val profileUpdates = userProfileChangeRequest {
-                        displayName = username
+                        displayName = fullname
                     }
                     user.updateProfile(profileUpdates).await()
 
@@ -148,10 +150,7 @@ class RegisterActivity : AppCompatActivity() {
                     userRepository.createUser(newUser)
 
                     // Tạo Favorite nếu cần
-//                    wishlists?.userId = user.uid
-//                    wishlists?.let {
-//                        wishListRepository.addUserWishlist(it)
-//                    }
+                    favRepository.createFavorite(user.uid, emptyList()) // Không cần truyền list
 
                     // Thành công → chuyển sang login
                     startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
