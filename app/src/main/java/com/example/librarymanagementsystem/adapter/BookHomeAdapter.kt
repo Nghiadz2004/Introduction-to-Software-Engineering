@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.model.Book
 
 class BookHomeAdapter(
@@ -44,6 +46,14 @@ class BookHomeAdapter(
 
         holder.tvTitle.text = book.title
         holder.tvAuthor.text = "by ${book.author ?: "Unknown"}"
+
+        // Xử lý khi click vào toàn bộ item
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, ActivityDetailBook::class.java)
+            intent.putExtra("BOOK_DATA", book)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = books.size

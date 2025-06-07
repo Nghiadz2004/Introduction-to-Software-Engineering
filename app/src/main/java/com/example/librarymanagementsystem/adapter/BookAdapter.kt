@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.model.Book
 
 class BookAdapter(
@@ -45,6 +47,14 @@ class BookAdapter(
         holder.tvCopyLeft.text = book.quantity.toString()
         holder.btnEdit.setOnClickListener { listener?.onEdit(book) }
         holder.btnRemove.setOnClickListener { listener?.onRemove(book) }
+
+        // Xử lý khi click vào toàn bộ item
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, ActivityDetailBook::class.java)
+            intent.putExtra("BOOK_DATA", book)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int = items.size

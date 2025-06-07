@@ -31,6 +31,10 @@ class ActivityDetailBook : AppCompatActivity() {
     // function to display book details
     private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
+        val queue = 0
+        val borrower = 0
+        binding.bdQueue.text = "$queue Queues"
+        binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
         binding.bdBookAuthor.text = book.author ?: "Unknown"
         binding.bdBookCategory.text = book.category ?: "Unknown"
@@ -81,11 +85,12 @@ class ActivityDetailBook : AppCompatActivity() {
             finish()
         }
 
-        bookID = intent.getStringExtra("BOOK_ID") ?: ""
+//        bookID = intent.getStringExtra("BOOK_ID") ?: ""
 
         lifecycleScope.launch {
             try {
-                val book = bookRepository.getBookById(bookID)
+                val book: Book? = intent.getParcelableExtra("BOOK_DATA")
+//                val book = bookRepository.getBookById(bookID)
                 if (book != null) {
                     displayBookDetails(book, binding)
                 }
