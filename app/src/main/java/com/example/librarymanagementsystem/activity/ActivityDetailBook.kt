@@ -45,6 +45,9 @@ class ActivityDetailBook : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_detail_book)
 
+        // Nhận sách
+        val book = intent.getParcelableExtra<Book>("book")
+
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)

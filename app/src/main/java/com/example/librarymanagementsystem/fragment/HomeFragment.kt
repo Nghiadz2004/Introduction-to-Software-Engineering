@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
@@ -95,8 +97,12 @@ class HomeFragment : Fragment() {
                 recyclerNewRelease.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-                recyclerFeatured.adapter = BookHomeAdapter(featuredBooks.take(10))
-                recyclerNewRelease.adapter = BookHomeAdapter(newReleaseBooks.take(10))
+                recyclerFeatured.adapter = BookHomeAdapter(featuredBooks.take(10)) { book ->
+                    openBookDetail(book)
+                }
+                recyclerNewRelease.adapter = BookHomeAdapter(newReleaseBooks.take(10)){ book ->
+                    openBookDetail(book)
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -104,5 +110,12 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Lỗi khi tải sách: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun openBookDetail(book: Book) {
+        val intent = Intent(requireContext(), ActivityDetailBook::class.java).apply {
+            putExtra("book", book)
+        }
+        startActivity(intent)
     }
 }
