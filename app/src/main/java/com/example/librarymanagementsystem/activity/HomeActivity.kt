@@ -73,6 +73,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
+
     }
 
     private fun loadActivity(pageID: String) {

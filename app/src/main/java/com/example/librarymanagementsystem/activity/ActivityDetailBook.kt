@@ -31,6 +31,10 @@ class ActivityDetailBook : AppCompatActivity() {
     // function to display book details
     private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
+        val queue = 0
+        val borrower = 0
+        binding.bdQueue.text = "$queue Queues"
+        binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
         binding.bdBookAuthor.text = book.author ?: "Unknown"
         binding.bdBookCategory.text = book.category ?: "Unknown"
@@ -46,7 +50,7 @@ class ActivityDetailBook : AppCompatActivity() {
         setContentView(R.layout.activity_detail_book)
 
         // Nhận sách
-        val book = intent.getParcelableExtra<Book>("book")
+//        val book = intent.getParcelableExtra<Book>("book")
 
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
@@ -84,21 +88,26 @@ class ActivityDetailBook : AppCompatActivity() {
             finish()
         }
 
-        bookID = intent.getStringExtra("BOOK_ID") ?: ""
+//        bookID = intent.getStringExtra("BOOK_ID") ?: ""
 
         lifecycleScope.launch {
             try {
-                val book = bookRepository.getBookById(bookID)
+                val book: Book? = intent.getParcelableExtra<Book>("book")
+//                val book = bookRepository.getBookById(bookID)
                 if (book != null) {
                     displayBookDetails(book, binding)
                 }
                 else {
-                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại")
+                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {
+                        finish()
+                    })
                     errorDialog.show()
                 }
             } catch (e: Exception) {
                 // Handle exception
-                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T\\nVui lòng thử lại sau ~~")
+                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T\\nVui lòng thử lại sau ~~", onDismissCallback = {
+                    finish()
+                })
                 errorDialog.show()
             }
         }
