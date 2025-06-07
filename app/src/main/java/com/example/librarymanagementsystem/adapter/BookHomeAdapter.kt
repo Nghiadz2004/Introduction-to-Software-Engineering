@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class BookHomeAdapter(
 
         // Load ảnh bìa bằng Glide nếu có cover, nếu không thì dùng ảnh mặc định
         val imageUrl = book.cover
+        Log.e("GLIDE_ERROR", book.cover!!)
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(imageUrl)

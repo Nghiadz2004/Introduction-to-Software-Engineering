@@ -8,16 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.repository.BookRepository
-import com.example.librarymanagementsystem.repository.BorrowingRepository
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
 
 class FeaturedBooksFragment : Fragment() {
 
