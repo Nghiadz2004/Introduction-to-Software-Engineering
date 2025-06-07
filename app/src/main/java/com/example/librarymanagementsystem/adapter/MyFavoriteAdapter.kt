@@ -4,28 +4,29 @@ import com.example.librarymanagementsystem.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.repository.FavoriteRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MyFavoriteAdapter(
-    private val bookList: List<Book>,
+    private val readerId: String,
+    private val bookList: MutableList<Book>,
     private val onItemClick: (Book) -> Unit
 ) : RecyclerView.Adapter<MyFavoriteAdapter.MyFavoriteViewHolder>() {
+    private val favoriteRepository = FavoriteRepository()
 
     inner class MyFavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookImg: ImageView = itemView.findViewById(R.id.bookImg)
         val bookTitleTV: TextView = itemView.findViewById(R.id.bookTitleTV)
         val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
-        val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar)
-        val ratingBarScoreTV: TextView = itemView.findViewById(R.id.ratingBarScoreTV)
-        val bookDueDateLeftTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
         val removeBtn: ImageButton = itemView.findViewById(R.id.removeBtn)
     }
 
@@ -37,18 +38,23 @@ class MyFavoriteAdapter(
 
     override fun onBindViewHolder(holder: MyFavoriteViewHolder, position: Int) {
         val book = bookList[position]
-//        holder.bookImg.src = book.url
+
+        Glide.with(holder.itemView.context)
+            .load(book.cover)
+            .into(holder.bookImg)
         holder.bookTitleTV.text = book.title
         holder.bookAuthorTV.text = book.author
         holder.bookCategoryTV.text = book.category
-//        holder.ratingBar.rating = book.rating
-//        holder.ratingBarScoreTV.text = book.rating
-//        holder.bookDueDateLeftTV.text = book.duedate
 
         holder.removeBtn.setOnClickListener {
-            // TODO: Remove from database and inform to recycle view
+            CoroutineScope(Dispatchers.Main).launch {
+                favoriteRepository.removeBookFromFavorite(readerId, book.id.toString())
 
-            notifyDataSetChanged()
+                // Cập nhật RecyclerView
+                bookList.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, bookList.size)
+            }
         }
 
         holder.itemView.setOnClickListener {

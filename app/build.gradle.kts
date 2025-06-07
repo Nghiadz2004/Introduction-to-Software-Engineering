@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
     id("org.jetbrains.kotlin.kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -44,9 +45,9 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation ("com.google.android.material:material:1.9.0")
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.media3.common.ktx)
     kapt("com.github.bumptech.glide:compiler:4.16.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

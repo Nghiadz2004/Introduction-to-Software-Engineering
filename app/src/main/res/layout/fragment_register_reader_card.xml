@@ -8,6 +8,7 @@
     tools:context=".fragment.ProfileFragment">
 
     <ImageButton
+        android:id="@+id/returnBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
@@ -208,19 +209,28 @@
                 android:gravity="center_vertical">
 
                 <RadioButton
-                    android:id="@+id/radio_x"
+                    android:id="@+id/radio_gold"
                     style="@style/CustomRadioButton"
-                    android:paddingStart="9dp"
-                    android:text="X"
+                    android:paddingStart="4dp"
+                    android:text="Gold"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 700"/>
 
                 <RadioButton
-                    android:id="@+id/radio_y"
+                    android:id="@+id/radio_silver"
                     style="@style/CustomRadioButton"
-                    android:paddingStart="9dp"
-                    android:text="Y"
+                    android:paddingStart="4dp"
+                    android:text="Silver"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 700"/>
+
+                <RadioButton
+                    android:id="@+id/radio_bronze"
+                    style="@style/CustomRadioButton"
+                    android:paddingStart="4dp"
+                    android:text="Bronze"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 700"/>
