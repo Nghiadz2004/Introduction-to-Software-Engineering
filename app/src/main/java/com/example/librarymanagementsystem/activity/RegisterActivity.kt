@@ -131,7 +131,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     // Cập nhật displayName (nếu cần)
                     val profileUpdates = userProfileChangeRequest {
-                        displayName = username
+                        displayName = fullname
                     }
                     user.updateProfile(profileUpdates).await()
 
