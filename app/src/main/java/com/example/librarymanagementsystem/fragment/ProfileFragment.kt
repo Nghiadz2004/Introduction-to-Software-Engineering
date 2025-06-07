@@ -104,7 +104,7 @@ class ProfileFragment : Fragment() {
 
     private fun loadProfile(userID: String) {
         // Load data from database
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             // If user edit profile, use the return information instead of calling Firestore API to optimize speed
             listenReturnInformation()
             val defaultDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_background)
