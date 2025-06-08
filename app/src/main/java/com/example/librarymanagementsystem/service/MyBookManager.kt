@@ -1,12 +1,14 @@
 package com.example.librarymanagementsystem.service
 
 import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.model.BorrowBook
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.LostBookRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 class MyBookManager(
     private val requestBorrowRepository: RequestBorrowRepository = RequestBorrowRepository(),
@@ -22,10 +24,15 @@ class MyBookManager(
     }
 
     // Lấy danh sách các quyển sách đang được người dùng mượn để hiển thị trong section "My Book"
-    suspend fun getReaderBorrowingBooks(readerId: String): List<Book> = withContext(Dispatchers.IO) {
-        val borrow = borrowingRepository.getBorrowBooksByReader(readerId)
-        val bookIds = borrow.map {it.bookId}
-        return@withContext bookRepository.getBooksByIds(bookIds)
+    suspend fun getReaderBorrowingBooks(readerId: String): Map<Book, BorrowBook> = withContext(Dispatchers.IO) {
+        val borrowList = borrowingRepository.getBorrowBooksByReader(readerId)
+        val bookIds = borrowList.map { it.bookId }
+        val books = bookRepository.getBooksByIds(bookIds)
+
+        return@withContext borrowList.mapNotNull { borrow ->
+            val book = books.find { it.id == borrow.bookId }
+            book?.let { it to borrow }
+        }.toMap()
     }
 
     // Lấy danh sách các quyển sách đang được người dùng báo mất để hiển thị trong section "My Book"

@@ -12,16 +12,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MyFavoriteAdapter(
-    private val readerId: String,
     private val bookList: MutableList<Book>,
     private val onItemClick: (Book) -> Unit
 ) : RecyclerView.Adapter<MyFavoriteAdapter.MyFavoriteViewHolder>() {
     private val favoriteRepository = FavoriteRepository()
+    private val userID = Firebase.auth.currentUser!!.uid
+
 
     inner class MyFavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookImg: ImageView = itemView.findViewById(R.id.bookIV)
@@ -50,7 +53,7 @@ class MyFavoriteAdapter(
 
         holder.removeBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                favoriteRepository.removeBookFromFavorite(readerId, book.id.toString())
+                favoriteRepository.removeBookFromFavorite(userID, book.id.toString())
 
                 // Cập nhật RecyclerView
                 bookList.removeAt(position)

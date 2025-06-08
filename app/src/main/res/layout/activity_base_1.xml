@@ -186,12 +186,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" >
 
-
-    <LinearLayout
+        <LinearLayout
             android:id="@+id/categoryButtonContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal" />
+
     </HorizontalScrollView>
 
     <FrameLayout

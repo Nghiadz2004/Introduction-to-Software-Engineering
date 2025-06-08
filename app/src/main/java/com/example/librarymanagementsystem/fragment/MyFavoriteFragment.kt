@@ -21,7 +21,6 @@ import com.google.firebase.auth.auth
 import android.content.Intent
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 
-// TODO: Pass readerID first
 class MyFavoriteFragment : Fragment() {
     private lateinit var recycleView: RecyclerView
     private lateinit var myFavoriteAdapter: MyFavoriteAdapter
@@ -64,7 +63,7 @@ class MyFavoriteFragment : Fragment() {
                 bookList.clear()
                 bookList.addAll(booksToShow)
 
-                myFavoriteAdapter = MyFavoriteAdapter(userID, bookList) { book ->
+                myFavoriteAdapter = MyFavoriteAdapter(bookList) { book ->
                     val intent = Intent(requireContext(), ActivityDetailBook::class.java)
                     intent.putExtra("book", book)
                     startActivity(intent)

@@ -216,7 +216,7 @@
                     android:fontVariationSettings="'wght' 800"
                     android:textSize="14sp"
                     android:textColor="@color/white"
-                    tools:ignore="HardcodedText,UnusedAttribute" />
+                    tools:ignore="HardcodedText,UnusedAttribute"/>
 
             </LinearLayout>
 

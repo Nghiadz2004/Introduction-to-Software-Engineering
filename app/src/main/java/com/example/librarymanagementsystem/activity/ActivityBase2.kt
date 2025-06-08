@@ -72,12 +72,6 @@ class ActivityBase2 : AppCompatActivity() {
             pageNamePlaceholderTV.text = "Profile"
         }
 
-//        else if (pageID == "MYBOOK_ID") {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.fragment_container, MyBookFragment())
-//                .commit()
-//        }
-
         else if (pageID == MYFAVORITE_ID) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, MyFavoriteFragment())
