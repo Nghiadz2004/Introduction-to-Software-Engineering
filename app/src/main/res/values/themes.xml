@@ -8,4 +8,13 @@
     </style>
 
     <style name="MyTextInputLayoutTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="CardOnlyMaterialTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="cardViewStyle">@style/CustomCardViewStyle</item>
+    </style>
+
+    <style name="CustomCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/light_purple_2</item>
+    </style>
+
 </resources>

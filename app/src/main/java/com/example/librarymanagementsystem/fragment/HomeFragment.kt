@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadBooksFromFirestore() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val allBooks = bookRepository.getBooks()
                 val bookStatistics = BookStatistics(borrowingRepository, bookRepository)

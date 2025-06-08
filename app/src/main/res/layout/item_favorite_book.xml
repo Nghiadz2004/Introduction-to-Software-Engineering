@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/fragment_favorite_book_item"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="12dp"
-    app:cardElevation="6dp">
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@color/light_purple_2"
+    android:theme="@style/CardOnlyMaterialTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +20,7 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/bookImage"
+            android:id="@+id/bookIV"
             android:layout_width="112.40592956542969dp"
             android:layout_height="159dp"
             android:src="@drawable/harry_potter_cover"
@@ -32,12 +35,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/bookTitle"
+                android:id="@+id/bookTitleTV"
                 android:text="Harry Potter and Philosopher’s Stone"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 800"
                 android:textColor="@color/black"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 tools:ignore="HardcodedText,UnusedAttribute" />
 
             <LinearLayout
@@ -58,7 +62,7 @@
                     tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextContrastCheck" />
 
                 <TextView
-                    android:id="@+id/bookAuthor"
+                    android:id="@+id/bookAuthorTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_font"
@@ -89,7 +93,7 @@
                     tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextContrastCheck" />
 
                 <TextView
-                    android:id="@+id/bookCategory"
+                    android:id="@+id/bookCategoryTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_font"
@@ -119,6 +123,7 @@
                 tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck,TouchTargetSizeCheck,VisualLintBounds" />
 
         </LinearLayout>
+
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

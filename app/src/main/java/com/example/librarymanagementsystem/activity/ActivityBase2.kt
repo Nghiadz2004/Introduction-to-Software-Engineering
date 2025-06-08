@@ -64,9 +64,8 @@ class ActivityBase2 : AppCompatActivity() {
 
     private fun loadActivity(pageID: String, userID: String) {
         if (pageID == PROFILE_ID) {
-            val profileFragment = ProfileFragment.newInstance(userID)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, profileFragment)
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -80,9 +79,8 @@ class ActivityBase2 : AppCompatActivity() {
 //        }
 
         else if (pageID == MYFAVORITE_ID) {
-            val myFavoriteFragment = MyFavoriteFragment.newInstance(userID)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, myFavoriteFragment)
+                .replace(R.id.fragment_container, MyFavoriteFragment())
                 .addToBackStack(null)
                 .commit()
             pageNamePlaceholderTV.text = "My Favorite"
@@ -102,9 +100,8 @@ class ActivityBase2 : AppCompatActivity() {
 //        }
 
         favoriteBtn.setOnClickListener {
-            val myFavoriteFragment = MyFavoriteFragment.newInstance(userID)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, myFavoriteFragment)
+                .replace(R.id.fragment_container, MyFavoriteFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -112,9 +109,8 @@ class ActivityBase2 : AppCompatActivity() {
         }
 
         profileBtn.setOnClickListener {
-            val profileFragment = ProfileFragment.newInstance(userID)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, profileFragment)
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 

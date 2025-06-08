@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.LoginActivity
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.repository.UserRepository
 import com.example.librarymanagementsystem.service.LibraryCardManager
 import com.google.firebase.Firebase
@@ -52,12 +53,18 @@ class ProfileFragment : Fragment() {
     private val userRepository = UserRepository()
     // Manager
     private val libraryCardManager = LibraryCardManager()
+    // Dialog
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        loadingDialog = LoadingDialog(requireContext())
+
+        userID = Firebase.auth.currentUser!!.uid
 
         // Initial predefine variables
         // Profile information
@@ -79,22 +86,10 @@ class ProfileFragment : Fragment() {
         editProfileBtn = view.findViewById(R.id.editProfileBtn)
         logoutBtn = view.findViewById(R.id.logoutBtn)
 
-        userID = arguments?.getString("USER_ID") ?: ""
-
         loadProfile(userID)
         handleProfileButton()
 
         return view
-    }
-
-    companion object {
-        fun newInstance(userID: String): ProfileFragment {
-            val fragment = ProfileFragment()
-            val args = Bundle()
-            args.putString("USER_ID", userID)
-            fragment.arguments = args
-            return fragment
-        }
     }
 
     private fun formatDate(date: Date): String {
@@ -105,38 +100,42 @@ class ProfileFragment : Fragment() {
     private fun loadProfile(userID: String) {
         // Load data from database
         viewLifecycleOwner.lifecycleScope.launch {
-            // If user edit profile, use the return information instead of calling Firestore API to optimize speed
-            listenReturnInformation()
-            val defaultDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_background)
+            loadingDialog.show()
 
-            // If user didnt edit profile, use information from Firebase.
-            if (userNameTV.text.isBlank() && emailTV.text.isBlank() && avatarIV.drawable != defaultDrawable) {
-                val user = userRepository.getUserById(userID)
+            try {
+                listenReturnInformation()
+                val defaultDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_background)
 
-                user?.let {
-                    userNameTV.text = it.username
-                    profileEmailTV.text = it.email
-                    Glide.with(avatarIV)
-                        .load(it.avatar)
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .into(avatarIV)
-                } ?: run {
-                    Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+                if (userNameTV.text.isBlank() && emailTV.text.isBlank() && avatarIV.drawable != defaultDrawable) {
+                    val user = userRepository.getUserById(userID)
+
+                    user?.let {
+                        userNameTV.text = it.username
+                        profileEmailTV.text = it.email
+                        Glide.with(avatarIV)
+                            .load(it.avatar)
+                            .placeholder(R.drawable.ic_launcher_background)
+                            .into(avatarIV)
+                    } ?: run {
+                        Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
 
-            val libraryCard = libraryCardManager.getCurrentLibraryCard(userID)
-            if (libraryCard != null) {
-                fullNameTV.text = libraryCard.fullName
-                emailTV.text = libraryCard.email
-                addressTV.text = libraryCard.address
-                typeTV.text = libraryCard.type
-                birthdayTV.text = formatDate(libraryCard.birthday)
-                libraryCard.createdAt.let {
-                    dueDateTV.text = formatDate(libraryCardManager.getDueDate(it))
+                val libraryCard = libraryCardManager.getCurrentLibraryCard(userID)
+                if (libraryCard != null) {
+                    fullNameTV.text = libraryCard.fullName
+                    emailTV.text = libraryCard.email
+                    addressTV.text = libraryCard.address
+                    typeTV.text = libraryCard.type
+                    birthdayTV.text = formatDate(libraryCard.birthday)
+                    dueDateTV.text = formatDate(libraryCardManager.getDueDate(libraryCard.createdAt))
+                    statusIV.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
+                    statusTV.text = libraryCard.status
                 }
-                statusIV.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
-                statusTV.text = libraryCard.status
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error loading profile: ${e.message}", Toast.LENGTH_LONG).show()
+            } finally {
+                loadingDialog.dismiss()
             }
         }
     }
