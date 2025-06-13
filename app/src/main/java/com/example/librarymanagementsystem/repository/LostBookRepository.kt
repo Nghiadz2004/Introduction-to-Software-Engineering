@@ -45,4 +45,9 @@ class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         )
         db.collection("lost_requests").document(requestId).update(updateData).await()
     }
+
+    // Người dùng hủy báo cáo mất sách đã gửi trước đó
+    suspend fun removeLostRequest (requestId: String) = withContext(Dispatchers.IO){
+        db.collection("lost_requests").document(requestId).delete().await()
+    }
 }

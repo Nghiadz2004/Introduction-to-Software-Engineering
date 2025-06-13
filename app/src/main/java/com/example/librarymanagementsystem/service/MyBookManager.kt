@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.service
 
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BorrowBook
+import com.example.librarymanagementsystem.model.LostBook
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.LostBookRepository
@@ -41,4 +42,16 @@ class MyBookManager(
         val bookIds = lost.map {it.bookId}
         return@withContext bookRepository.getBooksByIds(bookIds)
     }
+
+    // Người dùng báo cáo với thủ thư sách bị mất để chờ được xác nhận
+    suspend fun submitLostRequest(requestId: String, readerId: String, bookId: String, copyId: String): String = withContext(Dispatchers.IO){
+        val lostRequest = LostBook(
+            requestId = requestId,
+            bookId = bookId,
+            copyId = copyId,
+            readerId = readerId)
+
+        return@withContext lostBookRepository.submitLostRequest(lostRequest)
+    }
+
 }
