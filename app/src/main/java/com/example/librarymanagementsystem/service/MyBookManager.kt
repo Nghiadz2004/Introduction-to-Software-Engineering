@@ -27,14 +27,20 @@ class MyBookManager(
     // Lấy danh sách các quyển sách đang được người dùng mượn để hiển thị trong section "My Book"
     suspend fun getReaderBorrowingBooks(readerId: String): Map<Book, BorrowBook> = withContext(Dispatchers.IO) {
         val borrowList = borrowingRepository.getBorrowBooksByReader(readerId)
-        val bookIds = borrowList.map { it.bookId }
+        val lostList = lostBookRepository.getReaderPendingRequests(readerId)
+
+        val lostBookIds = lostList.map { it.bookId }.toSet()
+        val validBorrowList = borrowList.filterNot { it.bookId in lostBookIds }
+        val bookIds = validBorrowList.map { it.bookId }
+
         val books = bookRepository.getBooksByIds(bookIds)
 
-        return@withContext borrowList.mapNotNull { borrow ->
+        return@withContext validBorrowList.mapNotNull { borrow ->
             val book = books.find { it.id == borrow.bookId }
             book?.let { it to borrow }
         }.toMap()
     }
+
 
     // Lấy danh sách các quyển sách đang được người dùng báo mất để hiển thị trong section "My Book"
     suspend fun getReaderPendingLosts(readerId: String): List<Book> = withContext(Dispatchers.IO) {
