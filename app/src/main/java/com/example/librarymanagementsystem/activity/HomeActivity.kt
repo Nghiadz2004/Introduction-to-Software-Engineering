@@ -68,6 +68,7 @@ class HomeActivity : AppCompatActivity() {
         loadActivity(pageID)
         handleMenuButton()
     }
+
     private fun handleMenuButton() {
         homeBtn.setOnClickListener {
             val drawableTop = AppCompatResources.getDrawable(this, R.drawable.house_solid)
