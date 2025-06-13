@@ -11,8 +11,13 @@ import java.util.Date
 class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
     // Gửi yêu cầu mất sách
     suspend fun submitLostRequest(request: LostBook): String = withContext(Dispatchers.IO) {
-        db.collection("lost_requests").add(request).await().id
+        db.collection("lost_requests")
+            .document(request.requestId!!) // dùng requestId làm document ID
+            .set(request) // set nội dung document
+            .await()
+        request.requestId
     }
+
 
     // Lấy tất cả yêu cầu mất sách
     suspend fun getPendingRequests(): List<LostBook> = withContext(Dispatchers.IO) {
