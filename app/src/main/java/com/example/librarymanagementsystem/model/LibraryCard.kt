@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.model
 
 import com.google.firebase.firestore.DocumentId // Giả sử bạn đang dùng Firestore
+import java.util.Calendar
 import java.util.Date
 
 data class LibraryCard(
@@ -17,3 +18,13 @@ data class LibraryCard(
     val address: String = "",
     var status: String = UserStatus.ACTIVE.value, // status varchar(20)
 )
+{
+    // Hàm để tính dueDate dựa trên createdAt cộng thêm 1 năm
+    val getDueDate: Date
+        get() {
+            val calendar = Calendar.getInstance()
+            calendar.time = createdAt
+            calendar.add(Calendar.YEAR, 1) // cộng thêm 1 năm
+            return calendar.time
+        }
+}

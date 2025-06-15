@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.activity.HomeActivity
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
+import com.example.librarymanagementsystem.activity.ActivityLibrarian
+import com.example.librarymanagementsystem.activity.LibrarianHomeActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val currentUser = auth.currentUser
 
-        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+        startActivity(Intent(this@MainActivity, ActivityLibrarian::class.java))
         finish()
     }
 }
