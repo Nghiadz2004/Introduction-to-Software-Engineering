@@ -19,9 +19,9 @@ data class CardRequest(
 }
 
 enum class ReaderType(val value: String) {
-    GOLD("GOLD"),
-    SILVER("SILVER"),
-    BRONZE("BRONZE");
+    GOLD("Vàng"),
+    SILVER("Bạc"),
+    BRONZE("Đồng");
 
     companion object {
         fun fromString(value: String): ReaderType? {
@@ -31,9 +31,9 @@ enum class ReaderType(val value: String) {
 }
 
 enum class RequestStatus(val value: String) {
-    PENDING("PENDING"),
-    APPROVED("APPROVED"),
-    REJECTED("REJECTED");
+    PENDING("Chờ duyệt"),
+    APPROVED("Đã duyệt"),
+    REJECTED("Từ chối");
 
     companion object {
         fun fromString(value: String): RequestStatus? {

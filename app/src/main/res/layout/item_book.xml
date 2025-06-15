@@ -40,8 +40,6 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="15dp"
-                android:maxLines="1"
-                android:ellipsize="end"
                 tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
             <LinearLayout
@@ -137,15 +135,41 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/statusTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Status: "
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+
+                <TextView
+                    android:id="@+id/bookStatusTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Borrowed"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
+                    android:textSize="15dp"
+                    android:textColor="@color/light_gray_2"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -183,19 +207,17 @@
                     android:id="@+id/lostBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
-                    android:fontFamily="@font/inter_font"
-                    android:fontVariationSettings="'wght' 800"
                     android:text="Report lost"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:fontFamily="@font/inter_font"
+                    android:fontVariationSettings="'wght' 800"
                     android:textSize="14sp"
-                    tools:ignore="HardcodedText,UnusedAttribute" />
+                    android:textColor="@color/white"
+                    tools:ignore="HardcodedText,UnusedAttribute"/>
 
             </LinearLayout>
 

@@ -4,5 +4,5 @@ import java.util.Date
 
 data class BookDisplayItem(
     val book: Book,
-    val borrowBook: BorrowBook?
+    val expectedReturnDate: Date?
 )

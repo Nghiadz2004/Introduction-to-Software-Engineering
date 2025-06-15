@@ -198,5 +198,4 @@
             android:fontVariationSettings="'wght' 800"/>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
