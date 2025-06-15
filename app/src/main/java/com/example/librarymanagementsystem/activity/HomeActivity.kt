@@ -56,48 +56,41 @@ class HomeActivity : AppCompatActivity() {
             finish()
         }
         val categoryButtonContainer = findViewById<LinearLayout>(R.id.categoryButtonContainer)
-        val categoryIcons = listOf(
-            "Art & Photography" to R.drawable.art_icon,
-            "Biographies & Memoirs" to R.drawable.biography_icon,
-            "Business & Economics" to R.drawable.economy,
-            "How-to - Self Help" to R.drawable.self_help,
-            "Education - Teaching" to R.drawable.education_icons,
-            "Fiction - Literature" to R.drawable.fiction_icons,
-            "Magazines" to R.drawable.magazines_icons,
-            "Medical Books" to R.drawable.medical,
-            "Science - Technology" to R.drawable.science,
-            "History, Politics & Social Sciences" to R.drawable.history_icons,
-            "Travel & Holiday" to R.drawable.travel,
-            "Cookbooks, Food & Wine" to R.drawable.cook
-        )
+        val categories = listOf("Art & Photography",
+            "Biographies & Memoirs",
+            "Business & Economics",
+            "How-to - Self Help",
+            "Fiction - Literature",
+            "Education - Teaching",
+            "Magazines",
+            "Medical Books",
+            "Science - Technology",
+            "History, Politics & Social Sciences",
+            "Travel & Holiday",
+            "Cookbooks, Food & Wine")
 
-        for ((categoryName, drawableRes) in categoryIcons) {
+        for (category in categories) {
             val button = Button(this).apply {
-                text = categoryName
+                text = category
                 setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue))
                 setTextColor(ContextCompat.getColor(context, R.color.light_purple))
-                textSize = 12f
+                textSize = 16f
                 typeface = Typeface.DEFAULT_BOLD
+                // Thêm icon nếu muốn (setCompoundDrawablesWithIntrinsicBounds)
+                // setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_fiction, 0, 0)
                 setPadding(16, 8, 16, 8)
-
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
                     marginEnd = 16
                 }
-
-                // Gán icon vào bên trái của text
-                val drawableLeft = ContextCompat.getDrawable(context, drawableRes)
-                setCompoundDrawablesWithIntrinsicBounds(null, drawableLeft, null, null)
-                compoundDrawablePadding = 12
-
                 setOnClickListener {
-                    // Xử lý khi click
+                    // Xử lý sự kiện click button ở đây
                 }
             }
-
             categoryButtonContainer.addView(button)
         }
+
     }
 }
