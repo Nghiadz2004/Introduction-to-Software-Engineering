@@ -25,6 +25,7 @@ import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.google.firebase.auth.FirebaseAuth
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
+import com.example.librarymanagementsystem.fragment.CategoryBooksFragment
 
 // Home menu id
 private const val HOME_ID = "HOME"
@@ -174,7 +175,7 @@ class HomeActivity : AppCompatActivity() {
                     compoundDrawablePadding = 12
 
                     setOnClickListener {
-                        // Xử lý khi click
+                        openCategoryFragment(categoryName)
                     }
                 }
 
@@ -266,5 +267,18 @@ class HomeActivity : AppCompatActivity() {
         // Set text color
         selected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_blue))
         deselected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
+    }
+
+    private fun openCategoryFragment(category: String) {
+        val fragment = CategoryBooksFragment().apply {
+            arguments = Bundle().apply {
+                putString("category", category)
+            }
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

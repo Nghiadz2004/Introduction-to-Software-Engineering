@@ -123,7 +123,7 @@ class MyBookFragment : Fragment() {
                         lifecycleScope.launch {
                             try {
                                 val borrow = item.borrowBook!!
-                                myBookManager.removeLostRequest(borrow.requestId!!)
+                                //myBookManager.removeLostRequest(borrow.requestId!!)
                                 // Remove from recycle view
                                 (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
