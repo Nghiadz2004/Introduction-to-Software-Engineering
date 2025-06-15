@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
 
@@ -38,9 +40,18 @@ class NewReleaseFragment : Fragment() {
 
         val newReleaseBooks = arguments?.getParcelableArrayList<Book>("newReleaseBooks")
         if (!newReleaseBooks.isNullOrEmpty()) {
-            rvNewReleaseAll.adapter = BookHomeAdapter(newReleaseBooks)
+            rvNewReleaseAll.adapter = BookHomeAdapter(newReleaseBooks) { book ->
+                openBookDetail(book)
+            }
         } else {
             Toast.makeText(requireContext(), "Không nhận được danh sách sách mới", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun openBookDetail(book: Book) {
+        val intent = Intent(requireContext(), ActivityDetailBook::class.java).apply {
+            putExtra("book", book)
+        }
+        startActivity(intent)
     }
 }

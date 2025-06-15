@@ -18,11 +18,8 @@ import com.example.librarymanagementsystem.service.ImageManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.io.File
-import java.io.FileOutputStream
 
 private const val MIN_PASSWORD_LENGTH = 12
 private const val EDIT_REQUEST = "editProfileRequestKey"

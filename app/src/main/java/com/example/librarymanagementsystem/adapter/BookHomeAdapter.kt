@@ -12,7 +12,8 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.Book
 
 class BookHomeAdapter(
-    private val books: List<Book>
+    private val books: List<Book>,
+    private val onBookClick: (Book) -> Unit
 ) : RecyclerView.Adapter<BookHomeAdapter.BookViewHolder>() {
 
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,7 +33,6 @@ class BookHomeAdapter(
 
         // Load ảnh bìa bằng Glide nếu có cover, nếu không thì dùng ảnh mặc định
         val imageUrl = book.cover
-        Log.e("GLIDE_ERROR", book.cover!!)
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(imageUrl)
@@ -44,6 +44,12 @@ class BookHomeAdapter(
 
         holder.tvTitle.text = book.title
         holder.tvAuthor.text = "by ${book.author ?: "Unknown"}"
+
+        // Cache click event
+        holder.itemView.setOnClickListener {
+            onBookClick(book)
+        }
+
     }
 
     override fun getItemCount(): Int = books.size

@@ -3,31 +3,35 @@ package com.example.librarymanagementsystem.adapter
 import com.example.librarymanagementsystem.R
 import android.view.LayoutInflater
 import android.view.View
+import android.util.Log
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MyFavoriteAdapter(
-    private val readerId: String,
     private val bookList: MutableList<Book>,
     private val onItemClick: (Book) -> Unit
 ) : RecyclerView.Adapter<MyFavoriteAdapter.MyFavoriteViewHolder>() {
     private val favoriteRepository = FavoriteRepository()
+    private val userID = Firebase.auth.currentUser!!.uid
+
 
     inner class MyFavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val bookImg: ImageView = itemView.findViewById(R.id.bookImg)
+        val bookImg: ImageView = itemView.findViewById(R.id.bookIV)
         val bookTitleTV: TextView = itemView.findViewById(R.id.bookTitleTV)
         val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
-        val removeBtn: ImageButton = itemView.findViewById(R.id.removeBtn)
+        val removeBtn: Button = itemView.findViewById(R.id.removeBtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyFavoriteViewHolder {
@@ -38,6 +42,7 @@ class MyFavoriteAdapter(
 
     override fun onBindViewHolder(holder: MyFavoriteViewHolder, position: Int) {
         val book = bookList[position]
+        Log.e("FavoriteItem", book.toString())
 
         Glide.with(holder.itemView.context)
             .load(book.cover)
@@ -48,7 +53,7 @@ class MyFavoriteAdapter(
 
         holder.removeBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                favoriteRepository.removeBookFromFavorite(readerId, book.id.toString())
+                favoriteRepository.removeBookFromFavorite(userID, book.id.toString())
 
                 // Cập nhật RecyclerView
                 bookList.removeAt(position)

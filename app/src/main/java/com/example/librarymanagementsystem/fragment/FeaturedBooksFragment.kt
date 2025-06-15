@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
 
@@ -37,9 +39,18 @@ class FeaturedBooksFragment : Fragment() {
 
         val featuredBooks = arguments?.getParcelableArrayList<Book>("featuredBooks")
         if (!featuredBooks.isNullOrEmpty()) {
-            rvFeaturedBooksAll.adapter = BookHomeAdapter(featuredBooks)
+            rvFeaturedBooksAll.adapter = BookHomeAdapter(featuredBooks) { book ->
+                openBookDetail(book)
+            }
         } else {
             Toast.makeText(requireContext(), "Không nhận được danh sách featured books", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun openBookDetail(book: Book) {
+        val intent = Intent(requireContext(), ActivityDetailBook::class.java).apply {
+            putExtra("book", book)
+        }
+        startActivity(intent)
     }
 }

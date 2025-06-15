@@ -8,7 +8,9 @@ import com.example.librarymanagementsystem.R
 import android.widget.Button
 import android.widget.TextView
 
-class ErrorDialog(context: Context, message: String) {
+class ErrorDialog(context: Context, message: String,
+                  private val onDismissCallback: (() -> Unit)? = null) {
+
     private val dialog: Dialog = Dialog(context)
 
     init {
@@ -24,6 +26,11 @@ class ErrorDialog(context: Context, message: String) {
 
         btnOk.setOnClickListener {
             dialog.dismiss()
+            onDismissCallback?.invoke()
+        }
+
+        dialog.setOnDismissListener {
+            onDismissCallback?.invoke()
         }
     }
 

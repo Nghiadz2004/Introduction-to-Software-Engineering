@@ -87,4 +87,15 @@ class BookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
         return@withContext books
     }
 
+    suspend fun searchBooksByKeyword(keyword: String): List<Book> {
+        val db = FirebaseFirestore.getInstance()
+        val keywordLower = keyword.lowercase()
+
+        val snapshot = db.collection("books").get().await()
+        return snapshot.documents.mapNotNull { it.toObject(Book::class.java) }
+            .filter { book ->
+                book.title.contains(keywordLower, ignoreCase = true) ||
+                        (book.author?.contains(keywordLower, ignoreCase = true) == true)
+            }
+    }
 }
