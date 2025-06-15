@@ -14,8 +14,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BookDisplayItem
-import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import java.text.SimpleDateFormat
@@ -27,10 +27,14 @@ private const val PENDING_ID = "PENDING"
 private const val LOST_ID = "LOST"
 
 class MyBookAdapter(
-    private val items: List<BookDisplayItem>,
+    items: List<BookDisplayItem>, // giữ nguyên đây là List
     private val myBookID: String,
-    private val onItemClick: (BookDisplayItem) -> Unit
+    private val onItemClick: (BookDisplayItem) -> Unit,
+    private val onReportLost: (BookDisplayItem) -> Unit,
+    private val onRemoveLost: (BookDisplayItem) -> Unit
 ) : RecyclerView.Adapter<MyBookAdapter.MyBookViewHolder>() {
+
+    private val items: MutableList<BookDisplayItem> = items.toMutableList()  // chuyển thành MutableList ở đây
 
     inner class MyBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookImg: ImageView = itemView.findViewById(R.id.bookImg)
@@ -38,12 +42,10 @@ class MyBookAdapter(
         val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
         val bookDueDateLeftTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
-        val statusTV: TextView = itemView.findViewById(R.id.statusTV)
         val favBtn: ImageButton = itemView.findViewById(R.id.favBtn)
         val cancelBtn: Button = itemView.findViewById(R.id.cancelBtn)
         val lostBtn: Button = itemView.findViewById(R.id.lostBtn)
 
-        val borrowBookRepository = BorrowingRepository()
         val userID = Firebase.auth.currentUser!!.uid
     }
 
@@ -77,21 +79,21 @@ class MyBookAdapter(
         if (myBookID == BORROWED_ID) {
             holder.bookDueDateLeftTV.visibility = View.VISIBLE
             holder.lostBtn.text = "Report Lost"
-            item.expectedReturnDate.let {
+            item.borrowBook!!.expectedReturnDate.let {
                 val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it!!)
                 holder.bookDueDateLeftTV.text = "Due: $formattedDate"
             } ?: run {
                 holder.bookDueDateLeftTV.text = ""
             }
             holder.lostBtn.setOnClickListener {
-                // TODO: Inform lost book
+                onReportLost(item)
             }
         }
         else if (myBookID == PENDING_ID) {
             holder.bookDueDateLeftTV.visibility = View.GONE
             holder.lostBtn.text = "Unborrowed"
             holder.lostBtn.setOnClickListener {
-                // TODO: Remove from pending queue
+                onRemoveLost(item)
             }
         }
         else if (myBookID == LOST_ID) {
@@ -103,6 +105,14 @@ class MyBookAdapter(
             holder.lostBtn.setOnClickListener {
                 // TODO: Remove from lost queue
             }
+        }
+    }
+
+    fun removeItem(item: BookDisplayItem) {
+        val index = items.indexOf(item)
+        if (index != -1) {
+            items.removeAt(index)
+            notifyItemRemoved(index)
         }
     }
 

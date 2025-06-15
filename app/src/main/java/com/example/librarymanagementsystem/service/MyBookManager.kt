@@ -60,4 +60,8 @@ class MyBookManager(
         return@withContext lostBookRepository.submitLostRequest(lostRequest)
     }
 
+    suspend fun removeLostRequest(requestId: String) = withContext(Dispatchers.IO) {
+        borrowingRepository.addBorrowBook()
+        return@withContext lostBookRepository.removeLostRequest(requestId)
+    }
 }
