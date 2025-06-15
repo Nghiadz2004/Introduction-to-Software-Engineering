@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
-import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
@@ -28,25 +27,49 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerNewRelease: RecyclerView
     private lateinit var seeAllNewReleaseTV: View
     private lateinit var seeAllFeatureTV: View
-    private lateinit var loadingDialog: LoadingDialog
     private val bookRepository = BookRepository()
     private val borrowingRepository = BorrowingRepository(FirebaseFirestore.getInstance())
 
     private var featuredBooks: List<Book> = emptyList()
     private var newReleaseBooks: List<Book> = emptyList()
+    private var searchResultBooks: List<Book> = emptyList()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
+        // Nhận danh sách từ bundle (nếu được truyền vào từ HomeActivity)
+        arguments?.let {
+            searchResultBooks = it.getParcelableArrayList("BOOK_LIST") ?: emptyList()
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
+        // Bước 1: Gán các view
         recyclerFeatured = view.findViewById(R.id.recyclerFeatured)
         recyclerNewRelease = view.findViewById(R.id.recyclerNewRelease)
         seeAllNewReleaseTV = view.findViewById(R.id.seeAllNewReleaseTV)
         seeAllFeatureTV = view.findViewById(R.id.seeAllFeatureTV)
-        loadingDialog = LoadingDialog(requireContext())
 
+        // Bước 2: Nếu có dữ liệu tìm kiếm thì hiển thị luôn
+        arguments?.getParcelableArrayList<Book>(ARG_BOOK_LIST)?.let { bookList ->
+            // Hiển thị danh sách tìm kiếm
+            recyclerFeatured.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            recyclerFeatured.adapter = BookHomeAdapter(bookList) { book ->
+                openBookDetail(book)
+            }
+
+            // Ẩn phần new release và feature để chỉ hiện kết quả tìm kiếm
+            recyclerNewRelease.visibility = View.GONE
+            seeAllFeatureTV.visibility = View.GONE
+            seeAllNewReleaseTV.visibility = View.GONE
+
+            return view
+        }
+
+        // Bước 3: Gán sự kiện click cho "See all"
         seeAllFeatureTV.setOnClickListener {
             val bundle = Bundle().apply {
                 putParcelableArrayList("featuredBooks", ArrayList(featuredBooks))
@@ -73,12 +96,12 @@ class HomeFragment : Fragment() {
                 .commit()
         }
 
+        // Bước 4: Nếu không tìm kiếm thì tải dữ liệu từ Firestore như thường
         loadBooksFromFirestore()
         return view
     }
 
     private fun loadBooksFromFirestore() {
-        loadingDialog.show()
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val allBooks = bookRepository.getBooks()
@@ -112,8 +135,6 @@ class HomeFragment : Fragment() {
                 e.printStackTrace()
                 Log.e("HomeFragment", "Exception khi gọi getBooks()", e)
                 Toast.makeText(requireContext(), "Lỗi khi tải sách: ${e.message}", Toast.LENGTH_SHORT).show()
-            } finally {
-                loadingDialog.dismiss()
             }
         }
     }
@@ -124,4 +145,16 @@ class HomeFragment : Fragment() {
         }
         startActivity(intent)
     }
+    companion object {
+        private const val ARG_BOOK_LIST = "book_list"
+
+        fun newInstance(books: List<Book>): HomeFragment {
+            val fragment = HomeFragment()
+            val args = Bundle()
+            args.putParcelableArrayList(ARG_BOOK_LIST, ArrayList(books))
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
 }
