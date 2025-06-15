@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
@@ -27,6 +28,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerNewRelease: RecyclerView
     private lateinit var seeAllNewReleaseTV: View
     private lateinit var seeAllFeatureTV: View
+    private lateinit var loadingDialog: LoadingDialog
     private val bookRepository = BookRepository()
     private val borrowingRepository = BorrowingRepository(FirebaseFirestore.getInstance())
 
@@ -43,6 +45,7 @@ class HomeFragment : Fragment() {
         recyclerNewRelease = view.findViewById(R.id.recyclerNewRelease)
         seeAllNewReleaseTV = view.findViewById(R.id.seeAllNewReleaseTV)
         seeAllFeatureTV = view.findViewById(R.id.seeAllFeatureTV)
+        loadingDialog = LoadingDialog(requireContext())
 
         seeAllFeatureTV.setOnClickListener {
             val bundle = Bundle().apply {
@@ -75,6 +78,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadBooksFromFirestore() {
+        loadingDialog.show()
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val allBooks = bookRepository.getBooks()
@@ -108,6 +112,8 @@ class HomeFragment : Fragment() {
                 e.printStackTrace()
                 Log.e("HomeFragment", "Exception khi gọi getBooks()", e)
                 Toast.makeText(requireContext(), "Lỗi khi tải sách: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                loadingDialog.dismiss()
             }
         }
     }
