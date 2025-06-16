@@ -64,7 +64,7 @@ class ProfileFragment : Fragment() {
 
         loadingDialog = LoadingDialog(requireContext())
 
-        userID = Firebase.auth.currentUser!!.uid
+        userID = "6nohm4isYGYW7o7XMyEdDQ2a2um2"
 
         // Initial predefine variables
         // Profile information

@@ -27,9 +27,16 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
+private const val ALLBOOK_ID = "ALLBOOK"
+private const val RDCARD_ID = "RDCARD"
+private const val ADD_RDCARD_ID = "ADD_RDCARD"
+
 class AllBookFragment : Fragment() {
     // Khởi tạo Recycler View
     private lateinit var recyclerView: RecyclerView
+
+    // Khởi tạo biến lưu ID của fragment
+    private var fragmentId: String = ALLBOOK_ID  // hoặc nullable tùy ý
 
     // Khởi tạo biến lưu adapter hiện tại
     private var currentAdapter: RecyclerView.Adapter<*>? = null
@@ -48,53 +55,51 @@ class AllBookFragment : Fragment() {
 
     private lateinit var loadingDialog: LoadingDialog
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fragmentId = arguments?.getSerializable("FRAGMENT_ID") as? String ?: ALLBOOK_ID
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_all_book, container, false)
 
-        // Lấy userID của người dùng hiện tại
-        userID = Firebase.auth.currentUser!!.uid
-
         // Khởi tạo RecyclerView
-        recyclerView = view.findViewById(R.id.allBookRV)
+        recyclerView = view.findViewById<RecyclerView>(R.id.allBookRV)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Mặc định hiển thị danh sách sách
-        setAdapter(bookAdapter)
+        // Lấy userID của người dùng hiện tại
+//        userID = Firebase.auth.currentUser!!.uid
 
         // Khởi tạo loading dialog
         loadingDialog = LoadingDialog(requireContext())
 
-        // Load dữ liệu sách
-        loadAllBook()
+        // Mặc định hiển thị danh sách sách
+        if (fragmentId == ALLBOOK_ID) {
+            loadAllBook()
+        } else if (fragmentId == RDCARD_ID) {
+            loadLibraryCards()
+        } else if (fragmentId == ADD_RDCARD_ID) {
+            loadAddReaderData()
+        }
 
         return view
     }
 
-    fun showAddReader() {
-        setAdapter(requestReaderCardAdapter)
+    fun getFragmentId(): String {
+        return fragmentId
     }
 
-    fun showBooks() {
-        setAdapter(bookAdapter)
-    }
-
-    fun showLibraryCards() {
-        setAdapter(libraryCardAdapter)
-    }
-
-    private fun setAdapter(adapter: RecyclerView.Adapter<*>) {
-        recyclerView.adapter = adapter
-        currentAdapter = adapter
-    }
-
+    // Hàm load dữ liệu cho danh sách AllBooks
     private fun loadAllBook() {
         viewLifecycleOwner.lifecycleScope.launch {
             loadingDialog.show()
             try {
                 val allBooks: List<Book> = bookRepository.getBooks()
+                Log.d("AllBookFragment", "Số sách lấy được: ${allBooks.size}")
+                Log.d("AllBookFragment", "Danh sách sách: $allBooks")
 
                 // Khởi tạo adapter, xử lý click vào sách
                 bookAdapter = BookAdapter(allBooks, object : BookAdapter.OnBookActionListener {
@@ -108,7 +113,8 @@ class AllBookFragment : Fragment() {
                     }
                 })
 
-                setAdapter(bookAdapter)
+                recyclerView.adapter = bookAdapter
+                currentAdapter = bookAdapter
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("AllBookAdapter", e.toString())
@@ -127,8 +133,9 @@ class AllBookFragment : Fragment() {
                 val libraryCards: List<LibraryCard> = libraryCardRepository.getLibraryCards()
                     libraryCardAdapter = LibraryCardAdapter(libraryCards)
 
-                // Cập nhật RecyclerView
-                setAdapter(libraryCardAdapter)
+                // Hiển thị danh sách LibraryCards
+                recyclerView.adapter = libraryCardAdapter
+                currentAdapter = libraryCardAdapter
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("LoadReaderCards", e.toString())
@@ -147,8 +154,9 @@ class AllBookFragment : Fragment() {
                 val addReaderData: List<CardRequest> = cardRequestRepository.getPendingRequests()/* lấy dữ liệu của bạn */
                     requestReaderCardAdapter = CardRequestAdapter(addReaderData)
 
-                // Cập nhật RecyclerView
-                setAdapter(requestReaderCardAdapter)
+                // Hiển thị danh sách Request Add Reader Card
+                recyclerView.adapter = requestReaderCardAdapter
+                currentAdapter = requestReaderCardAdapter
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("LoadAddReaderData", e.toString())

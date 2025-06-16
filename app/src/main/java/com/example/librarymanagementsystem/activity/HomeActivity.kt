@@ -1,12 +1,15 @@
 package com.example.librarymanagementsystem.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
@@ -68,8 +71,11 @@ class HomeActivity : AppCompatActivity() {
         loadActivity(pageID)
         handleMenuButton()
     }
+
     private fun handleMenuButton() {
         homeBtn.setOnClickListener {
+            setMenuButtonColor(homeBtn, myBookBtn)
+
             val drawableTop = AppCompatResources.getDrawable(this, R.drawable.house_solid)
             drawableTop?.let {
                 val wrappedDrawable = DrawableCompat.wrap(drawableTop.mutate())
@@ -85,6 +91,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         myBookBtn.setOnClickListener {
+            setMenuButtonColor(myBookBtn, homeBtn)
+
             val drawableTop = AppCompatResources.getDrawable(this, R.drawable.book_icon)
             drawableTop?.let {
                 val wrappedDrawable = DrawableCompat.wrap(drawableTop.mutate())
@@ -121,6 +129,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun loadActivity(pageID: String) {
         if (pageID == HOME_ID) {
+
+            setMenuButtonColor(homeBtn, myBookBtn)
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, HomeFragment())
                 .addToBackStack(null)
@@ -171,6 +182,9 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         else if (pageID == MYBOOK_ID) {
+
+            setMenuButtonColor(myBookBtn, homeBtn)
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, MyBookFragment())
                 .addToBackStack(null)
@@ -240,5 +254,17 @@ class HomeActivity : AppCompatActivity() {
                 categoryButtonContainer.addView(button)
             }
         }
+    }
+
+    private fun setMenuButtonColor(selected_btn: Button, deselected_btn: Button) {
+        Log.e("MENUBUTTON", selected_btn.toString())
+        Log.e("MENUBUTTON", deselected_btn.toString())
+        // Set icon color
+        selected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_blue))
+        deselected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_gray))
+
+        // Set text color
+        selected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_blue))
+        deselected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
     }
 }
