@@ -13,11 +13,11 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.adapter.LoanAdapter
 import com.example.librarymanagementsystem.adapter.QueueAdapter
 import com.example.librarymanagementsystem.adapter.ReturnBookAdapter
-//import com.example.librarymanagementsystem.adapter.ReportLostAdapter
+import com.example.librarymanagementsystem.adapter.ReportLostAdapter
 import com.example.librarymanagementsystem.service.LoanService
 import com.example.librarymanagementsystem.service.QueueService
 import com.example.librarymanagementsystem.service.ReturnBookService
-//import com.example.librarymanagementsystem.service.ReportLostService
+import com.example.librarymanagementsystem.service.ReportLostService
 import kotlinx.coroutines.launch
 
 private const val HOME_ID = "HOME"
@@ -85,8 +85,8 @@ class LibrarianTransactionActivity : AppCompatActivity() {
         btnReportLost.setOnClickListener {
             setActiveTab(btnReportLost, listOf(btnLoans, btnQueues, btnReturnBook))
             lifecycleScope.launch {
-                //val lostDisplays = ReportLostService().getAllLostDisplays()
-                //recyclerView.adapter = ReportLostAdapter(lostDisplays)
+                val lostDisplays = ReportLostService().getAllLostDisplays()
+                recyclerView.adapter = ReportLostAdapter(lostDisplays)
             }
         }
     }
