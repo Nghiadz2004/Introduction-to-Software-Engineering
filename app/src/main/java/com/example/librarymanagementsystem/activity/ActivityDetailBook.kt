@@ -49,9 +49,6 @@ class ActivityDetailBook : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_detail_book)
 
-        // Nhận sách
-//        val book = intent.getParcelableExtra<Book>("book")
-
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -88,12 +85,9 @@ class ActivityDetailBook : AppCompatActivity() {
             finish()
         }
 
-//        bookID = intent.getStringExtra("BOOK_ID") ?: ""
-
         lifecycleScope.launch {
             try {
                 val book: Book? = intent.getParcelableExtra<Book>("book")
-//                val book = bookRepository.getBookById(bookID)
                 if (book != null) {
                     displayBookDetails(book, binding)
                 }

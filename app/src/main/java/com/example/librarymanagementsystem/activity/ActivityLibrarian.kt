@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.activity
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.google.firebase.auth.auth
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 private const val HOME_ID = "HOME"
 private const val TRANSACTION_ID = "TRANSACTION"
@@ -72,6 +74,7 @@ class ActivityLibrarian : AppCompatActivity() {
                 .commit()
 
             pageNamePlaceholderTV.text = "Profile"
+            setMenuButtonColor(profileBtn, homeBtn, transactionBtn, statisticBtn)
         }
 
         else if (pageID == STATISTIC_ID) {
@@ -81,6 +84,7 @@ class ActivityLibrarian : AppCompatActivity() {
                 .commit()
 
             pageNamePlaceholderTV.text = "Statistic"
+            setMenuButtonColor(statisticBtn, homeBtn, transactionBtn, profileBtn)
         }
 
         else if (pageID == TRANSACTION_ID) {
@@ -88,6 +92,7 @@ class ActivityLibrarian : AppCompatActivity() {
             intent.putExtra("PAGE_ID", TRANSACTION_ID)
             startActivity(intent)
             finish()
+            setMenuButtonColor(transactionBtn, homeBtn, statisticBtn, profileBtn)
         }
 
         else if (pageID == HOME_ID) {
@@ -95,6 +100,7 @@ class ActivityLibrarian : AppCompatActivity() {
             intent.putExtra("PAGE_ID", HOME_ID)
             startActivity(intent)
             finish()
+            setMenuButtonColor(homeBtn, transactionBtn, statisticBtn, profileBtn)
         }
     }
 
@@ -129,6 +135,24 @@ class ActivityLibrarian : AppCompatActivity() {
                 .commit()
 
             pageNamePlaceholderTV.text = "Profile"
+        }
+    }
+
+    private fun setMenuButtonColor(selectedBtn: Button, vararg deselectedBtns: Button) {
+        // Set màu cho nút được chọn
+        selectedBtn.apply {
+            compoundDrawableTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
+            setTextColor(ContextCompat.getColor(context, R.color.light_blue))
+        }
+
+        // Set màu cho tất cả nút không được chọn
+        deselectedBtns.forEach { btn ->
+            btn.apply {
+                compoundDrawableTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_gray))
+                setTextColor(ContextCompat.getColor(context, R.color.light_gray))
+            }
         }
     }
 }

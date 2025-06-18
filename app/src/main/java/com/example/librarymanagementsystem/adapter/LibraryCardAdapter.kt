@@ -7,17 +7,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.LibraryCard
 
 class LibraryCardAdapter(
-    private val items: List<LibraryCard>,
-    private val listener: OnLibraryCardActionListener? = null
+    items: List<LibraryCard>,
+    private val onRemove: (LibraryCard) -> Unit,
 ) : RecyclerView.Adapter<LibraryCardAdapter.LibraryCardViewHolder>() {
 
-    interface OnLibraryCardActionListener {
-        fun onEdit(card: LibraryCard)
-        fun onRemove(card: LibraryCard)
-    }
+    // Chuyển thành MultableList để thực hiện các thao tác thêm/xoá/sửa
+    private val items: MutableList<LibraryCard> = items.toMutableList()
 
     inner class LibraryCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cardIdTV: TextView    = view.findViewById(R.id.cardIdTV)
@@ -52,8 +51,17 @@ class LibraryCardAdapter(
         holder.issueDateTV.text  = "Issue Date: ${card.createdAt}"
         holder.dueDateTV.text    = "Due Date: ${card.getDueDate}"
         holder.statusTV.text     = "Status: ${card.status}"
-        holder.btnEdit.setOnClickListener { listener?.onEdit(card) }
-        holder.btnRemove.setOnClickListener { listener?.onRemove(card) }
+        holder.btnRemove.setOnClickListener {
+            onRemove(card)
+        }
+    }
+
+    fun removeItem(item: LibraryCard) {
+        val index = items.indexOf(item)
+        if (index != -1) {
+            items.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 
     override fun getItemCount(): Int = items.size

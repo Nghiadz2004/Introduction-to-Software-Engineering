@@ -8,16 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.CardRequest
+import com.example.librarymanagementsystem.model.LibraryCard
 
 class CardRequestAdapter(
-    private val items: List<CardRequest>,
-    private val listener: OnRequestActionListener? = null
+    items: List<CardRequest>,
+    private val onApprove: (CardRequest) -> Unit,
+    private val onReject: (CardRequest) -> Unit
 ) : RecyclerView.Adapter<CardRequestAdapter.CardRequestViewHolder>() {
 
-    interface OnRequestActionListener {
-        fun onApprove(request: CardRequest)
-        fun onReject(request: CardRequest)
-    }
+    // Chuyển thành MultableList để thực hiện các thao tác thêm/xoá/sửa
+    private val items: MutableList<CardRequest> = items.toMutableList()
 
     inner class CardRequestViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val requestIdTV: TextView = view.findViewById(R.id.requestIdTV)
@@ -44,8 +44,28 @@ class CardRequestAdapter(
         holder.birthdayTV.text = req.birthday.toString()
         holder.addressTV.text = req.address
         holder.typeTV.text = req.type
-        holder.btnApprove.setOnClickListener { listener?.onApprove(req) }
-        holder.btnReject.setOnClickListener { listener?.onReject(req) }
+        holder.btnApprove.setOnClickListener {
+            onApprove(req)
+        }
+        holder.btnReject.setOnClickListener {
+            onReject(req)
+        }
+    }
+
+    fun removeItem(item: CardRequest) {
+        val index = items.indexOf(item)
+        if (index != -1) {
+            items.removeAt(index)
+            notifyItemRemoved(index)
+        }
+    }
+
+    fun approveItem(item: CardRequest) {
+        removeItem(item)
+    }
+
+    fun rejectItem(item: CardRequest) {
+        removeItem(item)
     }
 
     override fun getItemCount(): Int = items.size

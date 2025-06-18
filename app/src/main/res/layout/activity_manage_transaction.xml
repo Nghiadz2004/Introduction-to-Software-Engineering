@@ -176,8 +176,8 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fgReaderCards"
+    <FrameLayout
+        android:id="@+id/fgTransaction"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
@@ -208,7 +208,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/homeBtn"
+                android:id="@+id/libHomeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -228,7 +228,7 @@
                 android:textSize="32px"/>
 
             <Button
-                android:id="@+id/myBookBtn"
+                android:id="@+id/libTransBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -248,7 +248,7 @@
                 android:fontVariationSettings="'wght' 800"/>
 
             <Button
-                android:id="@+id/favoriteBtn"
+                android:id="@+id/libStatBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -268,7 +268,7 @@
                 android:fontVariationSettings="'wght' 800"/>
 
         <Button
-            android:id="@+id/profileBtn"
+            android:id="@+id/libProfileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
