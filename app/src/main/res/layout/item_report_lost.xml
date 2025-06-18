@@ -125,7 +125,6 @@
                 android:textColor="@color/white"
                 android:background="@drawable/button_corner_radius"
                 app:backgroundTint="@color/light_blue" />
-
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
