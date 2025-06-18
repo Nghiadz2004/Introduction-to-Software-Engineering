@@ -108,8 +108,8 @@ class MyBookFragment : Fragment() {
                                 myBookManager.submitLostRequest(
                                     borrow.requestId!!,
                                     Firebase.auth.currentUser!!.uid,
-                                    borrow.bookId,
-                                    borrow.copyId
+                                    borrow.bookId!!,
+                                    borrow.copyId!!
                                 )
                                 // Remove from recycle view
                                 (recycleView.adapter as? MyBookAdapter)?.removeItem(item)

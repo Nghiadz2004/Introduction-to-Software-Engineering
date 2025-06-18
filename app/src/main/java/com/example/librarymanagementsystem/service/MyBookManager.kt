@@ -31,7 +31,7 @@ class MyBookManager(
 
         val lostBookIds = lostList.map { it.bookId }.toSet()
         val validBorrowList = borrowList.filterNot { it.bookId in lostBookIds }
-        val bookIds = validBorrowList.map { it.bookId }
+        val bookIds = validBorrowList.mapNotNull { it.bookId }
 
         val books = bookRepository.getBooksByIds(bookIds)
 
@@ -40,7 +40,6 @@ class MyBookManager(
             book?.let { it to borrow }
         }.toMap()
     }
-
 
     // Lấy danh sách các quyển sách đang được người dùng báo mất để hiển thị trong section "My Book"
     suspend fun getReaderPendingLosts(readerId: String): List<Book> = withContext(Dispatchers.IO) {

@@ -29,7 +29,7 @@ class LibrarianTransactionActivity : AppCompatActivity() {
         val btnReturnBook = findViewById<Button>(R.id.btnReturnBook)
         val btnReportLost = findViewById<Button>(R.id.btnReportLost)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.rvReaderCards)
+        val recyclerView = findViewById<RecyclerView>(R.id.fgReaderCards)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Mặc định hiển thị Loans
