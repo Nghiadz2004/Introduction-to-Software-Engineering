@@ -24,7 +24,7 @@ private const val STATISTIC_ID = "STATISTIC"
 private const val PROFILE_ID = "PROFILE"
 
 class ActivityLibrarian : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
+
     private lateinit var pageNamePlaceholderTV: TextView
 
     private lateinit var homeBtn: Button
@@ -45,16 +45,10 @@ class ActivityLibrarian : AppCompatActivity() {
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         Log.d("ActivityLibrarianBase", "pageID = $pageID")
 
-//        val currentUser = Firebase.auth.currentUser
-//        if (currentUser == null) {
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        } else {
-//            val userID = currentUser.uid
-//            // Proceed with userID
-//        }
-        val userID = "6nohm4isYGYW7o7XMyEdDQ2a2um2"
+        val currentUser = Firebase.auth.currentUser
+
+        val userID = currentUser!!.uid
+
 
         pageNamePlaceholderTV = findViewById(R.id.pageNamePlaceholderTV2)
         homeBtn = findViewById(R.id.libHomeBtn)
@@ -141,16 +135,14 @@ class ActivityLibrarian : AppCompatActivity() {
     private fun setMenuButtonColor(selectedBtn: Button, vararg deselectedBtns: Button) {
         // Set màu cho nút được chọn
         selectedBtn.apply {
-            compoundDrawableTintList =
-                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
+            compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
             setTextColor(ContextCompat.getColor(context, R.color.light_blue))
         }
 
         // Set màu cho tất cả nút không được chọn
         deselectedBtns.forEach { btn ->
             btn.apply {
-                compoundDrawableTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_gray))
+                compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_gray))
                 setTextColor(ContextCompat.getColor(context, R.color.light_gray))
             }
         }

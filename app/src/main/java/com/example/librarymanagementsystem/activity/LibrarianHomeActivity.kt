@@ -11,7 +11,9 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.ErrorDialog
 import com.example.librarymanagementsystem.fragment.LibrarianHomeFragment
 import com.example.librarymanagementsystem.repository.BookRepository
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 private const val HOME_ID = "HOME"
 private const val TRANSACTION_ID = "TRANSACTION"
@@ -43,11 +45,7 @@ class LibrarianHomeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_manage_book)
-
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
-        Log.d("LibrarianHomeActivity", "pageID = $pageID")
-
-        val userID = "6nohm4isYGYW7o7XMyEdDQ2a2um2"
 
         // Initialize book repository
         bookRepository = BookRepository()
@@ -85,7 +83,7 @@ class LibrarianHomeActivity: AppCompatActivity() {
             switchFragment(ALLBOOK_ID)
         }
 
-        handleMenuButton(userID)
+        handleMenuButton()
     }
 
     private fun switchFragment(fragmentId: String) {
@@ -109,7 +107,7 @@ class LibrarianHomeActivity: AppCompatActivity() {
         currentFragment = fragment
     }
 
-    private fun handleMenuButton(userID: String) {
+    private fun handleMenuButton() {
         homeBtn.setOnClickListener {
             val intent = Intent(this, LibrarianHomeActivity::class.java)
             intent.putExtra("PAGE_ID", HOME_ID)

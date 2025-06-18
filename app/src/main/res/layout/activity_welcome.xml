@@ -25,10 +25,10 @@
     <!-- Banner image -->
     <ImageView
         android:id="@+id/wcBannerImage"
-        android:layout_width="410dp"
-        android:layout_height="275dp"
+        android:layout_width="246dp"
+        android:layout_height="165dp"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="90dp"
         android:src="@drawable/banner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,32 +39,35 @@
         android:id="@+id/wcMessageHolder"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="-30dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="-30dp"
+        android:layout_marginRight="-40dp"
         android:background="@drawable/circle"
         android:backgroundTint="@color/light_purple"
-        app:layout_constraintStart_toStartOf="@id/wcBannerImage"
-        app:layout_constraintTop_toTopOf="@id/wcBannerImage" />
+        app:layout_constraintEnd_toStartOf="@id/wcBannerImage"
+        app:layout_constraintBottom_toTopOf="@id/wcBannerImage" />
 
     <TextView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="-30dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="-30dp"
+        android:layout_marginRight="-40dp"
         android:gravity="center"
         android:text="Hi!"
         android:textSize="48sp"
         android:textStyle="italic|bold"
         android:textColor="@color/light_blue"
-        app:layout_constraintStart_toStartOf="@id/wcBannerImage"
-        app:layout_constraintTop_toTopOf="@id/wcBannerImage" />
+        app:layout_constraintEnd_toStartOf="@id/wcBannerImage"
+        app:layout_constraintBottom_toTopOf="@id/wcBannerImage" />
 
     <!-- Button navigate to login page -->
+
+    <!-- Button to Login with Facebook account -->
+
     <Button
         android:id="@+id/loginByUsername"
         android:layout_width="330dp"
         android:layout_height="65dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
         android:drawableStart="@drawable/login_icon"
@@ -81,9 +84,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/wcBannerImage" />
 
-    <!-- Button to Login with Facebook account -->
     <Button
-        android:id="@+id/loginByFacebook"
+        android:id="@+id/loginByGoogle"
         android:layout_width="330dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
@@ -121,6 +123,6 @@
         android:drawablePadding="-50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginByFacebook" />
+        app:layout_constraintTop_toBottomOf="@id/loginByGoogle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

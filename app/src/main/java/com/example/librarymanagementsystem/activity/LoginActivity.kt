@@ -34,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = Firebase.auth
+        val sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         // Ánh xạ view
         rememberMeLayout = findViewById<LinearLayout>(R.id.lgRememberMe)
@@ -46,7 +47,6 @@ class LoginActivity : AppCompatActivity() {
         registerText = findViewById(R.id.lgRegister)
 
         registerText.setOnClickListener {
-            Firebase.auth.signOut()
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
 
@@ -99,15 +99,21 @@ class LoginActivity : AppCompatActivity() {
 
                 try {
                     val result = auth.signInWithEmailAndPassword(emailToUse!!, password).await()
-                    val user = result.user
                     errorMessage.text = "Login successfully! Please wait..."
                     errorMessage.visibility = View.VISIBLE
                     loadingDialog.dismiss()
-                    // If nguoi dung la reader
 
-                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    sharedPref.edit().putBoolean("remember_me", rememberMeCheckbox.isChecked).apply()
+                    val userRepository = UserRepository()
+                    lifecycleScope.launch {
+                        val userObject = userRepository.getUserByEmail(emailToUse)
+                        if (userObject?.roleId == "reader") {
+                            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                        } else if (userObject?.roleId == "librarian") {
+                            startActivity(Intent(this@LoginActivity, ActivityLibrarian::class.java))
+                        }
+                        finish()
+                    }
                 } catch (e: Exception) {
                     loadingDialog.dismiss()
                     errorMessage.text = "Incorrect username or password"
