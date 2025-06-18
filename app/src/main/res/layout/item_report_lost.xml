@@ -4,21 +4,30 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/reportLostItem"
-    android:backgroundTint="@color/light_gray">
+    android:backgroundTint="@color/light_purple">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="6dp"
-        android:background="@color/light_purple_2">
+        android:background="@color/light_purple">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="270dp"
+            android:layout_height="match_parent"
             android:layout_weight="3"
-            android:src="@drawable/harry_potter_cover"
-            />
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgCover"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/harry_potter_cover" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -30,7 +39,7 @@
 
             <!-- Book Title -->
             <TextView
-                android:id="@+id/lBook"
+                android:id="@+id/rBook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Harry potter and Philosopher's Stone"
@@ -40,6 +49,7 @@
 
             <!-- Book Author -->
             <TextView
+                android:id="@+id/rAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -50,6 +60,7 @@
 
             <!-- Book Copy ID -->
             <TextView
+                android:id="@+id/rCopyId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -60,6 +71,7 @@
 
             <!-- Book Borrowed by -->
             <TextView
+                android:id="@+id/rReader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -70,6 +82,7 @@
 
             <!-- Book Loan date -->
             <TextView
+                android:id="@+id/rBorrowDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -80,16 +93,18 @@
 
             <!-- Book Return date -->
             <TextView
+                android:id="@+id/rDueDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Return date: 28 May 2025"
+                android:text="Due date: 28 May 2025"
                 android:textSize="16sp"
                 android:textStyle="italic|bold"
                 android:textColor="@color/light_gray_2"/>
 
             <!-- Book Status -->
             <TextView
+                android:id="@+id/rBookStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -100,20 +115,11 @@
 
             <!-- Book Status -->
             <TextView
+                android:id="@+id/rFine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Fine: 50000 VND"
-                android:textSize="16sp"
-                android:textStyle="italic|bold"
-                android:textColor="@color/light_gray_2"/>
-
-            <!-- Report Status -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Status: unprocessed"
                 android:textSize="16sp"
                 android:textStyle="italic|bold"
                 android:textColor="@color/light_gray_2"/>

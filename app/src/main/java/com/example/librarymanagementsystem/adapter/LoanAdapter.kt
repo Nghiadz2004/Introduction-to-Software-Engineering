@@ -1,72 +1,60 @@
-//package com.example.librarymanagementsystem.adapter
-//
-//import com.example.librarymanagementsystem.R
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.Button
-//import android.widget.ImageButton
-//import android.widget.ImageView
-//import android.widget.RatingBar
-//import android.widget.TextView
-//import androidx.core.content.ContextCompat
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.librarymanagementsystem.model.Book
-//
-//class LoanAdapter(
-//    private val bookList: List<Book>,
-//    private val onItemClick: (Book) -> Unit
-//) : RecyclerView.Adapter<MyBookAdapter.MyBookViewHolder>() {
-//
-//    inner class MyBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val bookImg: ImageView = itemView.findViewById(R.id.bookImg)
-//        val bookTitleTV: TextView = itemView.findViewById(R.id.bookTitleTV)
-//        val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
-//        val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
-//        val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar)
-//        val ratingBarScoreTV: TextView = itemView.findViewById(R.id.ratingBarScoreTV)
-//        val bookDueDateLeftTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
-//        val favBtn: ImageButton = itemView.findViewById(R.id.favBtn)
-//        val returnBtn: Button = itemView.findViewById(R.id.returnBtn)
-//        val lostBtn: Button = itemView.findViewById(R.id.lostBtn)
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyBookViewHolder {
-//        val view = LayoutInflater.from(parent.context)
-//            .inflate(R.layout.item_book, parent, false)
-//        return MyBookViewHolder(view)
-//    }
-//
-//    override fun onBindViewHolder(holder: MyBookViewHolder, position: Int) {
-//        val book = bookList[position]
-////        holder.bookImg.src = book.url
-//        holder.bookTitleTV.text = book.title
-//        holder.bookAuthorTV.text = book.author
-//        holder.bookCategoryTV.text = book.category
-////        holder.ratingBar.rating = book.rating
-////        holder.ratingBarScoreTV.text = book.rating
-////        holder.bookDueDateLeftTV.text = book.duedate
-//        var color = if (book.isFavorite) R.color.red else R.color.white
-//        holder.favBtn.setColorFilter(ContextCompat.getColor(holder.itemView.context, color))
-//
-//        holder.favBtn.setOnClickListener {
-//            book.isFavorite = !book.isFavorite
-//            color = if (book.isFavorite) R.color.red else R.color.white
-//            holder.favBtn.setColorFilter(ContextCompat.getColor(holder.itemView.context, color))
-//        }
-//
-//        holder.returnBtn.setOnClickListener {
-//
-//        }
-//
-//        holder.lostBtn.setOnClickListener {
-//
-//        }
-//
-//        holder.itemView.setOnClickListener {
-//            onItemClick(book)
-//        }
-//    }
-//
-//    override fun getItemCount(): Int = bookList.size
-//}
+package com.example.librarymanagementsystem.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.service.LoanDisplay
+
+class LoanAdapter(private val loans: List<LoanDisplay>) : RecyclerView.Adapter<LoanAdapter.LoanViewHolder>() {
+
+    inner class LoanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val loanIndexTV: TextView = itemView.findViewById(R.id.loanIndexTV)
+        val imgCover: ImageView = itemView.findViewById(R.id.imgCover)
+        val lBook: TextView = itemView.findViewById(R.id.lBook)
+        val lAuthor: TextView = itemView.findViewById(R.id.lAuthor)
+        val lCopyId: TextView = itemView.findViewById(R.id.lCopyId)
+        val lReader: TextView = itemView.findViewById(R.id.lReader)
+        val lRecorder: TextView = itemView.findViewById(R.id.lRecorder)
+        val lLoanDate: TextView = itemView.findViewById(R.id.lLoanDate)
+        val lDueDate: TextView = itemView.findViewById(R.id.lDueDate)
+        val lStatus: TextView = itemView.findViewById(R.id.lStatus)
+        val dividerView: View = itemView.findViewById(R.id.dividerView)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_loan, parent, false)
+        return LoanViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: LoanViewHolder, position: Int) {
+        val loan = loans[position]
+
+        holder.loanIndexTV.text = "Loan %02d".format(position + 1)
+        holder.lBook.text = loan.book.title
+        holder.lAuthor.text = "Author: ${loan.book.author ?: "Unknown"}"
+        holder.lCopyId.text = "Copy: ${loan.borrow.copyId}"
+        holder.lReader.text = "Borrowed by: ${loan.readerName}"
+        holder.lRecorder.text = "Processed by: ${loan.librarianName}"
+        holder.lLoanDate.text = "Loan date: ${loan.formattedLoanDate}"
+        holder.lDueDate.text = "Due date: ${loan.formattedDueDate}"
+        holder.lStatus.text = "Status: ${loan.statusText}"
+
+        Glide.with(holder.itemView.context)
+            .load(loan.book.cover)
+            .placeholder(R.drawable.harry_potter_cover)
+            .into(holder.imgCover)
+
+        if (position < loans.size - 1) {
+            holder.dividerView.visibility = View.VISIBLE
+        } else {
+            holder.dividerView.visibility = View.GONE
+        }
+    }
+
+    override fun getItemCount(): Int = loans.size
+}

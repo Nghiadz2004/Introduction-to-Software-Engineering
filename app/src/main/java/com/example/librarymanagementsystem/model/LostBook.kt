@@ -18,8 +18,8 @@ data class LostBook(
 }
 
 enum class LostRequestStatus(val value: String) {
-    PENDING("Chờ xác nhận"),
-    CONFIRMED("Đã xác nhận");
+    PENDING("PENDING"),
+    CONFIRMED("CONFIRMED");
 
     companion object {
         fun fromString(value: String): LostRequestStatus? {

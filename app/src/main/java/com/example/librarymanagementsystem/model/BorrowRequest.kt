@@ -14,5 +14,16 @@ data class BorrowRequest(
     val expectedReturnDate: Date = Date(),
     val status: String = RequestStatus.PENDING.value // Lưu dưới dạng string
 ) {
+    constructor() : this(
+        id = null,
+        libraryCardId = "",
+        readerId = "",
+        bookId = "",
+        borrowDate = Date(),
+        daysBorrow = 1,
+        expectedReturnDate = Date(),
+        status = RequestStatus.PENDING.value
+    )
+
     fun getStatusEnum(): RequestStatus? = RequestStatus.fromString(status)
 }

@@ -16,8 +16,8 @@ enum class CopyStatus(val value: String) {
 
 data class BookCopy (
     @DocumentId
-    val copyId: String? =null,
-    val bookId: String,
+    val copyId: String? = null,
+    val bookId: String? = null,
     val status: String = CopyStatus.AVAILABLE.value
 ) {
     fun getStatusEnum(): CopyStatus? = CopyStatus.fromString(status)
