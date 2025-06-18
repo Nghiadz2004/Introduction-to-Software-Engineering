@@ -40,10 +40,19 @@ class ActivityLibrarian : AppCompatActivity() {
             insets
         }
 
-        val pageID = intent.getStringExtra("PAGE_ID") ?: PROFILE_ID
+        val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         Log.d("ActivityLibrarianBase", "pageID = $pageID")
 
-        val userID = Firebase.auth.currentUser!!.uid
+//        val currentUser = Firebase.auth.currentUser
+//        if (currentUser == null) {
+//            val intent = Intent(this, LoginActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        } else {
+//            val userID = currentUser.uid
+//            // Proceed with userID
+//        }
+        val userID = "6nohm4isYGYW7o7XMyEdDQ2a2um2"
 
         pageNamePlaceholderTV = findViewById(R.id.pageNamePlaceholderTV2)
         homeBtn = findViewById(R.id.libHomeBtn)

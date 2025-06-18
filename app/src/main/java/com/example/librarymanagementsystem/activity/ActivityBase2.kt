@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,13 +10,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.fragment.MyFavoriteFragment
 import com.example.librarymanagementsystem.fragment.ProfileFragment
-import com.example.librarymanagementsystem.fragment.StatisticFragment
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.content.res.ColorStateList
+import androidx.core.content.ContextCompat
 
 private const val HOME_ID = "HOME"
 private const val MYBOOK_ID = "MYBOOK"
@@ -23,7 +22,6 @@ private const val MYFAVORITE_ID = "MYFAVORITE"
 private const val PROFILE_ID = "PROFILE"
 
 class ActivityBase2 : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
     private lateinit var pageNamePlaceholderTV: TextView
 
     private lateinit var homeBtn: Button
@@ -44,8 +42,6 @@ class ActivityBase2 : AppCompatActivity() {
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         Log.d("ActivityBase2", "pageID = $pageID")
 
-        val userID = Firebase.auth.currentUser!!.uid
-
         pageNamePlaceholderTV = findViewById(R.id.pageNamePlaceholderTV)
         homeBtn = findViewById(R.id.homeBtn)
         myBookBtn = findViewById(R.id.myBookBtn)
@@ -58,12 +54,26 @@ class ActivityBase2 : AppCompatActivity() {
 //                .commit()
 //        }
 
-        loadActivity(pageID!!, userID)
-        handleMenuButton(userID)
+        loadActivity(pageID)
+        handleMenuButton()
     }
 
-    private fun loadActivity(pageID: String, userID: String) {
-        if (pageID == PROFILE_ID) {
+    @SuppressLint("SetTextI18n")
+    private fun loadActivity(pageID: String) {
+        if (pageID == MYFAVORITE_ID) {
+            setMenuButtonColor(favoriteBtn, profileBtn)
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MyFavoriteFragment())
+                .addToBackStack(null)
+                .commit()
+
+            pageNamePlaceholderTV.text = "My Favorite"
+        }
+
+        else if (pageID == PROFILE_ID) {
+            setMenuButtonColor(profileBtn, favoriteBtn)
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
@@ -71,17 +81,10 @@ class ActivityBase2 : AppCompatActivity() {
 
             pageNamePlaceholderTV.text = "Profile"
         }
-
-        else if (pageID == MYFAVORITE_ID) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MyFavoriteFragment())
-                .addToBackStack(null)
-                .commit()
-            pageNamePlaceholderTV.text = "My Favorite"
-        }
     }
 
-    private fun handleMenuButton(userID: String) {
+    @SuppressLint("SetTextI18n")
+    private fun handleMenuButton() {
         homeBtn.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("PAGE_ID", HOME_ID)
@@ -89,11 +92,16 @@ class ActivityBase2 : AppCompatActivity() {
             finish()
         }
 
-//        myBookBtn.setOnClickListener {
-//
-//        }
+        myBookBtn.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("PAGE_ID", MYBOOK_ID)
+            startActivity(intent)
+            finish()
+        }
 
         favoriteBtn.setOnClickListener {
+            setMenuButtonColor(favoriteBtn, profileBtn)
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, MyFavoriteFragment())
                 .addToBackStack(null)
@@ -103,6 +111,8 @@ class ActivityBase2 : AppCompatActivity() {
         }
 
         profileBtn.setOnClickListener {
+            setMenuButtonColor(profileBtn, favoriteBtn)
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
@@ -110,5 +120,17 @@ class ActivityBase2 : AppCompatActivity() {
 
             pageNamePlaceholderTV.text = "Profile"
         }
+    }
+
+    private fun setMenuButtonColor(selected_btn: Button, deselected_btn: Button) {
+        Log.e("MENUBUTTON", selected_btn.toString())
+        Log.e("MENUBUTTON", deselected_btn.toString())
+        // Set icon color
+        selected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_blue))
+        deselected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_gray))
+
+        // Set text color
+        selected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_blue))
+        deselected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
     }
 }

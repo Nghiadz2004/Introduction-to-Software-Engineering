@@ -104,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/manageBookTV"
-        app:layout_constraintBottom_toTopOf="@+id/rvReaderCards"
+        app:layout_constraintBottom_toTopOf="@+id/fgReaderCards"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="20dp">
@@ -157,8 +157,8 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvReaderCards"
+    <FrameLayout
+        android:id="@+id/fgReaderCards"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
@@ -241,7 +241,7 @@
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/statistic_icon"
             android:drawableTint="@color/light_gray"
-            android:text="Favorites"
+            android:text="Statistic"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
             android:fontFamily="@font/inter_font"

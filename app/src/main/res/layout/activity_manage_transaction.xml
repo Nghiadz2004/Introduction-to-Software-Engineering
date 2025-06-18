@@ -177,7 +177,7 @@
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvReaderCards"
+        android:id="@+id/fgReaderCards"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="10dp"

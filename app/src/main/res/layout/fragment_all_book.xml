@@ -4,6 +4,7 @@
     android:id="@+id/fragment_all_book"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     android:background="@color/light_purple">
 
     <androidx.recyclerview.widget.RecyclerView

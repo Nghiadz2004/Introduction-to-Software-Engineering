@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.service
 
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BorrowBook
+import com.example.librarymanagementsystem.model.LostBook
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.LostBookRepository
@@ -26,14 +27,20 @@ class MyBookManager(
     // Lấy danh sách các quyển sách đang được người dùng mượn để hiển thị trong section "My Book"
     suspend fun getReaderBorrowingBooks(readerId: String): Map<Book, BorrowBook> = withContext(Dispatchers.IO) {
         val borrowList = borrowingRepository.getBorrowBooksByReader(readerId)
-        val bookIds = borrowList.mapNotNull { it.bookId }
+        val lostList = lostBookRepository.getReaderPendingRequests(readerId)
+
+        val lostBookIds = lostList.map { it.bookId }.toSet()
+        val validBorrowList = borrowList.filterNot { it.bookId in lostBookIds }
+        val bookIds = validBorrowList.map { it.bookId }
+
         val books = bookRepository.getBooksByIds(bookIds)
 
-        return@withContext borrowList.mapNotNull { borrow ->
+        return@withContext validBorrowList.mapNotNull { borrow ->
             val book = books.find { it.id == borrow.bookId }
             book?.let { it to borrow }
         }.toMap()
     }
+
 
     // Lấy danh sách các quyển sách đang được người dùng báo mất để hiển thị trong section "My Book"
     suspend fun getReaderPendingLosts(readerId: String): List<Book> = withContext(Dispatchers.IO) {
@@ -41,4 +48,17 @@ class MyBookManager(
         val bookIds = lost.map {it.bookId}
         return@withContext bookRepository.getBooksByIds(bookIds)
     }
+
+    // Người dùng báo cáo với thủ thư sách bị mất để chờ được xác nhận
+    suspend fun submitLostRequest(requestId: String, readerId: String, bookId: String, copyId: String): String = withContext(Dispatchers.IO){
+        val lostRequest = LostBook(
+            requestId = requestId,
+            bookId = bookId,
+            copyId = copyId,
+            readerId = readerId)
+
+        return@withContext lostBookRepository.submitLostRequest(lostRequest)
+    }
+
+
 }

@@ -25,10 +25,10 @@ class BookAdapter(
     inner class BookViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgCover: ImageView = view.findViewById(R.id.bookImage)
         val tvTitle: TextView = view.findViewById(R.id.bookTitle)
-        val tvAuthor: TextView = view.findViewById(R.id.tvAuthor)
+        val tvAuthor: TextView = view.findViewById(R.id.bookAuthor)
         val tvCategory: TextView = view.findViewById(R.id.bookCategory)
         val tvCopyLeft: TextView = view.findViewById(R.id.copyLeftTV)
-        val btnEdit: Button = view.findViewById(R.id.editBT)
+//        val btnEdit: Button = view.findViewById(R.id.editBT)
         val btnRemove: Button = view.findViewById(R.id.removeBT)
     }
 
@@ -45,7 +45,7 @@ class BookAdapter(
         holder.tvAuthor.text = book.author
         holder.tvCategory.text = book.category
         holder.tvCopyLeft.text = book.quantity.toString()
-        holder.btnEdit.setOnClickListener { listener?.onEdit(book) }
+//        holder.btnEdit.setOnClickListener { listener?.onEdit(book) }
         holder.btnRemove.setOnClickListener { listener?.onRemove(book) }
 
     }
