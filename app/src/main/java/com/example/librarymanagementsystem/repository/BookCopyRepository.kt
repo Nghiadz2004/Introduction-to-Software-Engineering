@@ -10,4 +10,14 @@ class BookCopyRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
     suspend fun getAllBookCopies(): List<BookCopy> = withContext(Dispatchers.IO) {
         db.collection("book_copy").get().await().toObjects(BookCopy::class.java)
     }
+
+    suspend fun getBookCopiesByStatus(bookId: String, status: String): BookCopy? = withContext(Dispatchers.IO) {
+        db.collection("book_copy")
+            .whereEqualTo("bookId", bookId)
+            .whereEqualTo("status", status)
+            .get()
+            .await()
+            .firstOrNull()
+            ?.toObject(BookCopy::class.java)
+    }
 }

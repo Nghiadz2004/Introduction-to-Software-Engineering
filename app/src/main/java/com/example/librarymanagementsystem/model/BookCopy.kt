@@ -3,9 +3,9 @@ package com.example.librarymanagementsystem.model
 import com.google.firebase.firestore.DocumentId
 
 enum class CopyStatus(val value: String) {
-    AVAILABLE("Có sẵn"),
-    BORROWED("Đang mượn"),
-    LOST("Mất");
+    AVAILABLE("AVAILABLE"),
+    BORROWED("BORROWED"),
+    LOST("LOST");
 
     companion object {
         fun fromString(value: String): CopyStatus? {
