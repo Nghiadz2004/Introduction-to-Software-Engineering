@@ -82,7 +82,7 @@
 
             <!-- Book Loan date -->
             <TextView
-                android:id="@+id/rBorrowDate"
+                android:id="@+id/rLoanDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -98,17 +98,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Due date: 28 May 2025"
-                android:textSize="16sp"
-                android:textStyle="italic|bold"
-                android:textColor="@color/light_gray_2"/>
-
-            <!-- Book Status -->
-            <TextView
-                android:id="@+id/rBookStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Book Status: lost"
                 android:textSize="16sp"
                 android:textStyle="italic|bold"
                 android:textColor="@color/light_gray_2"/>

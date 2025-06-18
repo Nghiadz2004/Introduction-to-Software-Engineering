@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.activity
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.Button
@@ -19,18 +20,36 @@ import com.example.librarymanagementsystem.service.ReturnBookService
 //import com.example.librarymanagementsystem.service.ReportLostService
 import kotlinx.coroutines.launch
 
+private const val HOME_ID = "HOME"
+private const val TRANSACTION_ID = "TRANSACTION"
+private const val STATISTIC_ID = "STATISTIC"
+private const val PROFILE_ID = "PROFILE"
+
 class LibrarianTransactionActivity : AppCompatActivity() {
+    private lateinit var homeBtn: Button
+    private lateinit var transactionBtn: Button
+    private lateinit var statisticBtn: Button
+    private lateinit var profileBtn: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_transaction)
 
+        val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
+        val userID = "6nohm4isYGYW7o7XMyEdDQ2a2um2"
+        homeBtn = findViewById(R.id.libHomeBtn)
+        transactionBtn = findViewById(R.id.libTransBtn)
+        statisticBtn = findViewById(R.id.libStatBtn)
+        profileBtn = findViewById(R.id.libProfileBtn)
         val btnLoans = findViewById<Button>(R.id.btnLoans)
         val btnQueues = findViewById<Button>(R.id.btnQueues)
         val btnReturnBook = findViewById<Button>(R.id.btnReturnBook)
         val btnReportLost = findViewById<Button>(R.id.btnReportLost)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.fgReaderCards)
+        val recyclerView = findViewById<RecyclerView>(R.id.fgTransaction)
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        handleMenuButton(userID)
 
         // Mặc định hiển thị Loans
         setActiveTab(btnLoans, listOf(btnQueues, btnReturnBook, btnReportLost))
@@ -82,6 +101,36 @@ class LibrarianTransactionActivity : AppCompatActivity() {
         for (btn in others) {
             btn.setTextColor(lightPurple)
             btn.compoundDrawableTintList = ColorStateList.valueOf(lightPurple)
+        }
+    }
+
+    private fun handleMenuButton(userID: String) {
+        homeBtn.setOnClickListener {
+            val intent = Intent(this, LibrarianHomeActivity::class.java)
+            intent.putExtra("PAGE_ID", HOME_ID)
+            startActivity(intent)
+            finish()
+        }
+
+        transactionBtn.setOnClickListener {
+            val intent = Intent(this, LibrarianTransactionActivity::class.java)
+            intent.putExtra("PAGE_ID", TRANSACTION_ID)
+            startActivity(intent)
+            finish()
+        }
+
+        statisticBtn.setOnClickListener {
+            val intent = Intent(this, ActivityLibrarian::class.java)
+            intent.putExtra("PAGE_ID", STATISTIC_ID)
+            startActivity(intent)
+            finish()
+        }
+
+        profileBtn.setOnClickListener {
+            val intent = Intent(this, ActivityLibrarian::class.java)
+            intent.putExtra("PAGE_ID", PROFILE_ID)
+            startActivity(intent)
+            finish()
         }
     }
 }
