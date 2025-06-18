@@ -26,7 +26,7 @@ class MyBookManager(
     // Lấy danh sách các quyển sách đang được người dùng mượn để hiển thị trong section "My Book"
     suspend fun getReaderBorrowingBooks(readerId: String): Map<Book, BorrowBook> = withContext(Dispatchers.IO) {
         val borrowList = borrowingRepository.getBorrowBooksByReader(readerId)
-        val bookIds = borrowList.map { it.bookId }
+        val bookIds = borrowList.mapNotNull { it.bookId }
         val books = bookRepository.getBooksByIds(bookIds)
 
         return@withContext borrowList.mapNotNull { borrow ->
