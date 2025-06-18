@@ -12,6 +12,24 @@ class FavoriteRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         db.collection("favorites").document(readerId).set(favorite).await()
     }
 
+    suspend fun addBookToFavorite(readerId: String, bookId: String) = withContext(Dispatchers.IO) {
+        val docRef = db.collection("favorites").document(readerId)
+        val snapshot = docRef.get().await()
+
+        if (snapshot.exists()) {
+            val favorite = snapshot.toObject(Favorite::class.java)
+            val currentList = favorite?.bookIdList ?: emptyList()
+
+            val updatedList = currentList + bookId
+            docRef.update("bookIdList", updatedList).await()
+        } else {
+            // Tạo mới document nếu chưa tồn tại
+            val newFavorite = Favorite(readerId = readerId, bookIdList = listOf(bookId))
+            docRef.set(newFavorite).await()
+        }
+    }
+
+
 
     // Lấy danh sách Id các quyển sách (bản logic) yêu thích của một độc giả
     suspend fun getFavoriteBooksId(readerId: String): Favorite? = withContext(Dispatchers.IO) {
@@ -21,6 +39,7 @@ class FavoriteRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
              .toObject(Favorite::class.java)
     }
 
+    // Loại bỏ sách khỏi danh sách yêu thích của độc giả
     suspend fun removeBookFromFavorite(readerId: String, bookId: String) = withContext(Dispatchers.IO) {
         val docRef = db.collection("favorites").document(readerId)
         val snapshot = docRef.get().await()
