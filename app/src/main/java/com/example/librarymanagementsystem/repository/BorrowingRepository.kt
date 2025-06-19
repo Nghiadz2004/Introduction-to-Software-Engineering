@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.BorrowBook
 import com.example.librarymanagementsystem.model.LostBook
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -12,6 +13,22 @@ class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.
     // Lấy danh sách tất cả các bản ghi dữ liệu mượn sách trong cơ sở dữ liệu
     suspend fun getAllBorrows(): List<BorrowBook> = withContext(Dispatchers.IO) {
         db.collection("borrow_book").get().await().toObjects(BorrowBook::class.java)
+    }
+
+    suspend fun getBorrowCountByBookIds(bookIds: List<String>): Map<String, Int> = withContext(Dispatchers.IO) {
+        val result = mutableMapOf<String, Int>()
+
+        for (id in bookIds) {
+            val countSnapshot = db.collection("borrow_book")
+                .whereEqualTo("bookId", id)
+                .count()
+                .get(AggregateSource.SERVER)  // dùng server để không tính local cache
+                .await()
+
+            result[id] = countSnapshot.count.toInt()
+        }
+
+        return@withContext result
     }
 
     // Thêm một quyển sách được mượn vào cơ sở dữ liệu
@@ -110,5 +127,17 @@ class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.
             .get()
             .await()
             .toObjects(BorrowBook::class.java)
+    }
+
+    suspend fun getNumBorrowById (bookId: String) : Int = withContext(Dispatchers.IO){
+        val countSnapshot = db.collection("borrow_book")
+            .whereEqualTo("bookId", bookId)
+            .count()
+            .get(AggregateSource.SERVER)  // dùng server để không tính local cache
+            .await()
+
+        val result = countSnapshot.count.toInt()
+
+        return@withContext result
     }
 }

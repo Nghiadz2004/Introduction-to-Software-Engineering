@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.BorrowRequest
 import com.example.librarymanagementsystem.model.RequestStatus
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -57,5 +58,18 @@ class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirest
             .get()
             .await()
             .toObjects(BorrowRequest::class.java)
+    }
+
+    suspend fun getNumBookPendingRequests(bookId: String): Int = withContext(Dispatchers.IO) {
+        val countSnapshot = db.collection("request_borrow")
+            .whereEqualTo("status", RequestStatus.PENDING.value)
+            .whereEqualTo("bookId", bookId)
+            .count()
+            .get(AggregateSource.SERVER)  // dùng server để không tính local cache
+            .await()
+
+        val result = countSnapshot.count.toInt()
+
+        return@withContext result
     }
 }

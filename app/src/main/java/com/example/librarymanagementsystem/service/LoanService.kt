@@ -29,7 +29,7 @@ class LoanService(
     suspend fun getAllLoanDisplays(): List<LoanDisplay> = withContext(Dispatchers.IO) {
         val borrows = borrowingRepository.getAllBorrows()
         val books = bookRepository.getBooksByIds(borrows.mapNotNull { it.bookId }.distinct())
-        val users = userRepository.getUsers()
+        val users = userRepository.getUsers(borrows.mapNotNull { it.readerId }.distinct())
 
         val bookMap = books.associateBy { it.id }
         val userMap = users.associateBy { it.id }

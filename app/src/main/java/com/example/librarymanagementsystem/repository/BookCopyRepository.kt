@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.BookCopy
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -13,7 +14,21 @@ class BookCopyRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         snapshot.toObjects(BookCopy::class.java) // ✅ return implicit
     }
 
-    suspend fun getBookCopiesByStatus(bookId: String, status: String): BookCopy? = withContext(Dispatchers.IO) {
+    // Tốn số lượt read = len(bookIds)
+    suspend fun getNumAvailableCopies(bookIds: List<String>): Map<String, Int> = withContext(Dispatchers.IO) {
+        val result = mutableMapOf<String, Int>()
+
+        for (id in bookIds) {
+            val copiesRef = db.collection("books").document(id).collection("copies")
+            val countSnapshot = copiesRef.count().get(AggregateSource.SERVER).await()
+            result[id] = countSnapshot.count.toInt()
+        }
+
+        return@withContext result
+    }
+
+    // Tốn chỉ 1 lượt read
+    suspend fun getFirstBookCopiesByStatus(bookId: String, status: String): BookCopy? = withContext(Dispatchers.IO) {
         val querySnapshot = db.collection("books")
             .document(bookId)
             .collection("copies")
