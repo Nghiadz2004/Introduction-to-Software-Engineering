@@ -17,6 +17,9 @@ import com.example.librarymanagementsystem.adapter.ReturnBookAdapter
 import com.example.librarymanagementsystem.service.LoanService
 import com.example.librarymanagementsystem.service.QueueService
 import com.example.librarymanagementsystem.service.ReturnBookService
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 //import com.example.librarymanagementsystem.service.ReportLostService
 import kotlinx.coroutines.launch
 
@@ -30,13 +33,17 @@ class LibrarianTransactionActivity : AppCompatActivity() {
     private lateinit var transactionBtn: Button
     private lateinit var statisticBtn: Button
     private lateinit var profileBtn: Button
+    private lateinit var auth: FirebaseAuth
+    private lateinit var userID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_manage_transaction)
 
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
-        val userID = "6nohm4isYGYW7o7XMyEdDQ2a2um2"
+        auth = Firebase.auth
+        userID = auth.currentUser!!.uid
         homeBtn = findViewById(R.id.libHomeBtn)
         transactionBtn = findViewById(R.id.libTransBtn)
         statisticBtn = findViewById(R.id.libStatBtn)
