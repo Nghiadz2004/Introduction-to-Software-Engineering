@@ -25,7 +25,8 @@ data class User(
     val roleId: String, // role varchar(20) [not null]
     val createdAt: Date = Date(), // created_at datetime
     var status: String = UserStatus.ACTIVE.value, // status varchar(20)
-    var avatar: String? = null // avatar varchar(255)
+    var avatar: String? = null, // avatar varchar(255)
+    var enumStatus: String? = null
 ){
     // Constructor không đối số để Firestore deserialize
     constructor() : this(
@@ -37,8 +38,9 @@ data class User(
         roleId = "",
         createdAt = Date(),
         status = UserStatus.ACTIVE.value,
-        avatar = null
+        avatar = null,
+        enumStatus = null
     )
 
-    fun getEnumStatus(): UserStatus? = UserStatus.fromString(status)
+    fun enumStatusValue(): UserStatus? = UserStatus.fromString(status)
 }

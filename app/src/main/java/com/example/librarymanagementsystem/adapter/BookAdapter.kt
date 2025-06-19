@@ -8,27 +8,28 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.model.BookDisplayItem
+import com.example.librarymanagementsystem.model.LibraryCard
 
 class BookAdapter(
-    private val items: List<Book>,
-    private val listener: OnBookActionListener? = null
+    items: List<Book>,
+    private val onItemClick: (Book) -> Unit,
+    private val onRemove: (Book) -> Unit
 ) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
-    interface OnBookActionListener {
-        fun onEdit(book: Book)
-        fun onRemove(book: Book)
-    }
+    // Chuyển thành MultableList để thực hiện các thao tác thêm/xoá/sửa
+    private val items: MutableList<Book> = items.toMutableList()
 
     inner class BookViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgCover: ImageView = view.findViewById(R.id.bookImage)
         val tvTitle: TextView = view.findViewById(R.id.bookTitle)
-        val tvAuthor: TextView = view.findViewById(R.id.tvAuthor)
+        val tvAuthor: TextView = view.findViewById(R.id.bookAuthor)
         val tvCategory: TextView = view.findViewById(R.id.bookCategory)
         val tvCopyLeft: TextView = view.findViewById(R.id.copyLeftTV)
-        val btnEdit: Button = view.findViewById(R.id.editBT)
         val btnRemove: Button = view.findViewById(R.id.removeBT)
     }
 
@@ -40,14 +41,27 @@ class BookAdapter(
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val book = items[position]
-        // holder.imgCover.setImage… (nếu có URL hoặc drawable)
+        Glide.with(holder.itemView.context)
+            .load(book.cover)
+            .into(holder.imgCover)
         holder.tvTitle.text = book.title
         holder.tvAuthor.text = book.author
         holder.tvCategory.text = book.category
         holder.tvCopyLeft.text = book.quantity.toString()
-        holder.btnEdit.setOnClickListener { listener?.onEdit(book) }
-        holder.btnRemove.setOnClickListener { listener?.onRemove(book) }
+        holder.itemView.setOnClickListener {
+            onItemClick(book)
+        }
+        holder.btnRemove.setOnClickListener {
+            onRemove(book)
+        }
+    }
 
+    fun removeItem(item: Book) {
+        val index = items.indexOf(item)
+        if (index != -1) {
+            items.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 
     override fun getItemCount(): Int = items.size

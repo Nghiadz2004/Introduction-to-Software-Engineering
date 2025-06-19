@@ -7,17 +7,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ProfileFragment">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatarIV"
         android:layout_width="124dp"
         android:layout_height="124dp"
-        android:background="@drawable/ic_launcher_background"
+        android:src="@drawable/ic_launcher_background"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription"/>
-    
+        app:shapeAppearanceOverlay="@style/CircleImage"
+        tools:ignore="ContentDescription" />
+
+
     <ImageButton
         android:id="@+id/editAvatarBtn"
         android:layout_width="40dp"
@@ -42,27 +44,29 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="130dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center|start"
             android:text="Username"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
             tools:ignore="HardcodedText,SpUsage,UnusedAttribute"/>
 
         <EditText
             android:id="@+id/userNameET"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_width="290dp"
+            android:layout_height="30dp"
             android:background="@drawable/button_corner_radius"
             android:backgroundTint="@color/light_blue"
             android:paddingStart="30dp"
-            android:text="Username"
+            android:hint="Username"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
-            android:textSize="24dp"
+            android:textSize="15dp"
             android:textColor="@color/white"
             tools:ignore="Autofill,HardcodedText,RtlSymmetry,SpUsage,TextFields,UnusedAttribute" />
 
@@ -72,33 +76,35 @@
         android:id="@+id/emailLO"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userNameLO">
 
         <TextView
-            android:layout_width="130dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center|start"
             android:text="Email"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="18dp"
             tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         <EditText
             android:id="@+id/emailET"
-            android:layout_width="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_width="290dp"
             android:layout_height="match_parent"
             android:background="@drawable/button_corner_radius"
             android:backgroundTint="@color/light_blue"
             android:paddingStart="30dp"
-            android:text="Email"
+            android:hint="Email"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
-            android:textSize="24dp"
+            android:textSize="15dp"
             android:textColor="@color/white"
             tools:ignore="Autofill,HardcodedText,RtlSymmetry,SpUsage,TextFields,UnusedAttribute" />
 
@@ -108,31 +114,33 @@
         android:id="@+id/passwordLO"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailLO">
 
         <TextView
-            android:layout_width="130dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center|start"
             android:text="Password"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
             tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLayoutET"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="28dp"
             android:layout_gravity="center_vertical"
             android:theme="@style/MyTextInputLayoutTheme"
             android:background="@drawable/button_corner_radius"
             android:backgroundTint="@color/light_blue"
             android:paddingStart="30dp"
+            android:layout_marginRight="14dp"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/white"
             tools:ignore="RtlSymmetry">
@@ -140,13 +148,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:maxLength="12"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
-                android:textSize="24sp"
+                android:textSize="15dp"
+                android:paddingBottom="10dp"
                 android:background="@android:color/transparent"
                 android:inputType="textPassword"
                 tools:ignore="HardcodedText,SpUsage,UnusedAttribute"/>
@@ -165,20 +174,21 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordLO">
 
         <TextView
-            android:layout_width="130dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:gravity="center|start"
             android:text="Confirm Password"
+            android:layout_marginLeft="10dp"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="18dp"
             tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmPasswordLayoutET"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="28dp"
             android:layout_gravity="center_vertical"
             android:theme="@style/MyTextInputLayoutTheme"
             app:endIconMode="password_toggle"
@@ -186,22 +196,25 @@
             android:background="@drawable/button_corner_radius"
             android:backgroundTint="@color/light_blue"
             android:paddingStart="30dp"
+            android:layout_marginRight="14dp"
+            app:boxStrokeWidth="0dp"
             tools:ignore="RtlSymmetry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordET"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="20"
-                android:maxLength="12"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
-                android:textSize="24dp"
-                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
                 android:inputType="textPassword"
-                tools:ignore="HardcodedText,SpUsage,UnusedAttribute"/>
+                android:maxLength="12"
+                android:paddingBottom="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15dp"
+                tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/activity_manage_transaction"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_blue">
@@ -95,6 +95,7 @@
         android:text="Manage Transactions"
         android:fontFamily="@font/inter_font"
         android:fontVariationSettings="'wght' 800"
+        android:textStyle="italic|bold"
         android:textSize="20dp"
         android:textColor="@color/white"
         android:paddingStart="16dp"
@@ -106,7 +107,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/manageBookTV"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_container"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp">
@@ -177,10 +177,10 @@
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvReaderCards"
+        android:id="@+id/fgTransaction"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="8dp"
+        android:padding="10dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
         app:layout_constraintTop_toBottomOf="@id/section1"
@@ -208,7 +208,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/homeBtn"
+                android:id="@+id/libHomeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -228,7 +228,7 @@
                 android:textSize="32px"/>
 
             <Button
-                android:id="@+id/myBookBtn"
+                android:id="@+id/libTransBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -248,7 +248,7 @@
                 android:fontVariationSettings="'wght' 800"/>
 
             <Button
-                android:id="@+id/favoriteBtn"
+                android:id="@+id/libStatBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -268,7 +268,7 @@
                 android:fontVariationSettings="'wght' 800"/>
 
         <Button
-            android:id="@+id/profileBtn"
+            android:id="@+id/libProfileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

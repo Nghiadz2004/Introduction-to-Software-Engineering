@@ -4,24 +4,30 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Typeface
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
-import com.google.firebase.auth.FirebaseAuth
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.toDrawable
+import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.repository.BookRepository
+import kotlinx.coroutines.launch
 
 // Home menu id
 private const val HOME_ID = "HOME"
@@ -41,36 +47,88 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var favoriteBtn: Button
     private lateinit var profileBtn: Button
     private lateinit var categoryButtonContainer: LinearLayout
+    private lateinit var searchET: EditText
 
-    private lateinit var readerId: String
+    private val bookRepository = BookRepository()
     private lateinit var pageID: String
+    private lateinit var readerId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_base_1)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // Lấy readerId từ Firebase nếu đã đăng nhập
-        readerId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
+        readerId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
         pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
 
+        // Ánh xạ view
         homeBtn = findViewById(R.id.homeBtn)
         myBookBtn = findViewById(R.id.myBookBtn)
         favoriteBtn = findViewById(R.id.favoriteBtn)
         profileBtn = findViewById(R.id.profileBtn)
         categoryButtonContainer = findViewById(R.id.categoryButtonContainer)
+        searchET = findViewById(R.id.searchET)
 
         loadActivity(pageID)
         handleMenuButton()
+
+        // Xử lý khi nhấn "Enter"/"Search"
+        searchET.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
+                val keyword = searchET.text.toString().trim()
+                if (keyword.isNotEmpty()) performSearch(keyword)
+                true
+            } else false
+        }
+
+        // Xử lý khi chạm vào icon search (drawableEnd)
+        searchET.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableRight = 2 // vị trí drawableEnd
+                if (event.rawX >= (searchET.right - searchET.compoundDrawables[drawableRight].bounds.width())) {
+                    val keyword = searchET.text.toString().trim()
+                    if (keyword.isNotEmpty()) performSearch(keyword)
+                    return@setOnTouchListener true
+                }
+            }
+            false
+        }
+    }
+
+    private fun performSearch(keyword: String) {
+        // Ẩn bàn phím
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(searchET.windowToken, 0)
+
+        lifecycleScope.launch {
+            try {
+                val searchResults: List<Book> = bookRepository.searchBooksByKeyword(keyword)
+
+                if (searchResults.isEmpty()) {
+                    Toast.makeText(this@HomeActivity, "Không tìm thấy sách phù hợp.", Toast.LENGTH_SHORT).show()
+                }
+                val fragment = HomeFragment.newInstance(searchResults)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@HomeActivity, "Lỗi tìm kiếm: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun handleMenuButton() {
         homeBtn.setOnClickListener {
+            setMenuButtonColor(homeBtn, myBookBtn)
+
             val drawableTop = AppCompatResources.getDrawable(this, R.drawable.house_solid)
             drawableTop?.let {
                 val wrappedDrawable = DrawableCompat.wrap(drawableTop.mutate())
@@ -86,6 +144,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         myBookBtn.setOnClickListener {
+            setMenuButtonColor(myBookBtn, homeBtn)
+
             val drawableTop = AppCompatResources.getDrawable(this, R.drawable.book_icon)
             drawableTop?.let {
                 val wrappedDrawable = DrawableCompat.wrap(drawableTop.mutate())
@@ -122,6 +182,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun loadActivity(pageID: String) {
         if (pageID == HOME_ID) {
+
+            setMenuButtonColor(homeBtn, myBookBtn)
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, HomeFragment())
                 .addToBackStack(null)
@@ -142,6 +205,8 @@ class HomeActivity : AppCompatActivity() {
                 "Cookbooks, Food & Wine" to R.drawable.cook
             )
 
+            categoryButtonContainer.removeAllViews()
+
             for ((categoryName, drawableRes) in categoryIcons) {
                 val button = Button(this).apply {
                     text = categoryName
@@ -154,9 +219,7 @@ class HomeActivity : AppCompatActivity() {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        marginEnd = 16
-                    }
+                    ).apply { marginEnd = 16 }
 
                     // Gán icon vào bên trái của text
                     val drawableLeft = ContextCompat.getDrawable(context, drawableRes)
@@ -172,74 +235,72 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         else if (pageID == MYBOOK_ID) {
+
+            setMenuButtonColor(myBookBtn, homeBtn)
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, MyBookFragment())
                 .addToBackStack(null)
                 .commit()
 
-            val categoryButtonContainer = findViewById<LinearLayout>(R.id.categoryButtonContainer)
+            categoryButtonContainer.removeAllViews()
+
             val myBookSectionIcon = listOf(
                 BORROWED_ID to R.drawable.all_books_icon,
                 PENDING_ID to R.drawable.queues_icon,
                 LOST_ID to R.drawable.lost_book_icon
             )
 
-            // Kích thước mong muốn cho icon (ví dụ: 64x64 dp)
-            val iconWidth = 24 // dp
-            val iconHeight = 24 // dp
-
-            // Chuyển đổi dp sang pixel
             val density = resources.displayMetrics.density
-            val pixelWidth = (iconWidth * density).toInt()
-            val pixelHeight = (iconHeight * density).toInt()
+            val pixelSize = (24 * density).toInt()
 
-            // Tạo các nút phần sách của tôi động
-            for ((myBookSectionName, drawableRes) in myBookSectionIcon) {
+            for ((sectionName, drawableRes) in myBookSectionIcon) {
                 val icon: Drawable? = ContextCompat.getDrawable(this, drawableRes)
+                val bitmap = android.graphics.Bitmap.createBitmap(pixelSize, pixelSize, android.graphics.Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                icon?.setBounds(0, 0, canvas.width, canvas.height)
+                icon?.draw(canvas)
 
-                // Resize và tint icon
-                val resizedAndTintedIcon: Drawable? = icon?.let {
-                    val bitmap = createBitmap(pixelWidth, pixelHeight)
-                    val canvas = Canvas(bitmap)
-                    it.setBounds(0, 0, pixelWidth, pixelHeight) // Đặt giới hạn cho drawable gốc
-                    it.draw(canvas) // Vẽ drawable gốc lên bitmap mới
-
-                    val resizedDrawable = bitmap.toDrawable(resources)
-                    val wrapped = DrawableCompat.wrap(resizedDrawable)
-                    // Đặt màu tint cho icon đã resize
-                    DrawableCompat.setTint(wrapped, ContextCompat.getColor(this, R.color.light_purple))
-                    wrapped
-                }
+                val tinted = DrawableCompat.wrap(bitmap.toDrawable(resources))
+                DrawableCompat.setTint(tinted, ContextCompat.getColor(this, R.color.light_purple))
 
                 val button = Button(this).apply {
-                    text = myBookSectionName
+                    text = sectionName
                     setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue))
                     setTextColor(ContextCompat.getColor(context, R.color.light_purple))
                     textSize = 12f
                     typeface = Typeface.DEFAULT_BOLD
                     setPadding(16, 8, 16, 8)
-
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        marginEnd = 16
-                    }
+                    ).apply { marginEnd = 16 }
 
-                    setCompoundDrawablesWithIntrinsicBounds(null, resizedAndTintedIcon, null, null)
+                    setCompoundDrawablesWithIntrinsicBounds(null, tinted, null, null)
                     compoundDrawablePadding = 12
 
                     setOnClickListener {
-                        val fragment = MyBookFragment.newInstance(myBookSectionName)
+                        val fragment = MyBookFragment.newInstance(sectionName)
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragmentContainer, fragment)
                             .addToBackStack(null)
                             .commit()
                     }
                 }
-
                 categoryButtonContainer.addView(button)
             }
         }
+    }
+
+    private fun setMenuButtonColor(selected_btn: Button, deselected_btn: Button) {
+        Log.e("MENUBUTTON", selected_btn.toString())
+        Log.e("MENUBUTTON", deselected_btn.toString())
+        // Set icon color
+        selected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_blue))
+        deselected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_gray))
+
+        // Set text color
+        selected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_blue))
+        deselected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
     }
 }

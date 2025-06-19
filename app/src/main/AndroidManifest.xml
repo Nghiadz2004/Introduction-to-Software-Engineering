@@ -18,6 +18,9 @@
         android:theme="@style/Theme.LibraryManagementSystem"
         tools:targetApi="31">
         <activity
+            android:name=".activity.WelcomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
@@ -34,6 +37,15 @@
             android:exported="false" />
         <activity
             android:name=".activity.ActivityDetailBook"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ActivityLibrarian"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LibrarianHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LibrarianTransactionActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

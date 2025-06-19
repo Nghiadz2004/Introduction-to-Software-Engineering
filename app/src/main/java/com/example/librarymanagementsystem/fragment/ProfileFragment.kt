@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -29,6 +30,7 @@ import java.util.Locale
 private const val EDIT_REQUEST = "editProfileRequestKey"
 
 class ProfileFragment : Fragment() {
+    private lateinit var auth: FirebaseAuth
     // Profile information
     private lateinit var avatarIV: ImageView
     private lateinit var userNameTV: TextView
@@ -42,6 +44,7 @@ class ProfileFragment : Fragment() {
     private lateinit var dueDateTV: TextView
     private lateinit var statusIV: ImageView
     private lateinit var statusTV: TextView
+    private lateinit var wrapper: FrameLayout
     // Card overlay register button
     private lateinit var registerBtn: Button
     // Buttons
@@ -63,15 +66,15 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         loadingDialog = LoadingDialog(requireContext())
-
-        userID = Firebase.auth.currentUser!!.uid
-
+        auth = Firebase.auth
+        userID = auth.currentUser!!.uid
         // Initial predefine variables
         // Profile information
         avatarIV = view.findViewById(R.id.avatarIV)
         fullNameTV = view.findViewById(R.id.fullNameTV)
         profileEmailTV = view.findViewById(R.id.profileEmailTV)
         // Card information
+        wrapper = view.findViewById(R.id.registerFL)
         userNameTV = view.findViewById(R.id.userNameTV)
         birthdayTV = view.findViewById(R.id.birthdayTV)
         emailTV = view.findViewById(R.id.emailTV)
@@ -123,6 +126,7 @@ class ProfileFragment : Fragment() {
 
                 val libraryCard = libraryCardManager.getCurrentLibraryCard(userID)
                 if (libraryCard != null) {
+                    wrapper.visibility = View.GONE
                     fullNameTV.text = libraryCard.fullName
                     emailTV.text = libraryCard.email
                     addressTV.text = libraryCard.address
