@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -12,15 +13,14 @@ import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.databinding.ActivityDetailBookBinding
-import com.google.firebase.auth.FirebaseAuthException
 import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.auth.FirebaseAuth
 
+@Suppress("DEPRECATION")
 class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
     private lateinit var auth: FirebaseAuth
@@ -32,6 +32,7 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var btnBorrow: Button
 
     // function to display book details
+    @SuppressLint("SetTextI18n")
     private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
         val queue = 0
@@ -40,7 +41,7 @@ class ActivityDetailBook : AppCompatActivity() {
         binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
         binding.bdBookAuthor.text = book.author ?: "Unknown"
-        binding.bdBookCategory.text = book.category ?: "Unknown"
+        binding.bdBookCategory.text = book.category
         binding.bdBookCopyNumber.text = book.quantity.toString()
         binding.bdBookPublishDate.text = book.publishYear?.toString() ?: "Unknown"
         binding.bdBookPublisher.text = book.publisher ?: "Unknown"
@@ -53,6 +54,7 @@ class ActivityDetailBook : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser!!.uid
         setContentView(R.layout.activity_detail_book)
+        val book: Book? = intent.getParcelableExtra("book")
 
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
@@ -70,7 +72,7 @@ class ActivityDetailBook : AppCompatActivity() {
         // Initialize necessary variables
         btnBack = findViewById(R.id.bdBtnBack)
         btnFavorite = findViewById(R.id.bdBtnFavorite)
-        if (FavoriteCache.favoriteBookIds.contains(bookID)) {
+        if (FavoriteCache.favoriteBookIds.contains(book!!.id!!)) {
             UIService.setButtonIcon(
                 this@ActivityDetailBook,
                 btnFavorite,
@@ -87,7 +89,7 @@ class ActivityDetailBook : AppCompatActivity() {
         //Handle add favorite button
         btnFavorite.setOnClickListener {
             lifecycleScope.launch {
-                if (FavoriteCache.favoriteBookIds.contains(bookID)) {
+                if (FavoriteCache.favoriteBookIds.contains(book.id!!)) {
                     UIService.setButtonIcon(
                         this@ActivityDetailBook,
                         btnFavorite,
@@ -100,7 +102,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     )
 
                     // Remove from cache
-                    FavoriteCache.favoriteBookIds.remove(bookID)
+                    FavoriteCache.favoriteBookIds.remove(book.id)
                 }
                 else {
                     UIService.setButtonIcon(
@@ -115,7 +117,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     )
 
                     // Add to cache
-                    FavoriteCache.favoriteBookIds.add(bookID)
+                    FavoriteCache.favoriteBookIds.add(book.id)
                 }
 
                 // Update database
@@ -137,17 +139,8 @@ class ActivityDetailBook : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val book: Book? = intent.getParcelableExtra<Book>("book")
-                if (book != null) {
-                    displayBookDetails(book, binding)
-                    bookID = book.id.toString()
-                }
-                else {
-                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {
-                        finish()
-                    })
-                    errorDialog.show()
-                }
+                displayBookDetails(book, binding)
+                bookID = book.id.toString()
             } catch (e: Exception) {
                 // Handle exception
                 errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T Vui lòng thử lại sau ~~", onDismissCallback = {

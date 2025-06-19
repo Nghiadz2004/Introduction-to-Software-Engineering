@@ -2,7 +2,6 @@ package com.example.librarymanagementsystem.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.util.Log
 import com.example.librarymanagementsystem.R
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,10 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.collection.emptyLongSet
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.cache.FavoriteCache
-import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BookDisplayItem
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.service.UIService
@@ -38,16 +35,18 @@ class MyBookAdapter(
     private val myBookID: String,
     private val onItemClick: (BookDisplayItem) -> Unit,
     private val onReportLost: (BookDisplayItem) -> Unit,
+    private val onCancelPending: (BookDisplayItem) -> Unit,
     private val onCancelLost: (BookDisplayItem) -> Unit
 ) : RecyclerView.Adapter<MyBookAdapter.MyBookViewHolder>() {
 
-    private val items: MutableList<BookDisplayItem> = items.toMutableList()  // chuyển thành MutableList ở đây
+    private val items: MutableList<BookDisplayItem> = items.toMutableList()
 
     inner class MyBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookImg: ImageView = itemView.findViewById(R.id.bookImg)
         val bookTitleTV: TextView = itemView.findViewById(R.id.bookTitleTV)
         val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
+        val dueDateLeftTV: TextView = itemView.findViewById(R.id.duedateleftTV)
         val bookDueDateLeftTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
 
         val favBtn: ImageButton = itemView.findViewById(R.id.favBtn)
@@ -132,45 +131,47 @@ class MyBookAdapter(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadItem(holder: MyBookViewHolder, item: BookDisplayItem) {
-        if (myBookID == BORROWED_ID) {
-            holder.bookDueDateLeftTV.visibility = View.VISIBLE
-            holder.lostBtn.text = "Report Lost"
-            item.borrowBook!!.expectedReturnDate.let {
-                if (item.borrowBook?.expectedReturnDate != null) {
+        when (myBookID) {
+            BORROWED_ID -> {
+                holder.bookDueDateLeftTV.visibility = View.VISIBLE
+                holder.lostBtn.text = "Report Lost"
+                item.borrowBook?.expectedReturnDate?.let {
                     val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                        .format(item.borrowBook!!.expectedReturnDate!!)
+                        .format(it)
                     holder.bookDueDateLeftTV.text = "Due: $formattedDate"
-                } else {
+                } ?: run {
                     holder.bookDueDateLeftTV.text = ""
                 }
-            } ?: run {
-                holder.bookDueDateLeftTV.text = ""
+                holder.lostBtn.setOnClickListener {
+                    onReportLost(item)
+                }
             }
-            holder.lostBtn.setOnClickListener {
-                onReportLost(item)
+
+            PENDING_ID -> {
+                holder.bookDueDateLeftTV.visibility = View.GONE
+                holder.dueDateLeftTV.visibility = View.GONE
+                holder.lostBtn.text = "Cancel"
+                holder.lostBtn.setOnClickListener {
+                    onCancelPending(item)
+                }
             }
-        }
 
-        else if (myBookID == PENDING_ID) {
-            holder.bookDueDateLeftTV.visibility = View.GONE
-            holder.lostBtn.text = "Unborrowed"
-            holder.lostBtn.setOnClickListener {
-//                    onRemoveLost(item)
-            }
-        }
+            LOST_ID -> {
+                val context = holder.itemView.context
+                val textColor = ContextCompat.getColor(context, R.color.orange)
+                val buttonColor = ColorStateList.valueOf(textColor)
 
-        else if (myBookID == LOST_ID) {
-            val text_color = ContextCompat.getColor(holder.itemView.context, R.color.orange)
-            val button_color = ContextCompat.getColor(holder.itemView.context, R.color.orange)
+                holder.bookTitleTV.setTextColor(textColor)
+                holder.lostBtn.text = "Cancel"
+                holder.lostBtn.backgroundTintList = buttonColor
+                holder.bookDueDateLeftTV.visibility = View.GONE
+                holder.dueDateLeftTV.visibility = View.GONE
 
-            holder.bookTitleTV.setTextColor(text_color)
-            holder.lostBtn.text = "Cancel"
-            holder.lostBtn.backgroundTintList = ColorStateList.valueOf(button_color)
-            holder.bookDueDateLeftTV.visibility = View.GONE
-
-            holder.lostBtn.setOnClickListener {
-                onCancelLost(item)
+                holder.lostBtn.setOnClickListener {
+                    onCancelLost(item)
+                }
             }
         }
     }

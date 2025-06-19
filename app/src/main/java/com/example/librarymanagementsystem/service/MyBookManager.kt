@@ -9,7 +9,6 @@ import com.example.librarymanagementsystem.repository.LostBookRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Date
 
 class MyBookManager(
     private val requestBorrowRepository: RequestBorrowRepository = RequestBorrowRepository(),
@@ -63,5 +62,10 @@ class MyBookManager(
     suspend fun cancelLostRequest(bookId: String, readerId: String) = withContext(Dispatchers.IO) {
 
         return@withContext lostBookRepository.cancelLostRequestByCopyID(bookId, readerId)
+    }
+
+    suspend fun cancelPendingRequest(bookId: String, readerId: String) = withContext(Dispatchers.IO) {
+
+        return@withContext requestBorrowRepository.cancelPendingRequest(bookId, readerId)
     }
 }

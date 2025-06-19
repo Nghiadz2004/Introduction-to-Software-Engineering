@@ -42,15 +42,15 @@
                 android:id="@+id/bookTitleTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Harry Potter and Philosopher’s Stone"
+                android:ellipsize="end"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 800"
                 android:maxLines="1"
-                android:ellipsize="end"
+                android:text="Harry Potter and Philosopher’s Stone"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:textSize="15dp"
-                tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextSizeCheck" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -61,25 +61,25 @@
                     android:id="@+id/authorTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Author: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
+                    android:gravity="start"
+                    android:text="Author: "
                     android:textColor="@color/light_gray_2"
-                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+                    android:textSize="15dp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextSizeCheck,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/bookAuthorTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="J. K. Rowling"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
+                    android:gravity="start"
+                    android:text="J. K. Rowling"
                     android:textColor="@color/light_gray_2"
-                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+                    android:textSize="15dp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -92,25 +92,25 @@
                     android:id="@+id/categoryTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Category: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
+                    android:gravity="start"
+                    android:text="Category: "
                     android:textColor="@color/light_gray_2"
-                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+                    android:textSize="15dp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextSizeCheck,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/bookCategoryTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="Fiction, Novel"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
+                    android:gravity="start"
+                    android:text="Fiction, Novel"
                     android:textColor="@color/light_gray_2"
-                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+                    android:textSize="15dp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
@@ -123,31 +123,31 @@
                     android:id="@+id/duedateleftTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="DueDate left: "
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
+                    android:gravity="start"
+                    android:text="DueDate left: "
                     android:textColor="@color/light_gray_2"
-                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+                    android:textSize="15dp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextSizeCheck,TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/bookDueDateLeftTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:text="3 days"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="15dp"
+                    android:gravity="start"
+                    android:text="3 days"
                     android:textColor="@color/light_gray_2"
-                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
+                    android:textSize="15dp"
+                    tools:ignore="HardcodedText,SpUsage,UnusedAttribute,TextSizeCheck,TextContrastCheck" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"/>
 
             <LinearLayout
@@ -160,16 +160,16 @@
                     android:id="@+id/favBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:padding="3dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:maxWidth="20dp"
                     android:maxHeight="20dp"
+                    android:padding="3dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/favorite_icon"
                     android:tint="@color/white"
-                    tools:ignore="ContentDescription,UseAppTint"/>
+                    tools:ignore="ContentDescription,UseAppTint,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 <Button
                     android:id="@+id/cancelBtn"
@@ -192,18 +192,19 @@
                     android:id="@+id/lostBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
-                    android:text="Report lost"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/inter_font"
                     android:fontVariationSettings="'wght' 800"
-                    android:textSize="14sp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:text="Report lost"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
-                    tools:ignore="HardcodedText,UnusedAttribute"/>
+                    android:textSize="14sp"
+                    tools:ignore="HardcodedText,UnusedAttribute,TextContrastCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 

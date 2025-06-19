@@ -31,9 +31,9 @@ enum class ReaderType(val value: String) {
 }
 
 enum class RequestStatus(val value: String) {
-    PENDING("Chờ duyệt"),
-    APPROVED("Đã duyệt"),
-    REJECTED("Từ chối");
+    PENDING("PENDING"),
+    APPROVED("APPROVED"),
+    REJECTED("REJECTED");
 
     companion object {
         fun fromString(value: String): RequestStatus? {

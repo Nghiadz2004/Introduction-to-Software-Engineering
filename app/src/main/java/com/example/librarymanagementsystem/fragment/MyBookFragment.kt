@@ -109,11 +109,28 @@ class MyBookFragment : Fragment() {
                                     borrow.bookId!!,
                                     borrow.copyId!!
                                 )
+
                                 // Remove from recycle view
                                 (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
                             } catch (e: Exception) {
                                 Log.e("REPORT_LOST", "Error: ${e.message}")
+                            }
+                        }
+                    },
+                    onCancelPending = { item ->
+                        lifecycleScope.launch {
+                            try {
+                                myBookManager.cancelPendingRequest(
+                                    item.book.id!!,
+                                    userID
+                                )
+
+                                // Remove from recycle view
+                                (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
+
+                            } catch (e: Exception) {
+                                Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}", e)
                             }
                         }
                     },
@@ -126,6 +143,7 @@ class MyBookFragment : Fragment() {
                                     item.book.id!!,
                                     userID
                                 )
+
                                 // Remove from recycle view
                                 (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
