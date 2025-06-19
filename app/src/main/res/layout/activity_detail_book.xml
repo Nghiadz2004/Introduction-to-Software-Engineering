@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bdFavoriteHolder"
+        app:layout_constraintBottom_toTopOf="@+id/buttonHolder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bdHeaderHolder">
@@ -336,62 +336,46 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-
     <!-- Button group -->
-    <!-- Favorite Background -->
-    <ImageView
-        android:id="@+id/bdFavoriteHolder"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:src="@color/orange"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintWidth_percent="0.46"/>
-
-    <!-- Favorite button -->
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/bdBtnFavorite"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/favorite_icon"
-        android:contentDescription="Favorite button"
-        app:tint="@color/light_blue"
-        android:scaleType="centerInside"
-        android:padding="0dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="@id/bdFavoriteHolder"
-        app:layout_constraintEnd_toEndOf="@id/bdFavoriteHolder"
-        app:layout_constraintTop_toTopOf="@id/bdFavoriteHolder"
-        app:layout_constraintBottom_toBottomOf="@id/bdFavoriteHolder" />
-
-    <!-- Borrow background -->
-    <ImageView
-        android:id="@+id/bdBorrowHolder"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:src="@color/light_blue"
-        android:contentDescription="Borrow background"
+    <LinearLayout
+        android:id="@+id/buttonHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintWidth_percent="0.55"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <!-- Favorite button -->
+        <ImageButton
+            android:id="@+id/bdBtnFavorite"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:src="@drawable/favorite_icon"
+            android:contentDescription="Favorite button"
+            android:scaleType="centerInside"
+            android:padding="0dp"
+            android:background="@color/light_blue"
+            app:tint="@color/white"/>
 
-    <!-- Borrow button -->
-    <Button
-        android:id="@+id/bdBtnBorrow"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="Borrow"
-        android:textSize="30sp"
-        android:textStyle="italic|bold"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        app:tint="@color/light_blue"
-        android:scaleType="centerInside"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="@id/bdBorrowHolder"
-        app:layout_constraintEnd_toEndOf="@id/bdBorrowHolder"
-        app:layout_constraintTop_toTopOf="@id/bdBorrowHolder"
-        app:layout_constraintBottom_toBottomOf="@id/bdBorrowHolder" />
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"/>
+
+        <!-- Borrow button -->
+        <Button
+            android:id="@+id/bdBtnBorrow"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:text="Borrow"
+            android:textSize="30sp"
+            android:textStyle="italic|bold"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:tint="@color/light_blue"
+            android:scaleType="centerInside"
+            android:background="@color/light_blue"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

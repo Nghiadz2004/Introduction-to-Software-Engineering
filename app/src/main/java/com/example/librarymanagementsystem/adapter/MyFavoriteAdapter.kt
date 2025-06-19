@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.CoroutineScope
@@ -45,9 +46,12 @@ class MyFavoriteAdapter(
         val book = bookList[position]
         Log.e("FavoriteItem", book.toString())
 
+        // Load book cover
         Glide.with(holder.itemView.context)
             .load(book.cover)
             .into(holder.bookImg)
+
+        // Load book content
         holder.bookTitleTV.text = book.title
         holder.bookAuthorTV.text = book.author
         holder.bookCategoryTV.text = book.category
@@ -57,7 +61,7 @@ class MyFavoriteAdapter(
                 FavoriteCache.favoriteBookIds.remove(book.id.toString())
                 favoriteRepository.updateFavorite(userID, FavoriteCache.favoriteBookIds)
 
-                // Cập nhật RecyclerView
+                // Update RecyclerView
                 bookList.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, bookList.size)

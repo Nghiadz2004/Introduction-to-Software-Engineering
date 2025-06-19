@@ -153,13 +153,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginBottom="12dp"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/favBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:padding="3dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"

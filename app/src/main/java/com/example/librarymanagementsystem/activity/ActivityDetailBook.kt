@@ -18,6 +18,7 @@ import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
 import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.auth.FirebaseAuth
 
 class ActivityDetailBook : AppCompatActivity() {
@@ -29,8 +30,6 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
     private lateinit var btnBorrow: Button
-    private lateinit var favoriteRepository: FavoriteRepository
-    private var isFavorite: Boolean = false
 
     // function to display book details
     private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
@@ -59,7 +58,6 @@ class ActivityDetailBook : AppCompatActivity() {
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         // Initialize error dialog
         errorDialog = ErrorDialog(this, "Error")
 
@@ -72,25 +70,60 @@ class ActivityDetailBook : AppCompatActivity() {
         // Initialize necessary variables
         btnBack = findViewById(R.id.bdBtnBack)
         btnFavorite = findViewById(R.id.bdBtnFavorite)
+        if (FavoriteCache.favoriteBookIds.contains(bookID)) {
+            UIService.setButtonIcon(
+                this@ActivityDetailBook,
+                btnFavorite,
+                R.drawable.baseline_favorite_24
+            )
+            UIService.setButtonColor(
+                this@ActivityDetailBook,
+                btnFavorite,
+                selectedColorResId = R.color.red
+            )
+        }
         btnBorrow = findViewById(R.id.bdBtnBorrow)
 
         //Handle add favorite button
         btnFavorite.setOnClickListener {
-            //Handle add favorite button
-            favoriteRepository = FavoriteRepository()
-            if (isFavorite) {
-                FavoriteCache.favoriteBookIds.remove(bookID)
-                isFavorite = false
-            }
-            else
-            {
-                FavoriteCache.favoriteBookIds.add(bookID)
-                isFavorite = true
-            }
             lifecycleScope.launch {
-                favoriteRepository.updateFavorite(userId, FavoriteCache.favoriteBookIds)
+                if (FavoriteCache.favoriteBookIds.contains(bookID)) {
+                    UIService.setButtonIcon(
+                        this@ActivityDetailBook,
+                        btnFavorite,
+                        R.drawable.favorite_icon
+                    )
+                    UIService.setButtonColor(
+                        this@ActivityDetailBook,
+                        btnFavorite,
+                        selectedColorResId = R.color.white
+                    )
+
+                    // Remove from cache
+                    FavoriteCache.favoriteBookIds.remove(bookID)
+                }
+                else {
+                    UIService.setButtonIcon(
+                        this@ActivityDetailBook,
+                        btnFavorite,
+                        R.drawable.baseline_favorite_24
+                    )
+                    UIService.setButtonColor(
+                        this@ActivityDetailBook,
+                        btnFavorite,
+                        selectedColorResId = R.color.red
+                    )
+
+                    // Add to cache
+                    FavoriteCache.favoriteBookIds.add(bookID)
+                }
+
+                // Update database
+                FavoriteRepository().updateFavorite(userId, FavoriteCache.favoriteBookIds)
             }
         }
+
+
 
         //Handle borrow button
         btnBorrow.setOnClickListener {
@@ -108,7 +141,6 @@ class ActivityDetailBook : AppCompatActivity() {
                 if (book != null) {
                     displayBookDetails(book, binding)
                     bookID = book.id.toString()
-                    isFavorite = FavoriteCache.favoriteBookIds.contains(bookID)
                 }
                 else {
                     errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {

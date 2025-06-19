@@ -11,6 +11,6 @@ class FavoriteManager(
 ) {
     // Lấy danh sách các quyển sách (bản logic) yêu thích của một độc giả
     suspend fun getFavoriteBooks(): List<Book> = withContext(Dispatchers.IO) {
-        return@withContext bookRepository.getBooksByIds(FavoriteCache.favoriteBookIds)
+        return@withContext bookRepository.getBooksByIds(FavoriteCache.favoriteBookIds.toList())
     }
 }

@@ -56,9 +56,9 @@ class FavoriteRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         }
     }
 
-    suspend fun updateFavorite(readerId: String, bookIdList: List<String>) = withContext(Dispatchers.IO) {
+    suspend fun updateFavorite(readerId: String, bookIdSet: Set<String>) = withContext(Dispatchers.IO) {
         val docRef = db.collection("favorites").document(readerId)
 
-        docRef.update("bookIdList", bookIdList).await()
+        docRef.update("bookIdList", bookIdSet.toList()).await()
     }
 }

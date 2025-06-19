@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -59,6 +60,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val favoriteRepository = FavoriteRepository()
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -77,7 +79,7 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val favBookList = favoriteRepository.getFavoriteBooksId(readerId)
             FavoriteCache.favoriteBookIds =
-                favBookList?.bookIdList?.toMutableList() ?: mutableListOf()
+                favBookList?.bookIdList?.toMutableSet() ?: mutableSetOf()
         }
 
         // Ánh xạ view
@@ -140,13 +142,11 @@ class HomeActivity : AppCompatActivity() {
 
     private fun handleMenuButton() {
         homeBtn.setOnClickListener {
-            lifecycleScope.launch {
-                UIService.setButtonColor(
-                    this@HomeActivity,
-                    homeBtn,
-                    listOf(myBookBtn)
-                )
-            }
+            UIService.setButtonColor(
+                this@HomeActivity,
+                homeBtn,
+                listOf(myBookBtn)
+            )
 
             homeBtn.invalidate()
             pageID = HOME_ID
@@ -155,13 +155,11 @@ class HomeActivity : AppCompatActivity() {
         }
 
         myBookBtn.setOnClickListener {
-            lifecycleScope.launch {
-                UIService.setButtonColor(
-                    this@HomeActivity,
-                    myBookBtn,
-                    listOf(homeBtn)
-                )
-            }
+            UIService.setButtonColor(
+                this@HomeActivity,
+                myBookBtn,
+                listOf(homeBtn)
+            )
 
             myBookBtn.invalidate()
             pageID = MYBOOK_ID
@@ -188,13 +186,11 @@ class HomeActivity : AppCompatActivity() {
 
     private fun loadActivity(pageID: String) {
         if (pageID == HOME_ID) {
-            lifecycleScope.launch {
-                UIService.setButtonColor(
-                    this@HomeActivity,
-                    homeBtn,
-                    listOf(myBookBtn)
-                )
-            }
+            UIService.setButtonColor(
+                this@HomeActivity,
+                homeBtn,
+                listOf(myBookBtn)
+            )
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, HomeFragment())
@@ -247,13 +243,11 @@ class HomeActivity : AppCompatActivity() {
         }
         else if (pageID == MYBOOK_ID) {
             // Change My Book menu button color
-            lifecycleScope.launch {
-                UIService.setButtonColor(
-                    this@HomeActivity,
-                    myBookBtn,
-                    listOf(homeBtn)
-                )
-            }
+            UIService.setButtonColor(
+                this@HomeActivity,
+                myBookBtn,
+                listOf(homeBtn)
+            )
 
             // Fragment transaction
             supportFragmentManager.beginTransaction()
@@ -285,13 +279,11 @@ class HomeActivity : AppCompatActivity() {
 
                 val button = Button(this).apply {
                     if (sectionName == BORROWED_ID) {
-                        lifecycleScope.launch {
-                            UIService.setButtonColor(
-                                this@HomeActivity,
-                                this@apply,  // selected button
-                                selectedColorResId = R.color.pink,
-                            )
-                        }
+                        UIService.setButtonColor(
+                            this@HomeActivity,
+                            this@apply,  // selected button
+                            selectedColorResId = R.color.pink,
+                        )
                     }
 
                     text = sectionName
@@ -309,15 +301,13 @@ class HomeActivity : AppCompatActivity() {
                     compoundDrawablePadding = 12
 
                     setOnClickListener {
-                        lifecycleScope.launch {
-                            UIService.setButtonColor(
-                                this@HomeActivity,
-                                this@apply,  // selected button
-                                sectionButtons.filterNot { it == this@apply },
-                                R.color.pink,
-                                R.color.light_purple
-                            )
-                        }
+                        UIService.setButtonColor(
+                            this@HomeActivity,
+                            this@apply,  // selected button
+                            sectionButtons.filterNot { it == this@apply },
+                            R.color.pink,
+                            R.color.light_purple
+                        )
 
                         val fragment = MyBookFragment.newInstance(sectionName)
                         supportFragmentManager.beginTransaction()

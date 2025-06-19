@@ -11,13 +11,20 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.collection.emptyLongSet
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BookDisplayItem
+import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -42,6 +49,8 @@ class MyBookAdapter(
         val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
         val bookDueDateLeftTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
+
+        val favBtn: ImageButton = itemView.findViewById(R.id.favBtn)
         val lostBtn: Button = itemView.findViewById(R.id.lostBtn)
 
         val userID = Firebase.auth.currentUser!!.uid
@@ -64,6 +73,57 @@ class MyBookAdapter(
         holder.bookTitleTV.text = book.title
         holder.bookAuthorTV.text = book.author ?: "Unknown"
         holder.bookCategoryTV.text = book.category
+
+        if (FavoriteCache.favoriteBookIds.contains(item.book.id)) {
+            UIService.setButtonIcon(
+                holder.itemView.context,
+                holder.favBtn,
+                R.drawable.baseline_favorite_24
+            )
+            UIService.setButtonColor(
+                holder.itemView.context,
+                holder.favBtn,
+                selectedColorResId = R.color.red
+            )
+        }
+
+        holder.favBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                if (FavoriteCache.favoriteBookIds.contains(item.book.id)) {
+                    UIService.setButtonIcon(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        R.drawable.favorite_icon
+                    )
+                    UIService.setButtonColor(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        selectedColorResId = R.color.white
+                    )
+
+                    // Remove from cache
+                    FavoriteCache.favoriteBookIds.remove(item.book.id)
+                }
+                else {
+                    UIService.setButtonIcon(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        R.drawable.baseline_favorite_24
+                    )
+                    UIService.setButtonColor(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        selectedColorResId = R.color.red
+                    )
+
+                    // Add to cache
+                    FavoriteCache.favoriteBookIds.add(item.book.id!!)
+                }
+
+                // Update data base
+                FavoriteRepository().updateFavorite(holder.userID, FavoriteCache.favoriteBookIds)
+            }
+        }
 
         loadItem(holder, item)
 
