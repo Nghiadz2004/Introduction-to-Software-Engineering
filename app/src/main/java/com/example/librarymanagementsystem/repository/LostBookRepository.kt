@@ -18,6 +18,20 @@ class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         request.requestId
     }
 
+    suspend fun cancelLostRequestByCopyID(bookId: String, readId: String) = withContext(Dispatchers.IO) {
+        val snapshot = db.collection("lost_requests")
+            .whereEqualTo("bookId", bookId)
+            .whereEqualTo("readerId", readId)
+            .get()
+            .await()
+
+        for (document in snapshot.documents) {
+            db.collection("lost_requests")
+                .document(document.id)
+                .delete()
+                .await()
+        }
+    }
 
     // Lấy tất cả yêu cầu mất sách
     suspend fun getPendingRequests(): List<LostBook> = withContext(Dispatchers.IO) {

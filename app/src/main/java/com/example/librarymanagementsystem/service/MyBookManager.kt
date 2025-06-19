@@ -33,7 +33,7 @@ class MyBookManager(
         val validBorrowList = borrowList.filterNot { it.bookId in lostBookIds }
         val bookIds = validBorrowList.map { it.bookId }
 
-        val books = bookRepository.getBooksByIds(bookIds)
+        val books = bookRepository.getBooksByIds(bookIds.filterNotNull())
 
         return@withContext validBorrowList.mapNotNull { borrow ->
             val book = books.find { it.id == borrow.bookId }
@@ -60,8 +60,8 @@ class MyBookManager(
         return@withContext lostBookRepository.submitLostRequest(lostRequest)
     }
 
-    suspend fun removeLostRequest(requestId: String) = withContext(Dispatchers.IO) {
-        borrowingRepository.addBorrowBook()
-        return@withContext lostBookRepository.removeLostRequest(requestId)
+    suspend fun cancelLostRequest(bookId: String, readerId: String) = withContext(Dispatchers.IO) {
+
+        return@withContext lostBookRepository.cancelLostRequestByCopyID(bookId, readerId)
     }
 }

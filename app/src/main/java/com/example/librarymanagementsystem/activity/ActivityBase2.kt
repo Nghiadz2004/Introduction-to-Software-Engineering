@@ -13,6 +13,11 @@ import com.example.librarymanagementsystem.fragment.ProfileFragment
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.content.res.ColorStateList
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.librarymanagementsystem.service.UIService
+import kotlinx.coroutines.launch
 
 private const val HOME_ID = "HOME"
 private const val MYBOOK_ID = "MYBOOK"
@@ -56,22 +61,40 @@ class ActivityBase2 : AppCompatActivity() {
         handleMenuButton()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadActivity(pageID: String) {
-        if (pageID == PROFILE_ID) {
+        if (pageID == MYFAVORITE_ID) {
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    favoriteBtn,
+                    listOf(profileBtn)
+                )
+            }
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MyFavoriteFragment())
+                .addToBackStack(null)
+                .commit()
+
+            pageNamePlaceholderTV.text = "My Favorite"
+        }
+
+        else if (pageID == PROFILE_ID) {
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    profileBtn,
+                    listOf(favoriteBtn)
+                )
+            }
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 
             pageNamePlaceholderTV.text = "Profile"
-        }
-
-        else if (pageID == MYFAVORITE_ID) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MyFavoriteFragment())
-                .addToBackStack(null)
-                .commit()
-            pageNamePlaceholderTV.text = "My Favorite"
         }
     }
 
@@ -92,6 +115,14 @@ class ActivityBase2 : AppCompatActivity() {
         }
 
         favoriteBtn.setOnClickListener {
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    favoriteBtn,
+                    listOf(profileBtn)
+                )
+            }
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, MyFavoriteFragment())
                 .addToBackStack(null)
@@ -101,6 +132,13 @@ class ActivityBase2 : AppCompatActivity() {
         }
 
         profileBtn.setOnClickListener {
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    profileBtn,
+                    listOf(favoriteBtn)
+                )
+            }
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)

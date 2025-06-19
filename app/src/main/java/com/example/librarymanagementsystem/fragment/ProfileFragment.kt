@@ -79,6 +79,7 @@ class ProfileFragment : Fragment() {
         birthdayTV = view.findViewById(R.id.birthdayTV)
         emailTV = view.findViewById(R.id.emailTV)
         typeTV = view.findViewById(R.id.typeTV)
+        addressTV = view.findViewById(R.id.addressTV)
         birthdayTV = view.findViewById(R.id.birthdayTV)
         dueDateTV = view.findViewById(R.id.dueDateTV)
         statusIV = view.findViewById(R.id.statusIV)

@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.activity
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Typeface
@@ -27,6 +28,7 @@ import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
+import com.example.librarymanagementsystem.service.UIService
 import kotlinx.coroutines.launch
 
 // Home menu id
@@ -127,16 +129,14 @@ class HomeActivity : AppCompatActivity() {
 
     private fun handleMenuButton() {
         homeBtn.setOnClickListener {
-            setMenuButtonColor(homeBtn, myBookBtn)
-
-            val drawableTop = AppCompatResources.getDrawable(this, R.drawable.house_solid)
-            drawableTop?.let {
-                val wrappedDrawable = DrawableCompat.wrap(drawableTop.mutate())
-                DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(this, R.color.light_blue))
-
-                // Gán lại drawable sau khi đã chỉnh tint
-                homeBtn.setCompoundDrawablesWithIntrinsicBounds(null, wrappedDrawable, null, null)
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@HomeActivity,
+                    homeBtn,
+                    listOf(myBookBtn)
+                )
             }
+
             homeBtn.invalidate()
             pageID = HOME_ID
             categoryButtonContainer.removeAllViews()
@@ -144,19 +144,14 @@ class HomeActivity : AppCompatActivity() {
         }
 
         myBookBtn.setOnClickListener {
-            setMenuButtonColor(myBookBtn, homeBtn)
-
-            val drawableTop = AppCompatResources.getDrawable(this, R.drawable.book_icon)
-            drawableTop?.let {
-                val wrappedDrawable = DrawableCompat.wrap(drawableTop.mutate())
-                DrawableCompat.setTint(
-                    wrappedDrawable,
-                    ContextCompat.getColor(this, R.color.light_blue)
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@HomeActivity,
+                    myBookBtn,
+                    listOf(homeBtn)
                 )
-
-                // Gán lại drawable sau khi đã chỉnh tint
-                myBookBtn.setCompoundDrawablesWithIntrinsicBounds(null, wrappedDrawable, null, null)
             }
+
             myBookBtn.invalidate()
             pageID = MYBOOK_ID
             categoryButtonContainer.removeAllViews()
@@ -182,8 +177,13 @@ class HomeActivity : AppCompatActivity() {
 
     private fun loadActivity(pageID: String) {
         if (pageID == HOME_ID) {
-
-            setMenuButtonColor(homeBtn, myBookBtn)
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@HomeActivity,
+                    homeBtn,
+                    listOf(myBookBtn)
+                )
+            }
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, HomeFragment())
@@ -235,9 +235,16 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         else if (pageID == MYBOOK_ID) {
+            // Change My Book menu button color
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@HomeActivity,
+                    myBookBtn,
+                    listOf(homeBtn)
+                )
+            }
 
-            setMenuButtonColor(myBookBtn, homeBtn)
-
+            // Fragment transaction
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, MyBookFragment())
                 .addToBackStack(null)
@@ -253,10 +260,11 @@ class HomeActivity : AppCompatActivity() {
 
             val density = resources.displayMetrics.density
             val pixelSize = (24 * density).toInt()
+            val sectionButtons = mutableListOf<Button>()
 
             for ((sectionName, drawableRes) in myBookSectionIcon) {
                 val icon: Drawable? = ContextCompat.getDrawable(this, drawableRes)
-                val bitmap = android.graphics.Bitmap.createBitmap(pixelSize, pixelSize, android.graphics.Bitmap.Config.ARGB_8888)
+                val bitmap = Bitmap.createBitmap(pixelSize, pixelSize, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
                 icon?.setBounds(0, 0, canvas.width, canvas.height)
                 icon?.draw(canvas)
@@ -265,6 +273,16 @@ class HomeActivity : AppCompatActivity() {
                 DrawableCompat.setTint(tinted, ContextCompat.getColor(this, R.color.light_purple))
 
                 val button = Button(this).apply {
+                    if (sectionName == BORROWED_ID) {
+                        lifecycleScope.launch {
+                            UIService.setButtonColor(
+                                this@HomeActivity,
+                                this@apply,  // selected button
+                                selectedColorResId = R.color.pink,
+                            )
+                        }
+                    }
+
                     text = sectionName
                     setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue))
                     setTextColor(ContextCompat.getColor(context, R.color.light_purple))
@@ -280,6 +298,16 @@ class HomeActivity : AppCompatActivity() {
                     compoundDrawablePadding = 12
 
                     setOnClickListener {
+                        lifecycleScope.launch {
+                            UIService.setButtonColor(
+                                this@HomeActivity,
+                                this@apply,  // selected button
+                                sectionButtons.filterNot { it == this@apply },
+                                R.color.pink,
+                                R.color.light_purple
+                            )
+                        }
+
                         val fragment = MyBookFragment.newInstance(sectionName)
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragmentContainer, fragment)
@@ -287,20 +315,10 @@ class HomeActivity : AppCompatActivity() {
                             .commit()
                     }
                 }
+
+                sectionButtons.add(button)
                 categoryButtonContainer.addView(button)
             }
         }
-    }
-
-    private fun setMenuButtonColor(selected_btn: Button, deselected_btn: Button) {
-        Log.e("MENUBUTTON", selected_btn.toString())
-        Log.e("MENUBUTTON", deselected_btn.toString())
-        // Set icon color
-        selected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_blue))
-        deselected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_gray))
-
-        // Set text color
-        selected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_blue))
-        deselected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
     }
 }
