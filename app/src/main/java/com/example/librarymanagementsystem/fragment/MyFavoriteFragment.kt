@@ -55,10 +55,7 @@ class MyFavoriteFragment : Fragment() {
             loadingDialog.show()
             try {
                 val favBookList = favoriteRepository.getFavoriteBooksId(userID)
-                val allBooks = bookRepository.getBooks()
-                val booksToShow = allBooks.filter { book ->
-                    favBookList?.bookIdList?.contains(book.id) == true
-                }
+                val booksToShow = bookRepository.getBooksByIds(favBookList?.bookIdList ?: emptyList())
 
                 bookList.clear()
                 bookList.addAll(booksToShow)
