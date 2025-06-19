@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.google.firebase.Firebase
@@ -53,7 +54,8 @@ class MyFavoriteAdapter(
 
         holder.removeBtn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                favoriteRepository.removeBookFromFavorite(userID, book.id.toString())
+                FavoriteCache.favoriteBookIds.remove(book.id.toString())
+                favoriteRepository.updateFavorite(userID, FavoriteCache.favoriteBookIds)
 
                 // Cập nhật RecyclerView
                 bookList.removeAt(position)

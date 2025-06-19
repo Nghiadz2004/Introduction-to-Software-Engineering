@@ -24,11 +24,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.service.UIService
+import com.example.librarymanagementsystem.repository.FavoriteRepository
 import kotlinx.coroutines.launch
 
 // Home menu id
@@ -55,6 +57,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var pageID: String
     private lateinit var readerId: String
 
+    private val favoriteRepository = FavoriteRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -66,8 +70,15 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
+
+
         readerId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
         pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
+        lifecycleScope.launch {
+            val favBookList = favoriteRepository.getFavoriteBooksId(readerId)
+            FavoriteCache.favoriteBookIds =
+                favBookList?.bookIdList?.toMutableList() ?: mutableListOf()
+        }
 
         // Ánh xạ view
         homeBtn = findViewById(R.id.homeBtn)

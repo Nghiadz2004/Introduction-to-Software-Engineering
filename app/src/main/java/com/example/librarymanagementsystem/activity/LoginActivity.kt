@@ -2,14 +2,18 @@ package com.example.librarymanagementsystem.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
+import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.UserRepository
+import com.example.librarymanagementsystem.service.FavoriteManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -98,15 +102,16 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 try {
-                    val result = auth.signInWithEmailAndPassword(emailToUse!!, password).await()
+                    auth.signInWithEmailAndPassword(emailToUse!!, password).await()
+                    sharedPref.edit().putBoolean("remember_me", rememberMeCheckbox.isChecked).apply()
                     errorMessage.text = "Login successfully! Please wait..."
                     errorMessage.visibility = View.VISIBLE
                     loadingDialog.dismiss()
 
-                    sharedPref.edit().putBoolean("remember_me", rememberMeCheckbox.isChecked).apply()
                     val userRepository = UserRepository()
                     lifecycleScope.launch {
                         val userObject = userRepository.getUserByEmail(emailToUse)
+
                         if (userObject?.roleId == "reader") {
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         } else if (userObject?.roleId == "librarian") {
