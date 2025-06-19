@@ -79,14 +79,11 @@ class MyBookAdapter(
         if (myBookID == BORROWED_ID) {
             holder.bookDueDateLeftTV.visibility = View.VISIBLE
             holder.lostBtn.text = "Report Lost"
-            item.borrowBook!!.expectedReturnDate.let {
-                val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it!!)
+            item.borrowBook?.expectedReturnDate?.let {
+                val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it)
                 holder.bookDueDateLeftTV.text = "Due: $formattedDate"
             } ?: run {
                 holder.bookDueDateLeftTV.text = ""
-            }
-            holder.lostBtn.setOnClickListener {
-                onReportLost(item)
             }
         }
         else if (myBookID == PENDING_ID) {

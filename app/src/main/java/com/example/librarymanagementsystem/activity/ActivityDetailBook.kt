@@ -10,23 +10,27 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.databinding.ActivityDetailBookBinding
 import com.google.firebase.auth.FirebaseAuthException
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
+import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.google.firebase.auth.FirebaseAuth
 
 class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
-    private lateinit var auth: FirebaseAuthException
+    private lateinit var auth: FirebaseAuth
     private lateinit var bookID: String
     private lateinit var binding: ActivityDetailBookBinding
-    private lateinit var bookRepository: BookRepository
     private lateinit var errorDialog: ErrorDialog
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
     private lateinit var btnBorrow: Button
+    private lateinit var favoriteRepository: FavoriteRepository
+    private var isFavorite: Boolean = false
 
     // function to display book details
     private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
@@ -47,14 +51,14 @@ class ActivityDetailBook : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser!!.uid
         setContentView(R.layout.activity_detail_book)
 
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize book repository
-        bookRepository = BookRepository()
 
         // Initialize error dialog
         errorDialog = ErrorDialog(this, "Error")
@@ -73,6 +77,19 @@ class ActivityDetailBook : AppCompatActivity() {
         //Handle add favorite button
         btnFavorite.setOnClickListener {
             //Handle add favorite button
+            favoriteRepository = FavoriteRepository()
+            if (isFavorite) {
+                FavoriteCache.favoriteBookIds.remove(bookID)
+                isFavorite = false
+            }
+            else
+            {
+                FavoriteCache.favoriteBookIds.add(bookID)
+                isFavorite = true
+            }
+            lifecycleScope.launch {
+                favoriteRepository.updateFavorite(userId, FavoriteCache.favoriteBookIds)
+            }
         }
 
         //Handle borrow button
@@ -90,6 +107,8 @@ class ActivityDetailBook : AppCompatActivity() {
                 val book: Book? = intent.getParcelableExtra<Book>("book")
                 if (book != null) {
                     displayBookDetails(book, binding)
+                    bookID = book.id.toString()
+                    isFavorite = FavoriteCache.favoriteBookIds.contains(bookID)
                 }
                 else {
                     errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {
@@ -99,7 +118,7 @@ class ActivityDetailBook : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 // Handle exception
-                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T\\nVui lòng thử lại sau ~~", onDismissCallback = {
+                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T Vui lòng thử lại sau ~~", onDismissCallback = {
                     finish()
                 })
                 errorDialog.show()
