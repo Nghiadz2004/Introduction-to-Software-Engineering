@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.librarymanagementsystem" />
-                  <option name="mobileSdkAppId" value="1:746637347748:android:b9ea85c0c87b7246dfcf31" />
-                  <option name="projectId" value="library-management-syste-dd5e3" />
-                  <option name="projectNumber" value="746637347748" />
+                  <option name="appId" value="com.example.libmanagementsystem" />
+                  <option name="mobileSdkAppId" value="1:100688165860:android:9bd71b79b8cade726b25f1" />
+                  <option name="projectId" value="library-management-44117" />
+                  <option name="projectNumber" value="100688165860" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

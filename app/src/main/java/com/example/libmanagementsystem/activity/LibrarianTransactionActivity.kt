@@ -1,0 +1,143 @@
+package com.example.libmanagementsystem.activity
+
+import android.content.Intent
+import android.content.res.ColorStateList
+import android.os.Bundle
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.libmanagementsystem.R
+import com.example.libmanagementsystem.adapter.LoanAdapter
+import com.example.libmanagementsystem.adapter.QueueAdapter
+import com.example.libmanagementsystem.adapter.ReturnBookAdapter
+//import com.example.libmanagementsystem.adapter.ReportLostAdapter
+import com.example.libmanagementsystem.service.LoanService
+import com.example.libmanagementsystem.service.QueueService
+import com.example.libmanagementsystem.service.ReturnBookService
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+//import com.example.libmanagementsystem.service.ReportLostService
+import kotlinx.coroutines.launch
+
+private const val HOME_ID = "HOME"
+private const val TRANSACTION_ID = "TRANSACTION"
+private const val STATISTIC_ID = "STATISTIC"
+private const val PROFILE_ID = "PROFILE"
+
+class LibrarianTransactionActivity : AppCompatActivity() {
+    private lateinit var homeBtn: Button
+    private lateinit var transactionBtn: Button
+    private lateinit var statisticBtn: Button
+    private lateinit var profileBtn: Button
+    private lateinit var auth: FirebaseAuth
+    private lateinit var userID: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_manage_transaction)
+
+        val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
+        auth = Firebase.auth
+        userID = auth.currentUser!!.uid
+        homeBtn = findViewById(R.id.libHomeBtn)
+        transactionBtn = findViewById(R.id.libTransBtn)
+        statisticBtn = findViewById(R.id.libStatBtn)
+        profileBtn = findViewById(R.id.libProfileBtn)
+        val btnLoans = findViewById<Button>(R.id.btnLoans)
+        val btnQueues = findViewById<Button>(R.id.btnQueues)
+        val btnReturnBook = findViewById<Button>(R.id.btnReturnBook)
+        val btnReportLost = findViewById<Button>(R.id.btnReportLost)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.fgTransaction)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        handleMenuButton(userID)
+
+        // Mặc định hiển thị Loans
+        setActiveTab(btnLoans, listOf(btnQueues, btnReturnBook, btnReportLost))
+        lifecycleScope.launch {
+            val loanDisplays = LoanService().getAllLoanDisplays()
+            recyclerView.adapter = LoanAdapter(loanDisplays)
+        }
+
+        btnLoans.setOnClickListener {
+            setActiveTab(btnLoans, listOf(btnQueues, btnReturnBook, btnReportLost))
+            lifecycleScope.launch {
+                val loanDisplays = LoanService().getAllLoanDisplays()
+                recyclerView.adapter = LoanAdapter(loanDisplays)
+            }
+        }
+
+        btnQueues.setOnClickListener {
+            setActiveTab(btnQueues, listOf(btnLoans, btnReturnBook, btnReportLost))
+            lifecycleScope.launch {
+                val queueDisplays = QueueService().getAllQueueDisplays()
+                recyclerView.adapter = QueueAdapter(queueDisplays)
+            }
+        }
+
+        btnReturnBook.setOnClickListener {
+            setActiveTab(btnReturnBook, listOf(btnLoans, btnQueues, btnReportLost))
+            lifecycleScope.launch {
+                val returnDisplays = ReturnBookService().getAllReturnDisplays()
+                recyclerView.adapter = ReturnBookAdapter(returnDisplays)
+            }
+        }
+
+        btnReportLost.setOnClickListener {
+            setActiveTab(btnReportLost, listOf(btnLoans, btnQueues, btnReturnBook))
+            lifecycleScope.launch {
+                //val lostDisplays = ReportLostService().getAllLostDisplays()
+                //recyclerView.adapter = ReportLostAdapter(lostDisplays)
+            }
+        }
+    }
+
+    private fun setActiveTab(active: Button, others: List<Button>) {
+        val pink = ContextCompat.getColor(this, R.color.pink)
+        val lightPurple = ContextCompat.getColor(this, R.color.light_purple)
+
+        active.setTextColor(pink)
+        active.compoundDrawableTintList = ColorStateList.valueOf(pink)
+
+        for (btn in others) {
+            btn.setTextColor(lightPurple)
+            btn.compoundDrawableTintList = ColorStateList.valueOf(lightPurple)
+        }
+    }
+
+    private fun handleMenuButton(userID: String) {
+        homeBtn.setOnClickListener {
+            val intent = Intent(this, LibrarianHomeActivity::class.java)
+            intent.putExtra("PAGE_ID", HOME_ID)
+            startActivity(intent)
+            finish()
+        }
+
+        transactionBtn.setOnClickListener {
+            val intent = Intent(this, LibrarianTransactionActivity::class.java)
+            intent.putExtra("PAGE_ID", TRANSACTION_ID)
+            startActivity(intent)
+            finish()
+        }
+
+        statisticBtn.setOnClickListener {
+            val intent = Intent(this, ActivityLibrarian::class.java)
+            intent.putExtra("PAGE_ID", STATISTIC_ID)
+            startActivity(intent)
+            finish()
+        }
+
+        profileBtn.setOnClickListener {
+            val intent = Intent(this, ActivityLibrarian::class.java)
+            intent.putExtra("PAGE_ID", PROFILE_ID)
+            startActivity(intent)
+            finish()
+        }
+    }
+}

@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.librarymanagementsystem"
+    namespace = "com.example.libmanagementsystem"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.librarymanagementsystem"
+        applicationId = "com.example.libmanagementsystem"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
