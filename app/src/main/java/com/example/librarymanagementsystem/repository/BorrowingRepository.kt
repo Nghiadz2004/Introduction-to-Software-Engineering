@@ -15,6 +15,10 @@ class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.
         db.collection("borrow_book").get().await().toObjects(BorrowBook::class.java)
     }
 
+    suspend fun getUserBooksWithinFiveDays(readerId: String) = withContext(Dispatchers.IO){
+
+    }
+
     suspend fun getBorrowCountByBookIds(bookIds: List<String>): Map<String, Int> = withContext(Dispatchers.IO) {
         val result = mutableMapOf<String, Int>()
 

@@ -25,6 +25,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.fragment.HomeFragment
@@ -32,9 +33,11 @@ import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.fragment.SearchHome
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
+import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.service.UIService
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.LibraryCardRepository
+import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 import kotlinx.coroutines.launch
 
 // Home menu id
@@ -82,6 +85,17 @@ class HomeActivity : AppCompatActivity() {
         pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         lifecycleScope.launch {
             val libraryCard = libraryCardRepository.getLatestLibraryCard(readerId)
+            if (libraryCard != null) {
+                val pendingBorrowList = RequestBorrowRepository().getReaderPendingRequests(readerId)
+                val pendingMap = pendingBorrowList.associate { it.bookId to "PENDING" }
+
+                val borrowingList  = BorrowingRepository().getBorrowBooksByCard(libraryCard.id!!)
+                val borrowingMap = borrowingList.associate { it.bookId!! to "BORROWING" }
+
+                BookOperateCache.statusMap.putAll(borrowingMap)
+                BookOperateCache.statusMap.putAll(pendingMap)
+            }
+
             val favBookList = favoriteRepository.getFavoriteBooksId(readerId)
             FavoriteCache.favoriteBookIds =
                 favBookList?.bookIdList?.toSet()?.toMutableSet() ?: mutableSetOf()

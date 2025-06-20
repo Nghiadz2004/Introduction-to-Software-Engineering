@@ -1,4 +1,5 @@
 package com.example.librarymanagementsystem.cache
 
-class BookOperateCache {
+object BookOperateCache {
+    val statusMap = mutableMapOf<String, String>()
 }

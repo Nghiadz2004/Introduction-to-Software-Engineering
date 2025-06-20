@@ -140,6 +140,7 @@ class MyBookAdapter(
                 item.borrowBook?.expectedReturnDate?.let {
                     val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                         .format(it)
+                    holder.dueDateLeftTV.visibility = View.GONE
                     holder.bookDueDateLeftTV.text = "Due: $formattedDate"
                 } ?: run {
                     holder.bookDueDateLeftTV.text = ""
