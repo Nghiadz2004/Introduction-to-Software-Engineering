@@ -26,12 +26,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.cache.FavoriteCache
+import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.service.UIService
 import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import kotlinx.coroutines.launch
 
 // Home menu id
@@ -59,6 +61,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var readerId: String
 
     private val favoriteRepository = FavoriteRepository()
+    private val libraryCardRepository = LibraryCardRepository()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,9 +80,11 @@ class HomeActivity : AppCompatActivity() {
         readerId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
         pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         lifecycleScope.launch {
+            val libraryCard = libraryCardRepository.getLatestLibraryCard(readerId)
             val favBookList = favoriteRepository.getFavoriteBooksId(readerId)
             FavoriteCache.favoriteBookIds =
-                favBookList?.bookIdList?.toMutableSet() ?: mutableSetOf()
+                favBookList?.bookIdList?.toSet()?.toMutableSet() ?: mutableSetOf()
+            LibraryCardCache.libraryCard = libraryCard
         }
 
         // Ánh xạ view

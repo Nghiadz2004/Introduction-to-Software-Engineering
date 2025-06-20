@@ -10,6 +10,10 @@ import kotlinx.coroutines.withContext
 
 class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
+    suspend fun addRequestBorrow(request: BorrowRequest): String = withContext(Dispatchers.IO) {
+        db.collection("request_borrow").add(request).await().id
+    }
+
     // Lấy tất cả các yêu cầu mượn sách của 1 người dùng (bao gồm đang yêu cầu mượn, bị từ chối, đã trả)
     suspend fun getRequestBooksByReader(readerId: String): List<BorrowRequest> = withContext(
         Dispatchers.IO) {
@@ -65,16 +69,8 @@ class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirest
         }
     }
 
-    // Lấy danh sách số người đang chờ mượn một quyển sách (bản logic)
-    suspend fun getBookPendingRequests(bookId: String): List<BorrowRequest> = withContext(Dispatchers.IO) {
-        db.collection("request_borrow")
-            .whereEqualTo("status", RequestStatus.PENDING.value)
-            .whereEqualTo("bookId", bookId)
-            .get()
-            .await()
-            .toObjects(BorrowRequest::class.java)
-    }
 
+    // Lấy danh sách số người đang chờ mượn một quyển sách (bản logic)
     suspend fun getNumBookPendingRequests(bookId: String): Int = withContext(Dispatchers.IO) {
         val countSnapshot = db.collection("request_borrow")
             .whereEqualTo("status", RequestStatus.PENDING.value)

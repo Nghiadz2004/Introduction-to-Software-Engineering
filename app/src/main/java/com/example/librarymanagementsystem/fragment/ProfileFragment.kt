@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,9 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.LoginActivity
+import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
+import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.example.librarymanagementsystem.repository.UserRepository
 import com.example.librarymanagementsystem.service.LibraryCardManager
 import com.google.firebase.Firebase
@@ -54,6 +57,7 @@ class ProfileFragment : Fragment() {
     private lateinit var userID: String
     // Repository
     private val userRepository = UserRepository()
+    private val libraryCardRepository = LibraryCardRepository()
     // Manager
     private val libraryCardManager = LibraryCardManager()
     // Dialog
@@ -124,21 +128,33 @@ class ProfileFragment : Fragment() {
                         Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
                     }
                 }
+                val libraryCard = LibraryCardCache.libraryCard
+                val dueDate = libraryCardManager.getDueDate(libraryCard!!.createdAt)
 
-                val libraryCard = libraryCardManager.getCurrentLibraryCard(userID)
-                if (libraryCard != null) {
+                if (dueDate >= Date()) {
                     wrapper.visibility = View.GONE
                     fullNameTV.text = libraryCard.fullName
                     emailTV.text = libraryCard.email
                     addressTV.text = libraryCard.address
                     typeTV.text = libraryCard.type
                     birthdayTV.text = formatDate(libraryCard.birthday)
-                    dueDateTV.text = formatDate(libraryCardManager.getDueDate(libraryCard.createdAt))
-                    statusIV.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
+                    dueDateTV.text =
+                        formatDate(libraryCardManager.getDueDate(libraryCard.createdAt))
+                    statusIV.setColorFilter(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.green
+                        )
+                    )
                     statusTV.text = libraryCard.status
+                }
+                else
+                {
+                    LibraryCardCache.libraryCard = null
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error loading profile: ${e.message}", Toast.LENGTH_LONG).show()
+                Log.e("ProfileFragment", "Error loading profile", e)
             } finally {
                 loadingDialog.dismiss()
             }

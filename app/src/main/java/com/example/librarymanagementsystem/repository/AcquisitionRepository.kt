@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BookAcquisition
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -11,8 +12,15 @@ import java.util.Date
 class AcquisitionRepository(private val db: FirebaseFirestore) {
 
     // Ghi nhận một quyển sách mới được nhập vào kho
-    suspend fun recordAcquisition(acquisition: BookAcquisition): String = withContext(Dispatchers.IO) {
-        db.collection("book_acquisitions").add(acquisition).await().id
+    suspend fun recordAcquisition(bookId: String, copyId: String? = null, recorderId: String): String = withContext(Dispatchers.IO) {
+        val data = mapOf(
+            "bookId" to bookId,
+            "copyId" to copyId,
+            "acquiredBy" to recorderId,
+            "acquisitionDate" to FieldValue.serverTimestamp()
+        )
+
+        db.collection("book_acquisitions").add(data).await().id
     }
 
     // Trả về danh sách các sách đã được nhập vào kho bởi thủ kho

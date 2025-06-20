@@ -12,15 +12,20 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.cache.FavoriteCache
+import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.databinding.ActivityDetailBookBinding
+import com.google.firebase.auth.FirebaseAuthException
 import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
+import com.example.librarymanagementsystem.model.BorrowRequest
+import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.auth.FirebaseAuth
 
-@Suppress("DEPRECATION")
 class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
     private lateinit var auth: FirebaseAuth
@@ -30,13 +35,22 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
     private lateinit var btnBorrow: Button
+    private lateinit var borrowingRepository: BorrowingRepository
+    private lateinit var requestBorrowRepository: RequestBorrowRepository
+    private var isFavorite: Boolean = false
 
     // function to display book details
     @SuppressLint("SetTextI18n")
     private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
-        val queue = 0
-        val borrower = 0
+        borrowingRepository = BorrowingRepository()
+        requestBorrowRepository = RequestBorrowRepository()
+        var queue = 0
+        var borrower = 0
+        lifecycleScope.launch {
+            queue = requestBorrowRepository.getNumBookPendingRequests(book.id.toString())
+            borrower = borrowingRepository.getNumBorrowById(book.id.toString())
+        }
         binding.bdQueue.text = "$queue Queues"
         binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
@@ -60,6 +74,7 @@ class ActivityDetailBook : AppCompatActivity() {
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         // Initialize error dialog
         errorDialog = ErrorDialog(this, "Error")
 
@@ -72,7 +87,8 @@ class ActivityDetailBook : AppCompatActivity() {
         // Initialize necessary variables
         btnBack = findViewById(R.id.bdBtnBack)
         btnFavorite = findViewById(R.id.bdBtnFavorite)
-        if (FavoriteCache.favoriteBookIds.contains(book!!.id!!)) {
+        isFavorite = FavoriteCache.favoriteBookIds.contains(book!!.id!!)
+        if (isFavorite) {
             UIService.setButtonIcon(
                 this@ActivityDetailBook,
                 btnFavorite,
@@ -88,8 +104,9 @@ class ActivityDetailBook : AppCompatActivity() {
 
         //Handle add favorite button
         btnFavorite.setOnClickListener {
+            //Handle add favorite button
             lifecycleScope.launch {
-                if (FavoriteCache.favoriteBookIds.contains(book.id!!)) {
+                if (isFavorite) {
                     UIService.setButtonIcon(
                         this@ActivityDetailBook,
                         btnFavorite,
@@ -100,7 +117,7 @@ class ActivityDetailBook : AppCompatActivity() {
                         btnFavorite,
                         selectedColorResId = R.color.white
                     )
-
+                    isFavorite = false
                     // Remove from cache
                     FavoriteCache.favoriteBookIds.remove(book.id)
                 }
@@ -115,11 +132,10 @@ class ActivityDetailBook : AppCompatActivity() {
                         btnFavorite,
                         selectedColorResId = R.color.red
                     )
-
+                    isFavorite = true
                     // Add to cache
-                    FavoriteCache.favoriteBookIds.add(book.id)
+                    FavoriteCache.favoriteBookIds.add(book.id!!)
                 }
-
                 // Update database
                 FavoriteRepository().updateFavorite(userId, FavoriteCache.favoriteBookIds)
             }
@@ -130,6 +146,12 @@ class ActivityDetailBook : AppCompatActivity() {
         //Handle borrow button
         btnBorrow.setOnClickListener {
             //Handle borrow button
+            if (LibraryCardCache.libraryCard != null) {
+                val request = BorrowRequest(libraryCardId = LibraryCardCache.libraryCard!!.id!!, readerId = userId, bookId = bookID)
+                lifecycleScope.launch {
+                    requestBorrowRepository.addRequestBorrow(request)
+                }
+            }
         }
 
         //Handle back button to return previous page
