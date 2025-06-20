@@ -29,6 +29,7 @@ import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
+import com.example.librarymanagementsystem.fragment.SearchHome
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.service.UIService
@@ -133,7 +134,7 @@ class HomeActivity : AppCompatActivity() {
                 if (searchResults.isEmpty()) {
                     Toast.makeText(this@HomeActivity, "Không tìm thấy sách phù hợp.", Toast.LENGTH_SHORT).show()
                 }
-                val fragment = HomeFragment.newInstance(searchResults)
+                val fragment = SearchHome.newInstance(searchResults)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
