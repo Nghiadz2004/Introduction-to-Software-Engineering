@@ -39,7 +39,9 @@ class QueueService(
                 author = book.author,
                 copyLeft = availableCopies,
                 readerName = user.fullname ?: "Reader",
-                status = if (availableCopies > 0) "ok" else "out of Copy"
+                status = if (availableCopies > 0) "available" else "out of Copy",
+                bookId = book.id!!,
+                request = request
             )
         }
     }

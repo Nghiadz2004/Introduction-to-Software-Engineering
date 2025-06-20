@@ -31,7 +31,7 @@ class ReportLostService(
             val borrow = borrowMap[lost.requestId] ?: return@mapNotNull null
             val confirmDate = borrow.confirmDate
             val dueDate = borrow.expectedReturnDate
-            val fine = book.price?.plus(20000) ?: 20000
+            val fineAmount = book.price?.plus(20000) ?: 20000
 
             LostDisplay(
                 book = book,
@@ -39,7 +39,12 @@ class ReportLostService(
                 copyId = lost.copyId ?: "",
                 formattedLoanDate = confirmDate?.let { dateFormat.format(it) } ?: "N/A",
                 formattedDueDate = dueDate?.let { dateFormat.format(it) } ?: "N/A",
-                fine = "${fine} VNĐ"
+                fine = "${fineAmount} VNĐ",
+
+                requestId = lost.requestId ?: "",
+                readerId = lost.readerId ?: "",
+                bookId = lost.bookId ?: "",
+                fineAmount = fineAmount
             )
         }
     }

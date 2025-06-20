@@ -8,9 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.LostDisplay
+import com.example.librarymanagementsystem.service.ConfirmLostManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ReportLostAdapter(
-    private val lostList: List<LostDisplay>
+    private val lostList: List<LostDisplay>,
+    private val librarianId: String,
+    private val onLostChanged: suspend () -> Unit
 ) : RecyclerView.Adapter<ReportLostAdapter.LostViewHolder>() {
 
     inner class LostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -31,6 +37,8 @@ class ReportLostAdapter(
         return LostViewHolder(view)
     }
 
+    override fun getItemCount(): Int = lostList.size
+
     override fun onBindViewHolder(holder: LostViewHolder, position: Int) {
         val item = lostList[position]
         holder.rBook.text = item.book.title
@@ -47,9 +55,17 @@ class ReportLostAdapter(
             .into(holder.imgCover)
 
         holder.btnConfirm.setOnClickListener {
-            // TODO: Xử lý click xác nhận mất sách
+            CoroutineScope(Dispatchers.Main).launch {
+                ConfirmLostManager().confirmLostBook(
+                    requestId = item.requestId,
+                    readerId = item.readerId,
+                    fineAmount = item.fineAmount,
+                    copyId = item.copyId,
+                    bookId = item.bookId,
+                    librarianId = librarianId
+                )
+                onLostChanged()
+            }
         }
     }
-
-    override fun getItemCount(): Int = lostList.size
 }
