@@ -12,6 +12,7 @@
         android:id="@+id/rgHeaderText"
         android:layout_width="290dp"
         android:layout_height="105dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="Register"
         android:textColor="@color/white"

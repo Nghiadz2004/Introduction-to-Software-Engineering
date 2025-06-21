@@ -4,6 +4,7 @@
     android:id="@+id/activity_manage_book"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/light_blue">
 
     <LinearLayout

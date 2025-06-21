@@ -7,8 +7,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
-import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.LibraryCard
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.Date
 
 class LibraryCardAdapter(
     items: List<LibraryCard>,
@@ -44,12 +46,12 @@ class LibraryCardAdapter(
         holder.cardIdTV.text     = "Card ID: ${card.id}"
         holder.fullNameTV.text   = "Full name: ${card.fullName}"
         holder.emailTV.text      = "Email: ${card.email}"
-        holder.birthdayTV.text   = "Birthday: ${card.birthday}"
+        holder.birthdayTV.text   = "Birthday: ${formatDate(card.birthday)}"
         holder.addressTV.text    = "Address: ${card.address}"
         holder.typeTV.text       = "Type: ${card.type}"
         holder.issuerTV.text     = "Issuer: ${card.librarianId}"
-        holder.issueDateTV.text  = "Issue Date: ${card.createdAt}"
-        holder.dueDateTV.text    = "Due Date: ${card.getDueDate}"
+        holder.issueDateTV.text  = "Issue Date: ${formatDate(card.createdAt)}"
+        holder.dueDateTV.text    = "Due Date: ${formatDate(card.getDueDate)}"
         holder.statusTV.text     = "Status: ${card.status}"
         holder.btnRemove.setOnClickListener {
             onRemove(card)
@@ -62,6 +64,12 @@ class LibraryCardAdapter(
             items.removeAt(index)
             notifyItemRemoved(index)
         }
+    }
+
+    // Hàm chuyển đổi ngày
+    fun formatDate(date: Date): String {
+        val outputFormat = SimpleDateFormat("EEE MMM dd yyyy", Locale.getDefault())
+        return outputFormat.format(date)
     }
 
     override fun getItemCount(): Int = items.size

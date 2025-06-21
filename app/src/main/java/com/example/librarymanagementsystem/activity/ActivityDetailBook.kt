@@ -1,6 +1,8 @@
 package com.example.librarymanagementsystem.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,28 +13,26 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.databinding.ActivityDetailBookBinding
-import com.google.firebase.auth.FirebaseAuthException
 import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
+import com.example.librarymanagementsystem.repository.BorrowingRepository
+import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 
 class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
-    private lateinit var auth: FirebaseAuthException
-    private lateinit var bookID: String
     private lateinit var binding: ActivityDetailBookBinding
-    private lateinit var bookRepository: BookRepository
+    private lateinit var borrowRepository: BorrowingRepository
+    private lateinit var requestBorrowRepository: RequestBorrowRepository
     private lateinit var errorDialog: ErrorDialog
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
     private lateinit var btnBorrow: Button
+    private lateinit var userID: String
 
     // function to display book details
-    private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
+    private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding, queue: Int, borrower: Int) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
-        val queue = 0
-        val borrower = 0
         binding.bdQueue.text = "$queue Queues"
         binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
@@ -49,12 +49,22 @@ class ActivityDetailBook : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_detail_book)
 
+        userID = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        if (userID == null) {
+            Log.e("ActivityDetailBook", "User not logged in.")
+            //Navigate to login
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() // Đóng activity hiện tại nếu không cần giữ lại
+        }
+
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize book repository
-        bookRepository = BookRepository()
+        // Initialize necessary repositories
+        borrowRepository = BorrowingRepository()
+        requestBorrowRepository = RequestBorrowRepository()
 
         // Initialize error dialog
         errorDialog = ErrorDialog(this, "Error")
@@ -89,7 +99,10 @@ class ActivityDetailBook : AppCompatActivity() {
             try {
                 val book: Book? = intent.getParcelableExtra<Book>("book")
                 if (book != null) {
-                    displayBookDetails(book, binding)
+                    val queues = requestBorrowRepository.getPendingRequests()
+                    val queue = queues.count { it.bookId == book.id }
+                    val borrower = borrowRepository.getNumBorrowById(book.id!!)
+                    displayBookDetails(book, binding, queue, borrower)
                 }
                 else {
                     errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {

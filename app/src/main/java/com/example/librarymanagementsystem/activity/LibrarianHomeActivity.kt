@@ -11,9 +11,6 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.ErrorDialog
 import com.example.librarymanagementsystem.fragment.LibrarianHomeFragment
 import com.example.librarymanagementsystem.repository.BookRepository
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 
 private const val HOME_ID = "HOME"
 private const val TRANSACTION_ID = "TRANSACTION"
@@ -26,10 +23,9 @@ private const val ADD_RDCARD_ID = "ADD_RDCARD"
 
 class LibrarianHomeActivity: AppCompatActivity() {
     //Initialize necessary variable
-    private lateinit var auth: FirebaseAuth
-    private lateinit var bookID: String
     private lateinit var bookRepository: BookRepository
     private lateinit var errorDialog: ErrorDialog
+    private lateinit var userID: String
 
     private lateinit var homeBtn: Button
     private lateinit var transactionBtn: Button
@@ -45,7 +41,16 @@ class LibrarianHomeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_manage_book)
-        val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
+
+        userID = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        if (userID == null) {
+            Log.e("LibrarianHomeActivity", "User not logged in.")
+            //Navigate to login
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() // Đóng activity hiện tại nếu không cần giữ lại
+        }
+
 
         // Initialize book repository
         bookRepository = BookRepository()

@@ -71,11 +71,11 @@ class LibrarianHomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Lấy userID của người dùng hiện tại
-//        val user = Firebase.auth.currentUser
-//        if (user == null) {
-//            Log.e("MyBookFragment", "User not logged in.")
-//            return view
-//        }
+        val user = Firebase.auth.currentUser
+        if (user == null) {
+            Log.e("MyBookFragment", "User not logged in.")
+            return view
+        }
 
         // Khởi tạo loading dialog
         loadingDialog = LoadingDialog(requireContext())
