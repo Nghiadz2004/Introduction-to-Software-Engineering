@@ -24,7 +24,7 @@ data class LibraryCard(
         get() {
             val calendar = Calendar.getInstance()
             calendar.time = createdAt
-            calendar.add(Calendar.YEAR, 1) // cộng thêm 1 năm
+            calendar.add(Calendar.MONTH,6) // cộng thêm 1 năm
             return calendar.time
         }
 }

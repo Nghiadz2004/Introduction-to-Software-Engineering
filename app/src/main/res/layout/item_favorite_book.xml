@@ -7,8 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
     android:id="@+id/fragment_favorite_book_item"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="6dp"
+    app:cardCornerRadius="20dp"
     app:cardBackgroundColor="@color/light_purple_2"
     android:theme="@style/CardOnlyMaterialTheme">
 
@@ -16,19 +15,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="6dp"
+        android:padding="10dp"
         android:background="@color/light_purple_2"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/bookIV"
+        <FrameLayout
             android:layout_width="112.40592956542969dp"
             android:layout_height="159dp"
-            android:src="@drawable/harry_potter_cover"
-            tools:ignore="ContentDescription" />
+            android:background="@drawable/button_corner_radius"
+            android:backgroundTint="@color/white">
+
+            <ImageView
+                android:id="@+id/bookIV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/harry_potter_cover"
+                tools:ignore="ContentDescription" />
+
+        </FrameLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="24dp"
             android:orientation="vertical">
@@ -40,6 +47,8 @@
                 android:text="Harry Potter and Philosopher’s Stone"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 800"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -107,12 +116,17 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
             <Button
                 android:id="@+id/removeBtn"
                 android:layout_width="110dp"
                 android:layout_height="30dp"
+                android:layout_marginBottom="12dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="32dp"
                 android:background="@drawable/button_corner_radius"
                 android:backgroundTint="@color/light_blue"
                 android:fontFamily="@font/inter_font"

@@ -2,18 +2,44 @@ package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BookAcquisition
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
+import java.util.UUID
 
 class AcquisitionRepository(private val db: FirebaseFirestore) {
 
     // Ghi nhận một quyển sách mới được nhập vào kho
-    suspend fun recordAcquisition(acquisition: BookAcquisition): String = withContext(Dispatchers.IO) {
-        db.collection("book_acquisitions").add(acquisition).await().id
+    suspend fun recordMultipleAcquisitions(
+        bookId: String,
+        quantity: Int,
+        recorderId: String
+    ): List<String> = withContext(Dispatchers.IO) {
+        val batch = db.batch()
+        val collectionRef = db.collection("book_acquisitions")
+        val generatedDocIds = mutableListOf<String>()
+
+        for (i in 1..quantity) {
+            val docRef = collectionRef.document()
+            generatedDocIds.add(docRef.id)
+
+            val data = mapOf(
+                "bookId" to bookId,
+                "copyId" to docRef.id, // Tự động dùng ID document làm copyId
+                "acquiredBy" to recorderId,
+                "acquisitionDate" to FieldValue.serverTimestamp()
+            )
+
+            batch.set(docRef, data)
+        }
+
+        batch.commit().await()
+        return@withContext generatedDocIds
     }
+
 
     // Trả về danh sách các sách đã được nhập vào kho bởi thủ kho
     suspend fun getAcquisitions(): List<BookAcquisition> = withContext(Dispatchers.IO) {

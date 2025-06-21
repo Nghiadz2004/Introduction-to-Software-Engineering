@@ -20,14 +20,15 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import android.content.Intent
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
+import com.example.librarymanagementsystem.cache.FavoriteCache
+import com.example.librarymanagementsystem.service.FavoriteManager
 
 class MyFavoriteFragment : Fragment() {
     private lateinit var recycleView: RecyclerView
     private lateinit var myFavoriteAdapter: MyFavoriteAdapter
-
+    private val bookRepository = BookRepository()
     private var bookList = mutableListOf<Book>()
-    private var favoriteRepository = FavoriteRepository()
-    private var bookRepository = BookRepository()
+    private var favoriteManager = FavoriteManager(bookRepository)
 
     private lateinit var userID: String
 
@@ -54,11 +55,7 @@ class MyFavoriteFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             loadingDialog.show()
             try {
-                val favBookList = favoriteRepository.getFavoriteBooksId(userID)
-                val allBooks = bookRepository.getBooks()
-                val booksToShow = allBooks.filter { book ->
-                    favBookList?.bookIdList?.contains(book.id) == true
-                }
+                val booksToShow = favoriteManager.getFavoriteBooks()
 
                 bookList.clear()
                 bookList.addAll(booksToShow)

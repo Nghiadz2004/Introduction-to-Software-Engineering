@@ -2,7 +2,6 @@ package com.example.librarymanagementsystem.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.util.Log
 import com.example.librarymanagementsystem.R
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +13,15 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.model.BookDisplayItem
+import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -31,19 +35,21 @@ class MyBookAdapter(
     private val myBookID: String,
     private val onItemClick: (BookDisplayItem) -> Unit,
     private val onReportLost: (BookDisplayItem) -> Unit,
-    private val onRemoveLost: (BookDisplayItem) -> Unit
+    private val onCancelPending: (BookDisplayItem) -> Unit,
+    private val onCancelLost: (BookDisplayItem) -> Unit
 ) : RecyclerView.Adapter<MyBookAdapter.MyBookViewHolder>() {
 
-    private val items: MutableList<BookDisplayItem> = items.toMutableList()  // chuyển thành MutableList ở đây
+    private val items: MutableList<BookDisplayItem> = items.toMutableList()
 
     inner class MyBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookImg: ImageView = itemView.findViewById(R.id.bookImg)
         val bookTitleTV: TextView = itemView.findViewById(R.id.bookTitleTV)
         val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
+        val dueDateLeftTV: TextView = itemView.findViewById(R.id.duedateleftTV)
         val bookDueDateLeftTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
+
         val favBtn: ImageButton = itemView.findViewById(R.id.favBtn)
-        val cancelBtn: Button = itemView.findViewById(R.id.cancelBtn)
         val lostBtn: Button = itemView.findViewById(R.id.lostBtn)
 
         val userID = Firebase.auth.currentUser!!.uid
@@ -57,7 +63,6 @@ class MyBookAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyBookViewHolder, position: Int) {
         val item = items[position]
-        Log.e("MYBOOKADAPTER", item.toString())
         val book = item.book
 
         Glide.with(holder.itemView.context)
@@ -68,6 +73,57 @@ class MyBookAdapter(
         holder.bookAuthorTV.text = book.author ?: "Unknown"
         holder.bookCategoryTV.text = book.category
 
+        if (FavoriteCache.favoriteBookIds.contains(item.book.id)) {
+            UIService.setButtonIcon(
+                holder.itemView.context,
+                holder.favBtn,
+                R.drawable.baseline_favorite_24
+            )
+            UIService.setButtonColor(
+                holder.itemView.context,
+                holder.favBtn,
+                selectedColorResId = R.color.red
+            )
+        }
+
+        holder.favBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                if (FavoriteCache.favoriteBookIds.contains(item.book.id)) {
+                    UIService.setButtonIcon(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        R.drawable.favorite_icon
+                    )
+                    UIService.setButtonColor(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        selectedColorResId = R.color.white
+                    )
+
+                    // Remove from cache
+                    FavoriteCache.favoriteBookIds.remove(item.book.id)
+                }
+                else {
+                    UIService.setButtonIcon(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        R.drawable.baseline_favorite_24
+                    )
+                    UIService.setButtonColor(
+                        holder.itemView.context,
+                        holder.favBtn,
+                        selectedColorResId = R.color.red
+                    )
+
+                    // Add to cache
+                    FavoriteCache.favoriteBookIds.add(item.book.id!!)
+                }
+
+                // Update data base
+                FavoriteRepository().updateFavorite(holder.userID, FavoriteCache.favoriteBookIds)
+            }
+        }
+
         loadItem(holder, item)
 
         holder.itemView.setOnClickListener {
@@ -75,35 +131,48 @@ class MyBookAdapter(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadItem(holder: MyBookViewHolder, item: BookDisplayItem) {
-        if (myBookID == BORROWED_ID) {
-            holder.bookDueDateLeftTV.visibility = View.VISIBLE
-            holder.lostBtn.text = "Report Lost"
-            item.borrowBook!!.expectedReturnDate.let {
-                val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it!!)
-                holder.bookDueDateLeftTV.text = "Due: $formattedDate"
-            } ?: run {
-                holder.bookDueDateLeftTV.text = ""
+        when (myBookID) {
+            BORROWED_ID -> {
+                holder.bookDueDateLeftTV.visibility = View.VISIBLE
+                holder.lostBtn.text = "Report Lost"
+                item.borrowBook?.expectedReturnDate?.let {
+                    val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        .format(it)
+                    holder.dueDateLeftTV.visibility = View.GONE
+                    holder.bookDueDateLeftTV.text = "Due: $formattedDate"
+                } ?: run {
+                    holder.bookDueDateLeftTV.text = ""
+                }
+                holder.lostBtn.setOnClickListener {
+                    onReportLost(item)
+                }
             }
-            holder.lostBtn.setOnClickListener {
-                onReportLost(item)
+
+            PENDING_ID -> {
+                holder.bookDueDateLeftTV.visibility = View.GONE
+                holder.dueDateLeftTV.visibility = View.GONE
+                holder.lostBtn.text = "Cancel"
+                holder.lostBtn.setOnClickListener {
+                    onCancelPending(item)
+                }
             }
-        }
-        else if (myBookID == PENDING_ID) {
-            holder.bookDueDateLeftTV.visibility = View.GONE
-            holder.lostBtn.text = "Unborrowed"
-            holder.lostBtn.setOnClickListener {
-                onRemoveLost(item)
-            }
-        }
-        else if (myBookID == LOST_ID) {
-            val text_color = ContextCompat.getColor(holder.itemView.context, R.color.orange)
-            holder.bookTitleTV.setTextColor(text_color)
-            holder.lostBtn.text = "Cancel"
-            val button_color = ContextCompat.getColor(holder.itemView.context, R.color.orange)
-            holder.lostBtn.backgroundTintList = ColorStateList.valueOf(button_color)
-            holder.lostBtn.setOnClickListener {
-                // TODO: Remove from lost queue
+
+            LOST_ID -> {
+                val context = holder.itemView.context
+                val textColor = ContextCompat.getColor(context, R.color.orange)
+                val buttonColor = ColorStateList.valueOf(textColor)
+
+                holder.bookTitleTV.setTextColor(textColor)
+                holder.lostBtn.text = "Cancel"
+                holder.lostBtn.backgroundTintList = buttonColor
+                holder.bookDueDateLeftTV.visibility = View.GONE
+                holder.dueDateLeftTV.visibility = View.GONE
+
+                holder.lostBtn.setOnClickListener {
+                    onCancelLost(item)
+                }
             }
         }
     }

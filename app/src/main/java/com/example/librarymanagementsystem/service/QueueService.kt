@@ -21,8 +21,8 @@ class QueueService(
         val userIds = requests.mapNotNull { it.readerId }.distinct()
 
         val books = bookRepo.getBooksByIds(bookIds)
-        val users = userRepo.getUsers()
-        val bookCopies = bookCopyRepo.getAllBookCopies()
+        val users = userRepo.getUsers(userIds)
+        val availableCopies = bookCopyRepo.getNumAvailableCopies(bookIds)
 
         val bookMap = books.associateBy { it.id }
         val userMap = users.associateBy { it.id }
@@ -30,16 +30,14 @@ class QueueService(
         return@withContext requests.mapNotNull { request ->
             val book = bookMap[request.bookId] ?: return@mapNotNull null
             val user = userMap[request.readerId] ?: return@mapNotNull null
-            val availableCopies = bookCopies.count {
-                it.bookId == book.id && it.status == "Có sẵn"
-            }
+
             QueueDisplay(
                 coverUrl = book.cover,
                 title = book.title ?: "Unknown",
-                author = book.author,
-                copyLeft = availableCopies,
+                author = book.author ?: "Unknown",
+                copyLeft = availableCopies[book.id]!!,
                 readerName = user.fullname ?: "Reader",
-                status = if (availableCopies > 0) "available" else "out of Copy",
+                status = if (availableCopies[book.id]!! > 0) "available" else "out of Copy",
                 bookId = book.id!!,
                 request = request
             )

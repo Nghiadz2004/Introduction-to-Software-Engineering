@@ -19,9 +19,9 @@ data class CardRequest(
 }
 
 enum class ReaderType(val value: String) {
-    GOLD("GOLD"),
-    SILVER("SILVER"),
-    BRONZE("BRONZE");
+    GOLD("Vàng"),
+    SILVER("Bạc"),
+    BRONZE("Đồng");
 
     companion object {
         fun fromString(value: String): ReaderType? {

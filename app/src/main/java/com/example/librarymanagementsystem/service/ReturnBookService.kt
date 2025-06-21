@@ -19,7 +19,7 @@ class ReturnBookService(
         val returnBorrows = allBorrows.filter { it.actualReturnDate == null && it.copyId !in lostCopies }
 
         val books = bookRepo.getBooksByIds(returnBorrows.mapNotNull { it.bookId }.distinct())
-        val users = userRepo.getUsers()
+        val users = userRepo.getUsers(returnBorrows.mapNotNull { it.readerId }.distinct())
 
         val bookMap = books.associateBy { it.id }
         val userMap = users.associateBy { it.id }

@@ -1,7 +1,9 @@
 package com.example.librarymanagementsystem.repository
 
+import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BookAcquisition
 import com.example.librarymanagementsystem.model.User
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -18,8 +20,23 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
     }
 
     // Lấy ra danh sách tất cả các người dùng có trong cơ sở dữ liệu
-    suspend fun getUsers(): List<User> = withContext(Dispatchers.IO) {
-        db.collection("users").get().await().toObjects(User::class.java)
+    suspend fun getUsers(userIds :List<String>): List<User> = withContext(Dispatchers.IO) {
+        if (userIds.isEmpty()) return@withContext emptyList()
+
+        val users = mutableListOf<User>()
+        val chunkedIds = userIds.chunked(10)
+
+        for (chunk in chunkedIds) {
+            val snapshot = db.collection("books")
+                .whereIn(FieldPath.documentId(), chunk)
+                .get()
+                .await()
+            users.addAll(snapshot.documents.mapNotNull { doc ->
+                doc.toObject(User::class.java)?.copy(id = doc.id)
+            })
+        }
+
+        return@withContext users
     }
 
     // Tìm kiếm người dùng theo Id

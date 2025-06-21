@@ -9,7 +9,6 @@ import com.example.librarymanagementsystem.repository.LostBookRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Date
 
 class MyBookManager(
     private val requestBorrowRepository: RequestBorrowRepository = RequestBorrowRepository(),
@@ -31,15 +30,16 @@ class MyBookManager(
 
         val lostBookIds = lostList.map { it.bookId }.toSet()
         val validBorrowList = borrowList.filterNot { it.bookId in lostBookIds }
-        val bookIds = validBorrowList.mapNotNull { it.bookId }
+        val bookIds = validBorrowList.map { it.bookId }
 
-        val books = bookRepository.getBooksByIds(bookIds)
+        val books = bookRepository.getBooksByIds(bookIds.filterNotNull())
 
         return@withContext validBorrowList.mapNotNull { borrow ->
             val book = books.find { it.id == borrow.bookId }
             book?.let { it to borrow }
         }.toMap()
     }
+
 
     // Lấy danh sách các quyển sách đang được người dùng báo mất để hiển thị trong section "My Book"
     suspend fun getReaderPendingLosts(readerId: String): List<Book> = withContext(Dispatchers.IO) {
@@ -59,5 +59,13 @@ class MyBookManager(
         return@withContext lostBookRepository.submitLostRequest(lostRequest)
     }
 
+    suspend fun cancelLostRequest(bookId: String, readerId: String) = withContext(Dispatchers.IO) {
 
+        return@withContext lostBookRepository.cancelLostRequestByCopyID(bookId, readerId)
+    }
+
+    suspend fun cancelPendingRequest(bookId: String, readerId: String) = withContext(Dispatchers.IO) {
+
+        return@withContext requestBorrowRepository.cancelPendingRequest(bookId, readerId)
+    }
 }

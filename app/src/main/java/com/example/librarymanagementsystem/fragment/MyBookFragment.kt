@@ -42,7 +42,6 @@ class MyBookFragment : Fragment() {
         loadingDialog = LoadingDialog(requireContext())
 
         val myBookID = arguments?.getString("MYBOOK_ID") ?: BORROWED_ID
-        Log.e("MYBOOKFRAGMENT", myBookID)
 
         val user = Firebase.auth.currentUser
         if (user == null) {
@@ -90,7 +89,6 @@ class MyBookFragment : Fragment() {
                     else -> emptyList()
                 }
 
-                Log.e("MYBOOKFRAGMENT", bookItems.toString())
                 recycleView.adapter = MyBookAdapter(
                     bookItems,
                     myBookID,
@@ -111,6 +109,7 @@ class MyBookFragment : Fragment() {
                                     borrow.bookId!!,
                                     borrow.copyId!!
                                 )
+
                                 // Remove from recycle view
                                 (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
@@ -119,16 +118,37 @@ class MyBookFragment : Fragment() {
                             }
                         }
                     },
-                    onRemoveLost = { item ->
+                    onCancelPending = { item ->
                         lifecycleScope.launch {
                             try {
-                                val borrow = item.borrowBook!!
-                                //myBookManager.removeLostRequest(borrow.requestId!!)
+                                myBookManager.cancelPendingRequest(
+                                    item.book.id!!,
+                                    userID
+                                )
+
                                 // Remove from recycle view
                                 (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
                             } catch (e: Exception) {
-                                Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}")
+                                Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}", e)
+                            }
+                        }
+                    },
+                    onCancelLost = { item ->
+                        lifecycleScope.launch {
+                            try {
+                                Log.e("LOSTBOOK", item.book.id.toString())
+                                Log.e("LOSTBOOK", userID)
+                                myBookManager.cancelLostRequest(
+                                    item.book.id!!,
+                                    userID
+                                )
+
+                                // Remove from recycle view
+                                (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
+
+                            } catch (e: Exception) {
+                                Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}", e)
                             }
                         }
                     }

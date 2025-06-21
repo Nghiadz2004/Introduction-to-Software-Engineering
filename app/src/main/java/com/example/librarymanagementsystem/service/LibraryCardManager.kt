@@ -20,7 +20,7 @@ class LibraryCardManager (
                 .firstOrNull()
         }
 
-        suspend fun getDueDate(date: Date, months: Int = 6): Date {
+        fun getDueDate(date: Date, months: Int = 6): Date {
             val calendar = Calendar.getInstance()
             calendar.time = date
             calendar.add(Calendar.MONTH, months)

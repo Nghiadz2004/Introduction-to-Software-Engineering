@@ -12,6 +12,21 @@ class FavoriteRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         db.collection("favorites").document(readerId).set(favorite).await()
     }
 
+    suspend fun getFavorite(readerId: String): Favorite? = withContext(Dispatchers.IO) {
+        db.collection("favorites").document(readerId)
+            .get()
+            .await()
+            .toObject(Favorite::class.java)
+    }
+
+    // Lấy danh sách Id các quyển sách (bản logic) yêu thích của một độc giả
+    suspend fun getFavoriteBooksId(readerId: String): Favorite? = withContext(Dispatchers.IO) {
+        db.collection("favorites").document(readerId)
+            .get()
+            .await()
+            .toObject(Favorite::class.java)
+    }
+
     suspend fun addBookToFavorite(readerId: String, bookId: String) = withContext(Dispatchers.IO) {
         val docRef = db.collection("favorites").document(readerId)
         val snapshot = docRef.get().await()
@@ -29,16 +44,6 @@ class FavoriteRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         }
     }
 
-
-
-    // Lấy danh sách Id các quyển sách (bản logic) yêu thích của một độc giả
-    suspend fun getFavoriteBooksId(readerId: String): Favorite? = withContext(Dispatchers.IO) {
-         db.collection("favorites").document(readerId)
-             .get()
-             .await()
-             .toObject(Favorite::class.java)
-    }
-
     // Loại bỏ sách khỏi danh sách yêu thích của độc giả
     suspend fun removeBookFromFavorite(readerId: String, bookId: String) = withContext(Dispatchers.IO) {
         val docRef = db.collection("favorites").document(readerId)
@@ -49,5 +54,11 @@ class FavoriteRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
             val updatedList = favorite.bookIdList.filter { it != bookId }
             docRef.update("bookIdList", updatedList).await()
         }
+    }
+
+    suspend fun updateFavorite(readerId: String, bookIdSet: Set<String>) = withContext(Dispatchers.IO) {
+        val docRef = db.collection("favorites").document(readerId)
+
+        docRef.update("bookIdList", bookIdSet.toList()).await()
     }
 }

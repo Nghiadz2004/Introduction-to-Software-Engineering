@@ -2,14 +2,18 @@ package com.example.librarymanagementsystem.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
+import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.UserRepository
+import com.example.librarymanagementsystem.service.FavoriteManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -34,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = Firebase.auth
+        val sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
         // Ánh xạ view
         rememberMeLayout = findViewById<LinearLayout>(R.id.lgRememberMe)
@@ -46,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
         registerText = findViewById(R.id.lgRegister)
 
         registerText.setOnClickListener {
-            Firebase.auth.signOut()
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
 
@@ -98,16 +102,23 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 try {
-                    val result = auth.signInWithEmailAndPassword(emailToUse!!, password).await()
-                    val user = result.user
+                    auth.signInWithEmailAndPassword(emailToUse!!, password).await()
+                    sharedPref.edit().putBoolean("remember_me", rememberMeCheckbox.isChecked).apply()
                     errorMessage.text = "Login successfully! Please wait..."
                     errorMessage.visibility = View.VISIBLE
                     loadingDialog.dismiss()
-                    // If nguoi dung la reader
 
-                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    val userRepository = UserRepository()
+                    lifecycleScope.launch {
+                        val userObject = userRepository.getUserByEmail(emailToUse)
+
+                        if (userObject?.roleId == "reader") {
+                            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                        } else if (userObject?.roleId == "librarian") {
+                            startActivity(Intent(this@LoginActivity, ActivityLibrarian::class.java))
+                        }
+                        finish()
+                    }
                 } catch (e: Exception) {
                     loadingDialog.dismiss()
                     errorMessage.text = "Incorrect username or password"

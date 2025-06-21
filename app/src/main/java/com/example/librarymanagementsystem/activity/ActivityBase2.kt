@@ -13,8 +13,9 @@ import com.example.librarymanagementsystem.fragment.ProfileFragment
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import android.content.res.ColorStateList
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.librarymanagementsystem.service.UIService
+import kotlinx.coroutines.launch
 
 private const val HOME_ID = "HOME"
 private const val MYBOOK_ID = "MYBOOK"
@@ -61,7 +62,13 @@ class ActivityBase2 : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun loadActivity(pageID: String) {
         if (pageID == MYFAVORITE_ID) {
-            setMenuButtonColor(favoriteBtn, profileBtn)
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    favoriteBtn,
+                    listOf(profileBtn)
+                )
+            }
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, MyFavoriteFragment())
@@ -72,7 +79,13 @@ class ActivityBase2 : AppCompatActivity() {
         }
 
         else if (pageID == PROFILE_ID) {
-            setMenuButtonColor(profileBtn, favoriteBtn)
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    profileBtn,
+                    listOf(favoriteBtn)
+                )
+            }
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment())
@@ -100,7 +113,13 @@ class ActivityBase2 : AppCompatActivity() {
         }
 
         favoriteBtn.setOnClickListener {
-            setMenuButtonColor(favoriteBtn, profileBtn)
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    favoriteBtn,
+                    listOf(profileBtn)
+                )
+            }
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, MyFavoriteFragment())
@@ -111,8 +130,13 @@ class ActivityBase2 : AppCompatActivity() {
         }
 
         profileBtn.setOnClickListener {
-            setMenuButtonColor(profileBtn, favoriteBtn)
-
+            lifecycleScope.launch {
+                UIService.setButtonColor(
+                    this@ActivityBase2,
+                    profileBtn,
+                    listOf(favoriteBtn)
+                )
+            }
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
@@ -120,17 +144,5 @@ class ActivityBase2 : AppCompatActivity() {
 
             pageNamePlaceholderTV.text = "Profile"
         }
-    }
-
-    private fun setMenuButtonColor(selected_btn: Button, deselected_btn: Button) {
-        Log.e("MENUBUTTON", selected_btn.toString())
-        Log.e("MENUBUTTON", deselected_btn.toString())
-        // Set icon color
-        selected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_blue))
-        deselected_btn.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.light_gray))
-
-        // Set text color
-        selected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_blue))
-        deselected_btn.setTextColor(ContextCompat.getColor(this, R.color.light_gray))
     }
 }

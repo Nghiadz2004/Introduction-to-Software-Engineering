@@ -134,7 +134,9 @@ class HomeFragment : Fragment() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("HomeFragment", "Exception khi gọi getBooks()", e)
-                Toast.makeText(requireContext(), "Lỗi khi tải sách: ${e.message}", Toast.LENGTH_SHORT).show()
+                context?.let {
+                    Toast.makeText(it, "Lỗi khi tải sách: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
