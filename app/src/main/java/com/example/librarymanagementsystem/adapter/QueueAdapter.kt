@@ -71,10 +71,8 @@ class QueueAdapter(
                 // Tìm copyId đầu tiên có thể dùng
                 CoroutineScope(Dispatchers.Main).launch {
                     val copyRepo = BookCopyRepository()
-                    val allCopies = copyRepo.getAllBookCopies()
-                    val availableCopy = allCopies.find {
-                        it.bookId == queue.bookId && it.status == "Có sẵn"
-                    }
+                    val allCopies = copyRepo.getNumAvailableCopies(listOf(queue.bookId))
+                    val availableCopy = copyRepo.getFirstBookCopiesByStatus(queue.bookId, "AVAILABLE")
 
                     if (availableCopy != null) {
                         val manager = BorrowBookManager(

@@ -17,7 +17,7 @@ class ReportLostService(
         val lostRequests = lostRepo.getPendingRequests()
         val borrows = borrowRepo.getAllBorrows()
         val books = bookRepo.getBooksByIds(lostRequests.mapNotNull { it.bookId })
-        val users = userRepo.getUsers()
+        val users = userRepo.getUsers(lostRequests.mapNotNull { it.readerId })
 
         val borrowMap = borrows.associateBy { it.requestId }
         val bookMap = books.associateBy { it.id }
