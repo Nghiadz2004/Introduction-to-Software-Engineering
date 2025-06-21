@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.LoginActivity
+import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.repository.LibraryCardRepository
@@ -171,6 +172,8 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
             Firebase.auth.signOut()
 
+            LibraryCardCache.libraryCard = null
+            BookOperateCache.statusMap.clear()
             activity?.finish()
         }
 

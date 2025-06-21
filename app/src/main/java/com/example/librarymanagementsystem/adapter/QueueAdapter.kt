@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +72,6 @@ class QueueAdapter(
                 // Tìm copyId đầu tiên có thể dùng
                 CoroutineScope(Dispatchers.Main).launch {
                     val copyRepo = BookCopyRepository()
-                    val allCopies = copyRepo.getNumAvailableCopies(listOf(queue.bookId))
                     val availableCopy = copyRepo.getFirstBookCopiesByStatus(queue.bookId, "AVAILABLE")
 
                     if (availableCopy != null) {

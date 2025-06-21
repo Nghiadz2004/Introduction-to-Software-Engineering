@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.service
 
+import android.util.Log
 import com.example.librarymanagementsystem.model.BorrowBook
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.User
@@ -29,18 +30,21 @@ class LoanService(
     suspend fun getAllLoanDisplays(): List<LoanDisplay> = withContext(Dispatchers.IO) {
         val borrows = borrowingRepository.getAllBorrows()
         val books = bookRepository.getBooksByIds(borrows.mapNotNull { it.bookId }.distinct())
-        val users = userRepository.getUsers(borrows.mapNotNull { it.readerId }.distinct())
+        val readers = userRepository.getUsers(borrows.mapNotNull { it.readerId }.distinct())
+        val librarians = userRepository.getUsers(borrows.mapNotNull { it.librarianId }.distinct())
 
         val bookMap = books.associateBy { it.id }
-        val userMap = users.associateBy { it.id }
+        val userMap = readers.associateBy { it.id }
+        val librarianMap = librarians.associateBy { it.id }
 
+        Log.d("LOAN_SERVICE","${bookMap.size} ${userMap.size}")
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val today = Date()
 
         return@withContext borrows.mapNotNull { borrow ->
             val book = bookMap[borrow.bookId] ?: return@mapNotNull null
             val reader = userMap[borrow.readerId] ?: return@mapNotNull null
-            val librarian = userMap[borrow.librarianId] ?: return@mapNotNull null
+            val librarian = librarianMap[borrow.librarianId] ?: return@mapNotNull null
 
             val dueDate = borrow.expectedReturnDate ?: return@mapNotNull null
             val daysDiff = ((dueDate.time - today.time) / (1000 * 60 * 60 * 24)).toInt()

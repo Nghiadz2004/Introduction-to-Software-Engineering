@@ -16,7 +16,7 @@ class QueueService(
 ) {
     suspend fun getAllQueueDisplays(): List<QueueDisplay> = withContext(Dispatchers.IO) {
         val requests = requestRepo.getPendingRequests()
-        Log.d("QUEUE_SERVICE", "Found ${requests.size} pending requests")
+
         val bookIds = requests.mapNotNull { it.bookId }.distinct()
         val userIds = requests.mapNotNull { it.readerId }.distinct()
 
@@ -37,7 +37,7 @@ class QueueService(
                 author = book.author ?: "Unknown",
                 copyLeft = availableCopies[book.id]!!,
                 readerName = user.fullname ?: "Reader",
-                status = if (availableCopies[book.id]!! > 0) "available" else "out of Copy",
+                status = if (availableCopies[book.id]!! > 0) "Available" else "Out of copy",
                 bookId = book.id!!,
                 request = request
             )

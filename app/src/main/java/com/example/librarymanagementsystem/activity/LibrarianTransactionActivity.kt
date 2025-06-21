@@ -3,6 +3,7 @@ package com.example.librarymanagementsystem.activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -70,6 +71,7 @@ class LibrarianTransactionActivity : AppCompatActivity() {
             setActiveTab(btnLoans, listOf(btnQueues, btnReturnBook, btnReportLost))
             lifecycleScope.launch {
                 val loanDisplays = LoanService().getAllLoanDisplays()
+                Log.d("LOAN_SERVICE", "${loanDisplays.size}")
                 recyclerView.adapter = LoanAdapter(loanDisplays)
             }
         }
@@ -98,6 +100,7 @@ class LibrarianTransactionActivity : AppCompatActivity() {
 
     private suspend fun reloadQueueBooks(recyclerView: RecyclerView, userId: String) {
         val updated = QueueService().getAllQueueDisplays()
+
         recyclerView.adapter = QueueAdapter(updated, userId, onQueueChanged = {
             lifecycleScope.launch {
                 reloadQueueBooks(recyclerView, userId)

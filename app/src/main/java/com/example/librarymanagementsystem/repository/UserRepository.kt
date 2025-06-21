@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.repository
 
+import android.util.Log
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BookAcquisition
 import com.example.librarymanagementsystem.model.User
@@ -27,7 +28,7 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
         val chunkedIds = userIds.chunked(10)
 
         for (chunk in chunkedIds) {
-            val snapshot = db.collection("books")
+            val snapshot = db.collection("users")
                 .whereIn(FieldPath.documentId(), chunk)
                 .get()
                 .await()
@@ -35,7 +36,7 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
                 doc.toObject(User::class.java)?.copy(id = doc.id)
             })
         }
-
+        Log.d("QUEUE_SERVICE", "Found ${users.size}")
         return@withContext users
     }
 
