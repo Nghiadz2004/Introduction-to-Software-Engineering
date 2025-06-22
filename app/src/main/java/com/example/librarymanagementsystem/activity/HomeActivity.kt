@@ -95,7 +95,11 @@ class HomeActivity : AppCompatActivity() {
         profileBtn = findViewById(R.id.profileBtn)
         categoryButtonContainer = findViewById(R.id.categoryButtonContainer)
         searchET = findViewById(R.id.searchET)
-
+        val addBookBtn = findViewById<Button>(R.id.addBookBtn)
+        addBookBtn.setOnClickListener {
+            val intent = Intent(this, AddBookActivity::class.java)
+            startActivity(intent)
+        }
         loadActivity(pageID)
         handleMenuButton()
 

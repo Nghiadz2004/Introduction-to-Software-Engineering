@@ -48,6 +48,9 @@
             android:name=".activity.LibrarianTransactionActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.AddBookActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
