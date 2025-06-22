@@ -6,5 +6,7 @@ data class QueueDisplay(
     val author: String?,
     val copyLeft: Int,
     val readerName: String,
-    val status: String
+    val status: String,
+    val bookId: String,
+    val request: BorrowRequest
 )

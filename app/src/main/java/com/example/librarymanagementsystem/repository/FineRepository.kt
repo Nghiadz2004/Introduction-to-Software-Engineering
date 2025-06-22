@@ -1,12 +1,15 @@
 package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.Fine
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.Calendar
+import java.util.Date
 
-class FineRepository(private val db: FirebaseFirestore) {
+class FineRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
     // Ghi nhận khoản phạt mới
     suspend fun addFine(fine: Fine): String = withContext(Dispatchers.IO) {
         val docRef = db.collection("fines").add(fine).await()
@@ -25,6 +28,28 @@ class FineRepository(private val db: FirebaseFirestore) {
             .get()
             .await()
             .toObjects(Fine::class.java)
+    }
+
+    suspend fun getTotalFineInRange(days: Int? = null): Long = withContext(Dispatchers.IO) {
+        val collection = db.collection("fine")
+
+        val query = if (days != null) {
+            val calendar = Calendar.getInstance()
+            calendar.time = Date()
+            calendar.add(Calendar.DAY_OF_YEAR, -days) // Lùi về 'days' ngày
+            val fromDate = calendar.time
+
+            collection.whereGreaterThanOrEqualTo("recordDate", fromDate)
+                .get()
+                .await()
+        }
+        else {
+            collection.get().await()
+        }
+
+        query.documents.sumOf {
+            it.getLong("fineAmount") ?: 0L
+        }
     }
 
     // Lấy khoản phạt theo yêu cầu mượn sách tương ứng

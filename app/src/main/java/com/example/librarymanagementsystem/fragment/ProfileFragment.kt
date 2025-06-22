@@ -12,11 +12,13 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.LoginActivity
+import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.repository.LibraryCardRepository
@@ -39,6 +41,7 @@ class ProfileFragment : Fragment() {
     private lateinit var userNameTV: TextView
     private lateinit var profileEmailTV: TextView
     // Card information
+    private lateinit var libraryCV : CardView
     private lateinit var fullNameTV: TextView
     private lateinit var emailTV: TextView
     private lateinit var addressTV: TextView
@@ -78,6 +81,7 @@ class ProfileFragment : Fragment() {
         fullNameTV = view.findViewById(R.id.fullNameTV)
         profileEmailTV = view.findViewById(R.id.profileEmailTV)
         // Card information
+        libraryCV = view.findViewById(R.id.libraryCV)
         wrapper = view.findViewById(R.id.registerFL)
         userNameTV = view.findViewById(R.id.userNameTV)
         birthdayTV = view.findViewById(R.id.birthdayTV)
@@ -113,9 +117,9 @@ class ProfileFragment : Fragment() {
             try {
                 listenReturnInformation()
                 val defaultDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_background)
+                val user = userRepository.getUserById(userID)
 
                 if (userNameTV.text.isBlank() && emailTV.text.isBlank() && avatarIV.drawable != defaultDrawable) {
-                    val user = userRepository.getUserById(userID)
 
                     user?.let {
                         userNameTV.text = it.username
@@ -128,29 +132,35 @@ class ProfileFragment : Fragment() {
                         Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
                     }
                 }
-                val libraryCard = LibraryCardCache.libraryCard
-                val dueDate = libraryCardManager.getDueDate(libraryCard!!.createdAt)
 
-                if (dueDate >= Date()) {
-                    wrapper.visibility = View.GONE
-                    fullNameTV.text = libraryCard.fullName
-                    emailTV.text = libraryCard.email
-                    addressTV.text = libraryCard.address
-                    typeTV.text = libraryCard.type
-                    birthdayTV.text = formatDate(libraryCard.birthday)
-                    dueDateTV.text =
-                        formatDate(libraryCardManager.getDueDate(libraryCard.createdAt))
-                    statusIV.setColorFilter(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.green
+                if (user!!.roleId != "librarian") {
+                    val libraryCard = LibraryCardCache.libraryCard
+                    val dueDate = libraryCardManager.getDueDate(libraryCard!!.createdAt)
+
+                    if (dueDate >= Date()) {
+                        wrapper.visibility = View.GONE
+                        fullNameTV.text = libraryCard.fullName
+                        emailTV.text = libraryCard.email
+                        addressTV.text = libraryCard.address
+                        typeTV.text = libraryCard.type
+                        birthdayTV.text = formatDate(libraryCard.birthday)
+                        dueDateTV.text =
+                            formatDate(libraryCardManager.getDueDate(libraryCard.createdAt))
+                        statusIV.setColorFilter(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.green
+                            )
                         )
-                    )
-                    statusTV.text = libraryCard.status
+                        statusTV.text = libraryCard.status
+                    }
+                    else
+                    {
+                        LibraryCardCache.libraryCard = null
+                    }
                 }
-                else
-                {
-                    LibraryCardCache.libraryCard = null
+                else {
+                    libraryCV.visibility = View.GONE
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error loading profile: ${e.message}", Toast.LENGTH_LONG).show()
@@ -171,6 +181,8 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
             Firebase.auth.signOut()
 
+            LibraryCardCache.libraryCard = null
+            BookOperateCache.statusMap.clear()
             activity?.finish()
         }
 

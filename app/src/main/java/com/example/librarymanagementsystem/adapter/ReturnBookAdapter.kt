@@ -8,8 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.ReturnDisplay
+import com.example.librarymanagementsystem.service.ReturnBookManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.Date
 
-class ReturnBookAdapter(private val returnList: List<ReturnDisplay>) :
+class ReturnBookAdapter(
+    private val returnList: List<ReturnDisplay>,
+    private val onReturnChanged: suspend () -> Unit
+) :
     RecyclerView.Adapter<ReturnBookAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -50,7 +58,17 @@ class ReturnBookAdapter(private val returnList: List<ReturnDisplay>) :
         holder.rFine.text = item.fineText
 
         holder.btnReturn.setOnClickListener {
-            // TODO: xử lý btn
+            CoroutineScope(Dispatchers.Main).launch {
+                val borrow = item.borrow
+                val today = Date()
+                val expected = borrow.expectedReturnDate ?: today
+                val daysLate = ((today.time - expected.time) / (1000 * 60 * 60 * 24)).toInt()
+                val fine = if (daysLate > 0) daysLate * 1000 else null
+                val reason = item.statusText
+
+                ReturnBookManager().markAsReturned(borrow, fine, reason)
+                onReturnChanged()  // Gọi để reload lại adapter
+            }
         }
     }
 }

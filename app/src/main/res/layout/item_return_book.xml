@@ -127,7 +127,7 @@
                 android:id="@+id/btnMaskAsReturn"
                 android:layout_width="150dp"
                 android:layout_height="31dp"
-                android:text="Mask as Return"
+                android:text="Mark as Return"
                 android:textSize="16sp"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 800"

@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@id/linearLayout1"/>
 
     <FrameLayout
-        android:id="@+id/lib_fragment_container"
+        android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"

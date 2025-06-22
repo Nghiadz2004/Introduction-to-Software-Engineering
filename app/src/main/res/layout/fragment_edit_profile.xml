@@ -7,18 +7,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ProfileFragment">
 
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatarIV"
         android:layout_width="124dp"
         android:layout_height="124dp"
-        android:src="@drawable/ic_launcher_background"
         android:layout_marginTop="28dp"
+        android:src="@drawable/ic_launcher_background"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/CircleImage"
         tools:ignore="ContentDescription" />
-
 
     <ImageButton
         android:id="@+id/editAvatarBtn"

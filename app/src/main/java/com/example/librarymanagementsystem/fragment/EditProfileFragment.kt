@@ -76,7 +76,16 @@ class EditProfileFragment : Fragment() {
             user?.let {
                 userNameET.setText(it.username)
                 emailET.setText(it.email)
-                Glide.with(avatarIV).load(it.avatar).into(avatarIV)
+                if (!it.avatar.isNullOrEmpty()) {
+                    Glide.with(avatarIV.context)
+                        .load(it.avatar)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_background)
+                        .into(avatarIV)
+                } else {
+                    avatarIV.setImageResource(R.drawable.ic_launcher_background)
+                }
+
             }
         }
 

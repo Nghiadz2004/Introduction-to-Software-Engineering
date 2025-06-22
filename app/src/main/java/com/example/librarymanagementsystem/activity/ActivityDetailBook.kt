@@ -1,9 +1,17 @@
 package com.example.librarymanagementsystem.activity
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.InputType
+import android.util.TypedValue
+import android.view.Gravity
 import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.view.ViewCompat
@@ -11,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.databinding.ActivityDetailBookBinding
@@ -38,6 +47,35 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var borrowingRepository: BorrowingRepository
     private lateinit var requestBorrowRepository: RequestBorrowRepository
     private var isFavorite: Boolean = false
+
+    private fun showInputDialog(context: Context, title: String, onInputConfirmed: (String) -> Unit) {
+        val titleView = TextView(context).apply {
+            text = title
+            gravity = Gravity.CENTER
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            setTypeface(null, Typeface.BOLD)
+            setPadding(30, 40, 30, 20)
+        }
+
+        val editText = EditText(context).apply {
+            inputType = InputType.TYPE_CLASS_TEXT
+            hint = "Days to borrow"
+            gravity = Gravity.CENTER
+        }
+
+        AlertDialog.Builder(context)
+            .setCustomTitle(titleView) // 👈 dùng title tùy chỉnh căn giữa
+            .setView(editText)
+            .setPositiveButton("OK") { _, _ ->
+                val input = editText.text.toString().trim()
+                if (input.isNotEmpty()) {
+                    onInputConfirmed(input)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
 
     // function to display book details
     @SuppressLint("SetTextI18n")
@@ -69,7 +107,7 @@ class ActivityDetailBook : AppCompatActivity() {
         val userId = auth.currentUser!!.uid
         setContentView(R.layout.activity_detail_book)
         val book: Book? = intent.getParcelableExtra("book")
-
+        bookID = book!!.id.toString()
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -141,16 +179,30 @@ class ActivityDetailBook : AppCompatActivity() {
             }
         }
 
-
+        if (BookOperateCache.statusMap.containsKey(bookID)) {
+            btnBorrow.text = BookOperateCache.statusMap[bookID]
+        }
 
         //Handle borrow button
         btnBorrow.setOnClickListener {
             //Handle borrow button
             if (LibraryCardCache.libraryCard != null) {
-                val request = BorrowRequest(libraryCardId = LibraryCardCache.libraryCard!!.id!!, readerId = userId, bookId = bookID)
-                lifecycleScope.launch {
-                    requestBorrowRepository.addRequestBorrow(request)
+                if (!BookOperateCache.statusMap.containsKey(bookID)) {
+                    showInputDialog(this, "Input days to borrow"){input ->
+                        lifecycleScope.launch {
+                            requestBorrowRepository.addRequestBorrow(libraryCardId = LibraryCardCache.libraryCard!!.id!!,
+                                readerId = userId,
+                                bookId = bookID,
+                                daysBorrow = input.toInt())
+                        }
+                        btnBorrow.text = "PENDING"
+                        BookOperateCache.statusMap[bookID] = "PENDING"}
+
                 }
+                if (BookOperateCache.statusMap[bookID] == "PENDING") {
+
+                }
+
             }
         }
 
@@ -162,7 +214,6 @@ class ActivityDetailBook : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 displayBookDetails(book, binding)
-                bookID = book.id.toString()
             } catch (e: Exception) {
                 // Handle exception
                 errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T Vui lòng thử lại sau ~~", onDismissCallback = {

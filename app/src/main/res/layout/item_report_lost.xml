@@ -114,11 +114,12 @@
                 android:textColor="@color/light_gray_2"/>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnConfirm"
                 android:layout_width="130dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="Processed"
+                android:text="Confirm"
                 android:textSize="16sp"
                 android:textStyle="italic|bold"
                 android:textAllCaps="false"

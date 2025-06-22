@@ -7,12 +7,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 import java.util.Date
 
 class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
     // Lấy danh sách tất cả các bản ghi dữ liệu mượn sách trong cơ sở dữ liệu
     suspend fun getAllBorrows(): List<BorrowBook> = withContext(Dispatchers.IO) {
         db.collection("borrow_book").get().await().toObjects(BorrowBook::class.java)
+    }
+
+    suspend fun getUserBooksWithinFiveDays(readerId: String) = withContext(Dispatchers.IO){
+
     }
 
     suspend fun getBorrowCountByBookIds(bookIds: List<String>): Map<String, Int> = withContext(Dispatchers.IO) {
@@ -29,6 +34,48 @@ class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.
         }
 
         return@withContext result
+    }
+
+    suspend fun getBorrowedBooksCountInRange(days: Int? = null): Long = withContext(Dispatchers.IO) {
+        val collection = db.collection("borrow_book")
+
+        val query = if (days != null) {
+            val calendar = Calendar.getInstance()
+            calendar.time = Date()
+            calendar.add(Calendar.DAY_OF_YEAR, -days)
+            val fromDate = calendar.time
+            collection.whereGreaterThanOrEqualTo("borrowDate", fromDate)
+        } else {
+            collection
+        }
+
+        val aggregateQuery = query.count()
+        val snapshot = aggregateQuery.get(AggregateSource.SERVER).await()
+        snapshot.count
+    }
+
+    suspend fun getReturnBookCountInRange(days: Int? = null): Long = withContext(Dispatchers.IO) {
+        val collection = db.collection("borrow_book")
+
+        val query = if (days != null) {
+            val calendar = Calendar.getInstance()
+            calendar.time = Date()
+            calendar.add(Calendar.DAY_OF_YEAR, -days)
+            val fromDate = calendar.time
+
+            collection
+                .whereNotEqualTo("actualReturnDate", null)
+                .whereGreaterThanOrEqualTo("actualReturnDate", fromDate)
+        } else {
+            collection.whereNotEqualTo("actualReturnDate", null) // All time
+        }
+
+        val snapshot = query
+            .count()
+            .get(AggregateSource.SERVER)
+            .await()
+
+        snapshot.count
     }
 
     // Thêm một quyển sách được mượn vào cơ sở dữ liệu
