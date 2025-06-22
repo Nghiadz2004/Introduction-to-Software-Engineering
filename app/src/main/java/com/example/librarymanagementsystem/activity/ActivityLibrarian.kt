@@ -63,7 +63,7 @@ class ActivityLibrarian : AppCompatActivity() {
     private fun loadActivity(pageID: String, userID: String) {
         if (pageID == PROFILE_ID) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.lib_fragment_container, ProfileFragment())
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -73,7 +73,7 @@ class ActivityLibrarian : AppCompatActivity() {
 
         else if (pageID == STATISTIC_ID) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.lib_fragment_container, StatisticFragment())
+                .replace(R.id.fragment_container, StatisticFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -115,7 +115,7 @@ class ActivityLibrarian : AppCompatActivity() {
 
         statisticBtn.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.lib_fragment_container, StatisticFragment())
+                .replace(R.id.fragment_container, StatisticFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -124,7 +124,7 @@ class ActivityLibrarian : AppCompatActivity() {
 
         profileBtn.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.lib_fragment_container, ProfileFragment())
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 

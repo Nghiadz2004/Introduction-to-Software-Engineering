@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.Book
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,15 @@ class BookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
     // Lấy danh sách tất cả các sách (bản logic) có trong cơ sở dữ liệu
     suspend fun getBooks(): List<Book> = withContext(Dispatchers.IO) {
         db.collection("books").get().await().toObjects(Book::class.java)
+    }
+
+    suspend fun getAllBookCount(): Long = withContext(Dispatchers.IO) {
+        val countResult = db.collection("books")
+            .count()
+            .get(AggregateSource.SERVER)
+            .await()
+
+        countResult.count
     }
 
     // Tìm kiếm sách theo Id

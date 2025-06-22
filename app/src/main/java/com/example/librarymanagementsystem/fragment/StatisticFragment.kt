@@ -5,56 +5,76 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.dialog.LoadingDialog
+import com.example.librarymanagementsystem.service.StatisticManager
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [StatisticFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class StatisticFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var totalBooksNumberTV: TextView
+    private lateinit var totalBooksLentNumberTV: TextView
+    private lateinit var totalReturnBooksNumberTV: TextView
+    private lateinit var totalLostBooksNumberTV: TextView
+    private lateinit var totalFineNumberTV: TextView
+
+    private lateinit var totalBooksLentNumberTV_2: TextView
+    private lateinit var totalReturnBooksNumberTV_2: TextView
+    private lateinit var totalLostBooksNumberTV_2: TextView
+    private lateinit var totalFineNumberTV_2: TextView
+
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_statistic, container, false)
+        val view = inflater.inflate(R.layout.fragment_statistic, container, false)
+
+        // Ánh xạ view
+        totalBooksNumberTV = view.findViewById(R.id.totalBooksNumberTV)
+        totalBooksLentNumberTV = view.findViewById(R.id.totalBooksLentNumberTV)
+        totalReturnBooksNumberTV = view.findViewById(R.id.totalReturnBooksNumberTV)
+        totalLostBooksNumberTV = view.findViewById(R.id.totalLostBooksNumberTV)
+        totalFineNumberTV = view.findViewById(R.id.totalFineNumberTV)
+
+        totalBooksLentNumberTV_2 = view.findViewById(R.id.totalBooksLentNumberTV_2)
+        totalReturnBooksNumberTV_2 = view.findViewById(R.id.totalReturnBooksNumberTV_2)
+        totalLostBooksNumberTV_2 = view.findViewById(R.id.totalLostBooksNumberTV_2)
+        totalFineNumberTV_2 = view.findViewById(R.id.totalFineNumberTV_2)
+
+        // Khởi tạo LoadingDialog
+        loadingDialog = LoadingDialog(requireContext())
+
+        loadStatistic()
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StatisticFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StatisticFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun loadStatistic() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            // Hiện dialog
+            loadingDialog.show()
+
+            // Tải dữ liệu
+            totalBooksNumberTV.text = StatisticManager().getTotalBooks().toString()
+            totalBooksLentNumberTV.text = StatisticManager().getTotalBooksLent().toString()
+            totalReturnBooksNumberTV.text = StatisticManager().getTotalReturnBooks().toString()
+            totalLostBooksNumberTV.text = StatisticManager().getTotalLostBooks().toString()
+            totalFineNumberTV.text = StatisticManager().getTotalFine().toString()
+
+            totalBooksLentNumberTV_2.text = StatisticManager().getTotalBooksLent(7).toString()
+            totalReturnBooksNumberTV_2.text = StatisticManager().getTotalReturnBooks(7).toString()
+            totalLostBooksNumberTV_2.text = StatisticManager().getTotalLostBooks(7).toString()
+            totalFineNumberTV_2.text = StatisticManager().getTotalFine(7).toString()
+
+            // Ẩn dialog khi tải xong
+            loadingDialog.dismiss()
+        }
     }
 }

@@ -29,45 +29,6 @@
             android:maxHeight="160dp"
             android:scaleType="fitCenter" />
 
-        <View
-            android:layout_width="160dp"
-            android:layout_height="0dp" />
-
-        <TextView
-            android:id="@+id/ellipse"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="8dp"
-            android:text="1"
-            android:textSize="10sp"
-            android:textColor="@color/light_blue"
-            android:background="@drawable/circle"
-            android:backgroundTint="#D9D9D9"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:visibility="visible" />
-
-        <ImageButton
-            android:id="@+id/notifyImgBtn"
-            android:layout_width="16dp"
-            android:layout_height="21dp"
-            android:adjustViewBounds="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:maxWidth="21.88dp"
-            android:maxHeight="25dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/notify_icon"
-            android:tint="#D9D9D9"
-            tools:ignore="UseAppTint" />
-
-        <View
-            android:layout_width="24dp"
-            android:layout_height="0dp" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/avatar_account_placeholder" />
     </LinearLayout>
 
     <EditText
@@ -92,19 +53,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="8dp"
         android:text="Categorical"
         android:fontFamily="@font/inter_font"
-        android:fontVariationSettings="'wght' 800"
-        android:textStyle="bold"
-        android:textSize="20dp"
+        android:textStyle="bold|italic"
+        android:textSize="20sp"
         android:textColor="@color/white"
         android:paddingStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchET" />
-
-
-
-
+        app:layout_constraintTop_toBottomOf="@+id/searchET"
+        tools:ignore="HardcodedText,RtlSymmetry" />
 
     <HorizontalScrollView
         android:id="@+id/categoryScrollView"
@@ -148,6 +106,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/light_purple"
@@ -159,6 +118,7 @@
 
         <Button
             android:id="@+id/homeBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -171,14 +131,16 @@
             android:drawableTop="@drawable/house_solid"
             android:drawableTint="@color/light_blue"
             android:text="Home"
+            android:textStyle="bold|italic"
             android:textColor="@color/light_gray"
             android:textAllCaps="false"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
-            android:textSize="32px" />
+            android:textSize="12sp"
+            tools:ignore="HardcodedText,RtlHardcoded" />
 
         <Button
             android:id="@+id/myBookBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -191,14 +153,16 @@
             android:drawableTop="@drawable/book_icon"
             android:drawableTint="@color/light_gray"
             android:text="My Books"
+            android:textStyle="bold|italic"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
             android:fontFamily="@font/inter_font"
-            android:textSize="32px"
-            android:fontVariationSettings="'wght' 800" />
+            android:textSize="12sp"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/favoriteBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -210,15 +174,17 @@
             android:drawableTop="@drawable/favorite_fill_icon"
             android:drawableTint="@color/light_gray"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
             android:padding="6dp"
             android:text="Favorites"
+            android:textStyle="bold|italic"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:textSize="32px" />
+            android:textSize="12sp"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/profileBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -230,11 +196,13 @@
             android:drawableTop="@drawable/profile_icon"
             android:drawableTint="@color/light_gray"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
             android:padding="6dp"
             android:text="Profile"
+            android:textStyle="bold|italic"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:textSize="32px" />
+            android:textSize="12sp"
+            tools:ignore="HardcodedText,RtlHardcoded" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,50 +31,6 @@
             android:src="@drawable/signature_logo"
             tools:ignore="HardcodedText,ImageContrastCheck,VisualLintBounds" />
 
-        <View
-            android:layout_width="160dp"
-            android:layout_height="0dp"/>
-
-        <TextView
-            android:id="@+id/ellipse"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/circle"
-            android:backgroundTint="#D9D9D9"
-            android:gravity="center"
-            android:text="1"
-            android:textAlignment="center"
-            android:textColor="@color/light_blue"
-            android:textSize="10sp"
-            android:visibility="visible"
-            tools:ignore="HardcodedText,SmallSp,TextSizeCheck,TextContrastCheck" />
-
-        <ImageButton
-            android:id="@+id/notifyImgBtn"
-            android:layout_width="21.88dp"
-            android:layout_height="25dp"
-            android:adjustViewBounds="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Notify bell icon"
-            android:maxWidth="21.88dp"
-            android:maxHeight="25dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/notify_icon"
-            android:tint="#D9D9D9"
-            tools:ignore="HardcodedText,UseAppTint,TouchTargetSizeCheck,ImageContrastCheck" />
-
-        <View
-            android:layout_width="24dp"
-            android:layout_height="0dp"/>
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/avatar_account_placeholder"
-            android:contentDescription="Avatar"
-            tools:ignore="HardcodedText,TouchTargetSizeCheck,ImageContrastCheck" />
-
     </LinearLayout>
 
     <TextView
@@ -127,6 +83,7 @@
 
         <Button
             android:id="@+id/homeBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
@@ -136,18 +93,19 @@
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/house_solid"
-            android:drawableTint="@color/light_gray"
+            android:drawableTint="@color/light_blue"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
             android:padding="6dp"
             android:text="Home"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:textSize="32sp"
-            tools:ignore="ButtonStyle,HardcodedText,RtlHardcoded,UnusedAttribute,TextContrastCheck,VisualLintButtonSize" />
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            tools:ignore="HardcodedText,RtlHardcoded,TextContrastCheck,VisualLintButtonSize" />
 
         <Button
             android:id="@+id/myBookBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -159,16 +117,17 @@
             android:drawableTop="@drawable/book_icon"
             android:drawableTint="@color/light_gray"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
             android:padding="6dp"
             android:text="My Books"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:textSize="32sp"
-            tools:ignore="ButtonStyle,HardcodedText,UnusedAttribute,TextContrastCheck,VisualLintButtonSize" />
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            tools:ignore="HardcodedText,TextContrastCheck,VisualLintButtonSize" />
 
         <Button
             android:id="@+id/favoriteBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -180,16 +139,17 @@
             android:drawableTop="@drawable/favorite_fill_icon"
             android:drawableTint="@color/light_gray"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
             android:padding="6dp"
             android:text="Favorites"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:textSize="32sp"
-            tools:ignore="ButtonStyle,HardcodedText,UnusedAttribute,TextContrastCheck,VisualLintButtonSize" />
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            tools:ignore="HardcodedText,TextContrastCheck,VisualLintButtonSize" />
 
         <Button
             android:id="@+id/profileBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -201,13 +161,13 @@
             android:drawableTop="@drawable/profile_icon"
             android:drawableTint="@color/light_gray"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 800"
             android:padding="6dp"
             android:text="Profile"
             android:textAllCaps="false"
             android:textColor="@color/light_gray"
-            android:textSize="32sp"
-            tools:ignore="ButtonStyle,HardcodedText,RtlHardcoded,UnusedAttribute,TextContrastCheck,VisualLintButtonSize" />
+            android:textSize="12sp"
+            android:textStyle="bold|italic"
+            tools:ignore="HardcodedText,RtlHardcoded,TextContrastCheck,VisualLintButtonSize" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
