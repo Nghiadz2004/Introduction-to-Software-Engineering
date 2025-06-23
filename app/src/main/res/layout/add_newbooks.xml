@@ -173,7 +173,6 @@
             android:layout_marginBottom="8dp" />
     </HorizontalScrollView>
 
-    ---
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView_content"
@@ -213,20 +212,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Title:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/titleEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
@@ -246,20 +246,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Author:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/authorEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
@@ -279,20 +280,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Rate:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/ratingEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
@@ -312,20 +314,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Series:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/seriesEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
@@ -345,20 +348,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Publisher:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/publisherEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
@@ -378,20 +382,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Publish Date:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/publishDateEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
@@ -400,6 +405,7 @@
                     android:paddingStart="16dp"
                     android:textColor="@color/white"
                     android:textSize="16sp"
+                    
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -412,20 +418,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Copy Num:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/copyNumEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
@@ -447,20 +454,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/inter_font"
                     android:text="Total Pages:"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+                    android:layout_weight="4"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/totalPagesEditText"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
+                    android:layout_weight="8.5"
                     android:background="@drawable/button_corner_radius"
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
