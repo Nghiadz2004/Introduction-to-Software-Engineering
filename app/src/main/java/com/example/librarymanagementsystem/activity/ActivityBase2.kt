@@ -117,7 +117,7 @@ class ActivityBase2 : AppCompatActivity() {
                 UIService.setButtonColor(
                     this@ActivityBase2,
                     favoriteBtn,
-                    listOf(profileBtn, homeBtn, myBookBtn)
+                    listOf(profileBtn)
                 )
             }
 
@@ -134,7 +134,7 @@ class ActivityBase2 : AppCompatActivity() {
                 UIService.setButtonColor(
                     this@ActivityBase2,
                     profileBtn,
-                    listOf(favoriteBtn,homeBtn, myBookBtn)
+                    listOf(favoriteBtn)
                 )
             }
             supportFragmentManager.beginTransaction()

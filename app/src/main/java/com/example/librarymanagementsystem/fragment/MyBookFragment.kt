@@ -95,7 +95,7 @@ class MyBookFragment : Fragment() {
                     onItemClick = { item ->
                         val intent = Intent(requireContext(), ActivityDetailBook::class.java).apply {
                             putExtra("book", item.book)
-                            putExtra("expectedReturnDate", item.borrowBook?.expectedReturnDate?.time)
+                            putExtra("expectedReturnDate", item.borrowBook?.expectedReturnDate?.toDate())
                         }
                         startActivity(intent)
                     },

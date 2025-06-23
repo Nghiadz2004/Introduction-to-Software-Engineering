@@ -33,7 +33,7 @@ class ReturnBookService(
             val dueDate = borrow.expectedReturnDate ?: return@mapNotNull null
             val borrowDate = borrow.borrowDate ?: return@mapNotNull null
 
-            val days = ((today.time - dueDate.time) / (1000 * 60 * 60 * 24)).toInt()
+            val days = ((today.time - dueDate.toDate().time) / (1000 * 60 * 60 * 24)).toInt()
             val statusText = if (days <= 0) "Due in ${-days} days" else "$days days overdue"
             val fineText = if (days <= 0) "Fine: No" else "Fine: ${days * 1000}đ"
 

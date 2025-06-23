@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.ReturnDisplay
 import com.example.librarymanagementsystem.service.ReturnBookManager
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,14 +62,19 @@ class ReturnBookAdapter(
             CoroutineScope(Dispatchers.Main).launch {
                 val borrow = item.borrow
                 val today = Date()
-                val expected = borrow.expectedReturnDate ?: today
-                val daysLate = ((today.time - expected.time) / (1000 * 60 * 60 * 24)).toInt()
+                val expected = borrow.expectedReturnDate!!.toDate()  // Chuyển Timestamp sang Date
+                val daysLate = ((today.time - expected.time) / (1000 * 60 * 60 * 24)).toInt()  // Tính số ngày trễ
+
                 val fine = if (daysLate > 0) daysLate * 1000 else null
                 val reason = item.statusText
 
+                // Thực hiện đánh dấu sách đã trả và tính tiền phạt nếu có
                 ReturnBookManager().markAsReturned(borrow, fine, reason)
-                onReturnChanged()  // Gọi để reload lại adapter
+
+                // Reload lại adapter hoặc update UI
+                onReturnChanged()
             }
+
         }
     }
 }

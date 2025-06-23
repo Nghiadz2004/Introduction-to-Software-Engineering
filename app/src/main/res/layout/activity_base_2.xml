@@ -93,7 +93,7 @@
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:drawableTop="@drawable/house_solid"
-            android:drawableTint="@color/light_blue"
+            android:drawableTint="@color/light_gray"
             android:fontFamily="@font/inter_font"
             android:padding="6dp"
             android:text="Home"

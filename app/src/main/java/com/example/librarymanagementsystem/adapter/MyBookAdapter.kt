@@ -137,18 +137,24 @@ class MyBookAdapter(
             BORROWED_ID -> {
                 holder.bookDueDateLeftTV.visibility = View.VISIBLE
                 holder.lostBtn.text = "Report Lost"
-                item.borrowBook?.expectedReturnDate?.let {
-                    val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                        .format(it)
+
+                // Kiểm tra và chuyển expectedReturnDate thành Date nếu cần
+                item.borrowBook?.expectedReturnDate?.let { timestamp ->
+                    // Nếu expectedReturnDate là Timestamp, chuyển nó thành Date
+                    val dueDate = timestamp.toDate() // chuyển đổi Timestamp thành Date
+                    val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dueDate)
+
                     holder.dueDateLeftTV.visibility = View.GONE
                     holder.bookDueDateLeftTV.text = "Due: $formattedDate"
                 } ?: run {
                     holder.bookDueDateLeftTV.text = ""
                 }
+
                 holder.lostBtn.setOnClickListener {
                     onReportLost(item)
                 }
             }
+
 
             PENDING_ID -> {
                 holder.bookDueDateLeftTV.visibility = View.GONE

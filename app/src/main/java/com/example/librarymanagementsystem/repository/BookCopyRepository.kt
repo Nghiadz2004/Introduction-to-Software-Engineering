@@ -19,7 +19,7 @@ class BookCopyRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
         val result = mutableMapOf<String, Int>()
 
         for (id in bookIds) {
-            val copiesRef = db.collection("books").document(id).collection("copies")
+            val copiesRef = db.collection("books").document(id).collection("book_copy")
             val countSnapshot = copiesRef.count().get(AggregateSource.SERVER).await()
             result[id] = countSnapshot.count.toInt()
         }
@@ -31,7 +31,7 @@ class BookCopyRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
     suspend fun getFirstBookCopiesByStatus(bookId: String, status: String): BookCopy? = withContext(Dispatchers.IO) {
         val querySnapshot = db.collection("books")
             .document(bookId)
-            .collection("copies")
+            .collection("book_copy")
             .whereEqualTo("status", status)   // dùng biến status truyền vào
             .limit(1)
             .get()

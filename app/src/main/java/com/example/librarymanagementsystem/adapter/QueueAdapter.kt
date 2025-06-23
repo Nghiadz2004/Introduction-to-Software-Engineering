@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.activity.LibrarianTransactionActivity
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.QueueDisplay
 import com.example.librarymanagementsystem.repository.BookCopyRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
@@ -69,6 +71,9 @@ class QueueAdapter(
         // Bắt sự kiện Approve
         holder.btnApprove.setOnClickListener {
             if (queue.copyLeft > 0) {
+
+                val loadingDialog = LoadingDialog(context)
+                loadingDialog.show()
                 // Tìm copyId đầu tiên có thể dùng
                 CoroutineScope(Dispatchers.Main).launch {
                     val copyRepo = BookCopyRepository()
@@ -80,6 +85,7 @@ class QueueAdapter(
                             BorrowingRepository()
                         )
                         manager.approveBorrowRequestBatch(queue.request, librarianId, availableCopy.copyId!!)
+                        loadingDialog.dismiss()
                         onQueueChanged()
                     }
                 }

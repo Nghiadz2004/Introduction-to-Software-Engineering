@@ -5,6 +5,8 @@ import com.example.librarymanagementsystem.model.BorrowRequest
 import com.example.librarymanagementsystem.model.RequestStatus
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -22,6 +24,8 @@ class BorrowBookManager (
         val batch = db.batch()
 
         val newBorrowRef = db.collection("borrow_book").document()
+        val copyRef = db.collection("books").document(request.bookId).collection("book_copy").document(copyId)
+        val requestRef = db.collection("request_borrow").document(request.id!!)
 
         val borrowBook = BorrowBook(
             requestId = request.id,
@@ -30,12 +34,14 @@ class BorrowBookManager (
             readerId = request.readerId,
             bookId = request.bookId,
             borrowDate = request.borrowDate,
-            librarianId = librarianId
+            librarianId = librarianId,
+            confirmDate = Timestamp.now(),
+            expectedReturnDate = Timestamp.now()
         )
-        val requestRef = db.collection("request_borrow").document(request.id!!)
 
         batch.set(newBorrowRef, borrowBook)
         batch.update(requestRef, "status", RequestStatus.APPROVED.name)
+        batch.update(copyRef, "status", "BORROWED")
 
         batch.commit().await() // Dùng coroutine extension
     }
