@@ -35,7 +35,6 @@ import java.util.Locale
 private const val EDIT_REQUEST = "editProfileRequestKey"
 
 class ProfileFragment : Fragment() {
-    private lateinit var auth: FirebaseAuth
     // Profile information
     private lateinit var avatarIV: ImageView
     private lateinit var userNameTV: TextView
@@ -56,13 +55,6 @@ class ProfileFragment : Fragment() {
     // Buttons
     private lateinit var editProfileBtn: Button
     private lateinit var logoutBtn: Button
-    // User
-    private lateinit var userID: String
-    // Repository
-    private val userRepository = UserRepository()
-    private val libraryCardRepository = LibraryCardRepository()
-    // Manager
-    private val libraryCardManager = LibraryCardManager()
     // Dialog
     private lateinit var loadingDialog: LoadingDialog
 
@@ -73,8 +65,7 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         loadingDialog = LoadingDialog(requireContext())
-        auth = Firebase.auth
-        userID = auth.currentUser!!.uid
+        val userID = Firebase.auth.currentUser!!.uid
         // Initial predefine variables
         // Profile information
         avatarIV = view.findViewById(R.id.avatarIV)
@@ -117,7 +108,7 @@ class ProfileFragment : Fragment() {
             try {
                 listenReturnInformation()
                 val defaultDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_background)
-                val user = userRepository.getUserById(userID)
+                val user = UserRepository().getUserById(userID)
 
                 if (userNameTV.text.isBlank() && emailTV.text.isBlank() && avatarIV.drawable != defaultDrawable) {
 
@@ -135,7 +126,7 @@ class ProfileFragment : Fragment() {
 
                 if (user!!.roleId != "librarian") {
                     val libraryCard = LibraryCardCache.libraryCard
-                    val dueDate = libraryCardManager.getDueDate(libraryCard!!.createdAt)
+                    val dueDate = LibraryCardManager().getDueDate(libraryCard!!.createdAt)
 
                     if (dueDate >= Date()) {
                         wrapper.visibility = View.GONE
@@ -145,7 +136,7 @@ class ProfileFragment : Fragment() {
                         typeTV.text = libraryCard.type
                         birthdayTV.text = formatDate(libraryCard.birthday)
                         dueDateTV.text =
-                            formatDate(libraryCardManager.getDueDate(libraryCard.createdAt))
+                            formatDate(LibraryCardManager().getDueDate(libraryCard.createdAt))
                         statusIV.setColorFilter(
                             ContextCompat.getColor(
                                 requireContext(),
@@ -163,7 +154,6 @@ class ProfileFragment : Fragment() {
                     libraryCV.visibility = View.GONE
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error loading profile: ${e.message}", Toast.LENGTH_LONG).show()
                 Log.e("ProfileFragment", "Error loading profile", e)
             } finally {
                 loadingDialog.dismiss()
@@ -187,18 +177,16 @@ class ProfileFragment : Fragment() {
         }
 
         editProfileBtn.setOnClickListener {
-            val editFragment = EditProfileFragment.newInstance(userID)
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, editFragment)
+                .replace(R.id.fragment_container, EditProfileFragment())
                 .addToBackStack(null)
                 .commit()
         }
 
         registerBtn.setOnClickListener {
             // Go to register reader card page
-            val registerFragment = RegisterReaderCardFragment.newInstance(userID)
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, registerFragment)
+                .replace(R.id.fragment_container, RegisterReaderCardFragment())
                 .addToBackStack(null)
                 .commit()
         }
@@ -207,7 +195,7 @@ class ProfileFragment : Fragment() {
     private fun listenReturnInformation() {
         parentFragmentManager.setFragmentResultListener(
             EDIT_REQUEST, viewLifecycleOwner
-        ) { key, bundle ->
+        ) { _, bundle ->
             val userName = bundle.getString("profileUserName")
             val email = bundle.getString("profileEmail")
             val avatar = bundle.getString("profileAvatar")

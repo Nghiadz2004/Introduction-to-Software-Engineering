@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 // My book section id
@@ -46,7 +47,7 @@ class MyBookAdapter(
         val bookTitleTV: TextView = itemView.findViewById(R.id.bookTitleTV)
         val bookAuthorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         val bookCategoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
-        val dueDateLeftTV: TextView = itemView.findViewById(R.id.duedateleftTV)
+        val dueTV: TextView = itemView.findViewById(R.id.dueTV)
         val bookDueDateLeftTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
 
         val favBtn: ImageButton = itemView.findViewById(R.id.favBtn)
@@ -140,12 +141,22 @@ class MyBookAdapter(
 
                 // Kiểm tra và chuyển expectedReturnDate thành Date nếu cần
                 item.borrowBook?.expectedReturnDate?.let { timestamp ->
-                    // Nếu expectedReturnDate là Timestamp, chuyển nó thành Date
-                    val dueDate = timestamp.toDate() // chuyển đổi Timestamp thành Date
-                    val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dueDate)
+                    val dueDate = timestamp.toDate() // ✅ Now it's a java.util.Date
+                    val now = Date()
+                    if (dueDate.before(now)) {
+                        val diffInMillis = now.time - dueDate.time
+                        val overdueDays = (diffInMillis / (1000 * 60 * 60 * 24)).toInt()
+                        holder.dueTV.text = "Overdue: "
+                        holder.bookDueDateLeftTV.text = "$overdueDays days"
 
-                    holder.dueDateLeftTV.visibility = View.GONE
-                    holder.bookDueDateLeftTV.text = "Due: $formattedDate"
+                        val textColor = ContextCompat.getColor(holder.itemView.context, R.color.orange)
+                        holder.dueTV.setTextColor(textColor)
+                        holder.bookDueDateLeftTV.setTextColor(textColor)
+                    } else {
+                        val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                            .format(dueDate)
+                        holder.bookDueDateLeftTV.text = formattedDate
+                    }
                 } ?: run {
                     holder.bookDueDateLeftTV.text = ""
                 }
@@ -158,7 +169,7 @@ class MyBookAdapter(
 
             PENDING_ID -> {
                 holder.bookDueDateLeftTV.visibility = View.GONE
-                holder.dueDateLeftTV.visibility = View.GONE
+                holder.dueTV.visibility = View.GONE
                 holder.lostBtn.text = "Cancel"
                 holder.lostBtn.setOnClickListener {
                     onCancelPending(item)
@@ -174,7 +185,7 @@ class MyBookAdapter(
                 holder.lostBtn.text = "Cancel"
                 holder.lostBtn.backgroundTintList = buttonColor
                 holder.bookDueDateLeftTV.visibility = View.GONE
-                holder.dueDateLeftTV.visibility = View.GONE
+                holder.dueTV.visibility = View.GONE
 
                 holder.lostBtn.setOnClickListener {
                     onCancelLost(item)

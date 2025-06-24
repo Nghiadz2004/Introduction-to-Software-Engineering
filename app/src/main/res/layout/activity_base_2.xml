@@ -56,6 +56,7 @@
         android:layout_marginTop="6dp"
         android:background="@drawable/background_corner_radius"
         android:backgroundTint="@color/light_purple"
+        android:clipToOutline="true"
         app:layout_constraintTop_toBottomOf="@+id/pageNamePlaceholderTV"
         app:layout_constraintBottom_toTopOf="@id/seperateLineV"
         app:layout_constraintStart_toStartOf="parent"

@@ -16,6 +16,9 @@ import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.model.CardRequest
 import com.example.librarymanagementsystem.model.RequestStatus
 import com.example.librarymanagementsystem.repository.CardRequestRepository
+import com.example.librarymanagementsystem.repository.UserRepository
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -33,31 +36,15 @@ class RegisterReaderCardFragment : Fragment() {
     private lateinit var submitBtn: Button
     private lateinit var returnBtn: ImageButton
 
-    private lateinit var userID: String
-
     private val cardRequestRepository = CardRequestRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_register_reader_card, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_register_reader_card, container, false)
 
-    companion object {
-        fun newInstance(userID: String): RegisterReaderCardFragment {
-            val fragment = RegisterReaderCardFragment()
-            val args = Bundle()
-            args.putString("USER_ID", userID)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        userID = arguments?.getString("USER_ID") ?: ""
+        val userID = Firebase.auth.currentUser!!.uid
 
         fullNameET = view.findViewById(R.id.fullnameET)
         emailET = view.findViewById(R.id.emailET)
@@ -67,17 +54,29 @@ class RegisterReaderCardFragment : Fragment() {
         submitBtn = view.findViewById(R.id.submitBtn)
         returnBtn = view.findViewById(R.id.returnBtn)
 
+        loadRegisterReaderCard(userID)
+
+        return view
+    }
+
+    private fun loadRegisterReaderCard(userID: String) {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val user = UserRepository().getUserById(userID)
+            user?.let {
+                fullNameET.setText(user.fullname)
+                emailET.setText(user.email)
+                val formattedBirthday = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    .format(user.birthday)
+                birthdayET.setText(formattedBirthday)            }
+        }
+
         submitBtn.setOnClickListener {
             val selectedType = when (typeRG.checkedRadioButtonId) {
-                R.id.radio_gold -> "Vàng"
-                R.id.radio_silver -> "Bạc"
-                R.id.radio_bronze -> "Đồng"
+                R.id.radio_gold -> "GOLD"
+                R.id.radio_silver -> "SILVER"
+                R.id.radio_bronze -> "BRONZE"
                 else -> null
-            }
-
-            if (selectedType == null) {
-                Toast.makeText(requireContext(), "Vui lòng chọn loại thẻ", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
             }
 
             val fullName = fullNameET.text.toString().trim()
@@ -85,19 +84,30 @@ class RegisterReaderCardFragment : Fragment() {
             val birthdayStr = birthdayET.text.toString().trim()
             val address = addressET.text.toString().trim()
 
-            if (fullName.isEmpty() || email.isEmpty() || birthdayStr.isEmpty() || address.isEmpty()) {
-                Toast.makeText(requireContext(), "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
             val birthdayDate = try {
                 SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(birthdayStr)
             } catch (e: Exception) {
                 null
             }
 
-            if (birthdayDate == null) {
-                Toast.makeText(requireContext(), "Ngày sinh không hợp lệ (dd/MM/yyyy)", Toast.LENGTH_SHORT).show()
+            if (fullName.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter your full name.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (email.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter your email.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (birthdayDate == null || birthdayDate > Date()) {
+                Toast.makeText(requireContext(), "Please enter a valid birth date (dd/MM/yyyy).", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (address.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter your address.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (selectedType == null) {
+                Toast.makeText(requireContext(), "Please select a card type.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -115,10 +125,10 @@ class RegisterReaderCardFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     cardRequestRepository.submitCardRequest(cardRequest)
-                    Toast.makeText(requireContext(), "Gửi yêu cầu thành công", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Request sent successfully", Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
                 } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Gửi yêu cầu thất bại: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Request fail to sent: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
