@@ -104,7 +104,7 @@ class MyBookFragment : Fragment() {
                                     putExtra("book", item.book)
                                     putExtra(
                                         "expectedReturnDate",
-                                        item.borrowBook?.expectedReturnDate?.toDate()
+                                        item.borrowBook?.expectedReturnDate
                                     )
                                 }
                             startActivity(intent)

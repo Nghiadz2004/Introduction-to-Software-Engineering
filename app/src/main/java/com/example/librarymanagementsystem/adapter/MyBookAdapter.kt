@@ -140,8 +140,7 @@ class MyBookAdapter(
                 holder.lostBtn.text = "Report Lost"
 
                 // Kiểm tra và chuyển expectedReturnDate thành Date nếu cần
-                item.borrowBook?.expectedReturnDate?.let { timestamp ->
-                    val dueDate = timestamp.toDate() // ✅ Now it's a java.util.Date
+                item.borrowBook?.expectedReturnDate?.let { dueDate ->
                     val now = Date()
                     if (dueDate.before(now)) {
                         val diffInMillis = now.time - dueDate.time

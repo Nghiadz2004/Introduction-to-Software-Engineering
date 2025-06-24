@@ -21,7 +21,6 @@ import com.example.librarymanagementsystem.activity.LoginActivity
 import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
-import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.example.librarymanagementsystem.repository.UserRepository
 import com.example.librarymanagementsystem.service.LibraryCardManager
 import com.google.firebase.Firebase
@@ -126,7 +125,7 @@ class ProfileFragment : Fragment() {
 
                 if (user!!.roleId != "librarian") {
                     val libraryCard = LibraryCardCache.libraryCard
-                    val dueDate = LibraryCardManager().getDueDate(libraryCard!!.createdAt)
+                    val dueDate = LibraryCardManager().getDueDate(libraryCard!!.createdAt!!)
 
                     if (dueDate >= Date()) {
                         wrapper.visibility = View.GONE
@@ -136,7 +135,7 @@ class ProfileFragment : Fragment() {
                         typeTV.text = libraryCard.type
                         birthdayTV.text = formatDate(libraryCard.birthday)
                         dueDateTV.text =
-                            formatDate(LibraryCardManager().getDueDate(libraryCard.createdAt))
+                            formatDate(LibraryCardManager().getDueDate(libraryCard.createdAt!!))
                         statusIV.setColorFilter(
                             ContextCompat.getColor(
                                 requireContext(),
