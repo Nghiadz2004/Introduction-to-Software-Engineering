@@ -48,6 +48,15 @@
             android:name=".activity.LibrarianTransactionActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.ActivityStorekeeper"
+            android:exported="false" />
+        <activity
+            android:name=".activity.StorekeeperHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.StorekeeperTransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

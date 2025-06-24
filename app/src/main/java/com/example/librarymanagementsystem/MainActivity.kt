@@ -8,8 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.activity.HomeActivity
-import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.activity.ActivityLibrarian
+import com.example.librarymanagementsystem.activity.ActivityStorekeeper
+import com.example.librarymanagementsystem.activity.StorekeeperHomeActivity
 import com.example.librarymanagementsystem.activity.WelcomeActivity
 import com.example.librarymanagementsystem.repository.UserRepository
 import com.google.firebase.Firebase
@@ -43,8 +44,8 @@ class MainActivity : AppCompatActivity() {
                 else if (userObject?.roleId == "librarian") {
                     startActivity(Intent(this@MainActivity, ActivityLibrarian::class.java))
                 }
-                else{
-
+                else if (userObject?.roleId == "storekeeper") {
+                    startActivity(Intent(this@MainActivity, ActivityStorekeeper::class.java))
                 }
                 finish()
             }

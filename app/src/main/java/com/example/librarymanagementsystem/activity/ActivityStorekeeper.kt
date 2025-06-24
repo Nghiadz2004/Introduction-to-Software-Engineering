@@ -20,7 +20,7 @@ private const val TRANSACTION_ID = "TRANSACTION"
 private const val STATISTIC_ID = "STATISTIC"
 private const val PROFILE_ID = "PROFILE"
 
-class ActivityLibrarian : AppCompatActivity() {
+class ActivityStorekeeper : AppCompatActivity() {
     private lateinit var pageNamePlaceholderTV: TextView
     private lateinit var homeBtn: Button
     private lateinit var transactionBtn: Button
@@ -39,11 +39,11 @@ class ActivityLibrarian : AppCompatActivity() {
         }
 
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
-        Log.d("ActivityLibrarianBase", "pageID = $pageID")
+        Log.d("ActivityStoreKeeperBase", "pageID = $pageID")
 
         userID = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
         if (userID == null) {
-            Log.e("ActivityLibrarianBase", "User not logged in.")
+            Log.e("ActivityStoreKeeperBase", "User not logged in.")
             //Navigate to login
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -83,7 +83,7 @@ class ActivityLibrarian : AppCompatActivity() {
         }
 
         else if (pageID == TRANSACTION_ID) {
-            val intent = Intent(this, LibrarianTransactionActivity::class.java)
+            val intent = Intent(this, StorekeeperTransactionActivity::class.java)
             intent.putExtra("PAGE_ID", TRANSACTION_ID)
             startActivity(intent)
             finish()
@@ -91,7 +91,7 @@ class ActivityLibrarian : AppCompatActivity() {
         }
 
         else if (pageID == HOME_ID) {
-            val intent = Intent(this, LibrarianHomeActivity::class.java)
+            val intent = Intent(this, StorekeeperHomeActivity::class.java)
             intent.putExtra("PAGE_ID", HOME_ID)
             startActivity(intent)
             finish()
@@ -101,14 +101,14 @@ class ActivityLibrarian : AppCompatActivity() {
 
     private fun handleMenuButton() {
         homeBtn.setOnClickListener {
-            val intent = Intent(this, LibrarianHomeActivity::class.java)
+            val intent = Intent(this, StorekeeperHomeActivity::class.java)
             intent.putExtra("PAGE_ID", HOME_ID)
             startActivity(intent)
             finish()
         }
 
         transactionBtn.setOnClickListener {
-            val intent = Intent(this, LibrarianTransactionActivity::class.java)
+            val intent = Intent(this, StorekeeperTransactionActivity::class.java)
             intent.putExtra("PAGE_ID", TRANSACTION_ID)
             startActivity(intent)
             finish()

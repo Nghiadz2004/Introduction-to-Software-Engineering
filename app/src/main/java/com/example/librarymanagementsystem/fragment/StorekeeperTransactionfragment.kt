@@ -21,7 +21,7 @@ private const val QUEUE_ID = "QUEUE"
 private const val RETURN_ID = "RETURN"
 private const val REPORT_ID = "REPORT"
 
-class LibrarianTransactionFragment : Fragment() {
+class StorekeeperTransactionFragment : Fragment() {
     // Khởi tạo Recycler View
     private lateinit var recyclerView: RecyclerView
 
@@ -54,7 +54,7 @@ class LibrarianTransactionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_librarian_transaction, container, false)
+        val view = inflater.inflate(R.layout.fragment_officer_transaction, container, false)
 
         // Khởi tạo RecyclerView
         recyclerView = view.findViewById<RecyclerView>(R.id.librarianTransactionRV)

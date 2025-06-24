@@ -102,6 +102,8 @@ class ActivityDetailBook : AppCompatActivity() {
                     val queues = requestBorrowRepository.getPendingRequests()
                     val queue = queues.count { it.bookId == book.id }
                     val borrower = borrowRepository.getNumBorrowById(book.id!!)
+                    Log.d("ActivityDetailBook", "Queue: $queue")
+                    Log.d("ActivityDetailBook", "Borrower: $borrower")
                     displayBookDetails(book, binding, queue, borrower)
                 }
                 else {

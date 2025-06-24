@@ -13,24 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.BookAdapter
-import com.example.librarymanagementsystem.adapter.CardRequestAdapter
-import com.example.librarymanagementsystem.adapter.LibraryCardAdapter
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.model.CardRequest
-import com.example.librarymanagementsystem.model.LibraryCard
 import com.example.librarymanagementsystem.repository.BookRepository
-import com.example.librarymanagementsystem.repository.CardRequestRepository
-import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 private const val ALLBOOK_ID = "ALLBOOK"
-private const val RDCARD_ID = "RDCARD"
-private const val ADD_RDCARD_ID = "ADD_RDCARD"
+private const val ADDBOOK_ID = "ADDBOOK"
 
-class LibrarianHomeFragment : Fragment() {
+class StorekeeperHomeFragment : Fragment() {
     // Khởi tạo Recycler View
     private lateinit var recyclerView: RecyclerView
 
@@ -41,14 +34,10 @@ class LibrarianHomeFragment : Fragment() {
     private var currentAdapter: RecyclerView.Adapter<*>? = null
 
     // Khởi tạo các adapter hỗ trợ hiển thị các danh sách
-    private lateinit var requestReaderCardAdapter: CardRequestAdapter
     private lateinit var bookAdapter: BookAdapter
-    private lateinit var libraryCardAdapter: LibraryCardAdapter
 
     // Khởi tạo các biến repos để lấy dữ liệu
     private var bookRepository = BookRepository()
-    private var libraryCardRepository = LibraryCardRepository()
-    private var cardRequestRepository = CardRequestRepository()
 
     private lateinit var userID: String
 
@@ -79,14 +68,13 @@ class LibrarianHomeFragment : Fragment() {
         // Khởi tạo loading dialog
         loadingDialog = LoadingDialog(requireContext())
 
-        // Mặc định hiển thị danh sách sách
-        if (fragmentId == ALLBOOK_ID) {
-            loadAllBook()
-        } else if (fragmentId == RDCARD_ID) {
-            loadLibraryCards()
-        } else if (fragmentId == ADD_RDCARD_ID) {
-            loadAddReaderData()
-        }
+//        val fragmentId = getFragmentId()
+//        if (fragmentId == ALLBOOK_ID) {
+//            loadAllBook()
+//        } else if (fragmentId == ADDBOOK_ID) {
+//            loadAddBook()
+//
+        loadAllBook()
 
         return view
     }
@@ -137,69 +125,21 @@ class LibrarianHomeFragment : Fragment() {
         }
     }
 
-    // Hàm load dữ liệu cho danh sách LibraryCards
-    private fun loadLibraryCards() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            loadingDialog.show()
-            try {
-                // Lấy dữ liệu LibraryCards của bạn
-                val libraryCards: List<LibraryCard> = libraryCardRepository.getLibraryCards()
-
-                // Khởi tạo adapter
-                libraryCardAdapter = LibraryCardAdapter(
-                    libraryCards,
-                    // Xử lý xoá library card
-                    onRemove = { item ->
-                        lifecycleScope.launch {
-                            try {
-                                // Xoá item library card ra khỏi adapter
-                                libraryCardAdapter.removeItem(item)
-
-                            } catch (e: Exception) {
-                                Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}")
-                            }
-                        }
-                    }
-                )
-
-                // Hiển thị danh sách LibraryCards
-                recyclerView.adapter = libraryCardAdapter
-                currentAdapter = libraryCardAdapter
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("LoadReaderCards", e.toString())
-            } finally {
-                loadingDialog.dismiss()
-            }
-        }
+    // Hàm để hiển thị danh sách all book
+    private fun showAllBooks() {
+//        recyclerView.visibility = View.VISIBLE
+//        binding.fragmentContainer.visibility = View.GONE
+        // Load dữ liệu như bình thường
+        loadAllBook()
     }
 
-    // Hàm load dữ liệu cho danh sách Request Add Reader Card
-    private fun loadAddReaderData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            loadingDialog.show()
-            try {
-                // Giả sử bạn lấy dữ liệu từ repository hoặc nguồn khác
-                val addReaderData: List<CardRequest> = cardRequestRepository.getPendingRequests()/* lấy dữ liệu của bạn */
-
-                // Khởi tạo adapter và xử lý nút
-                requestReaderCardAdapter = CardRequestAdapter(
-                    addReaderData,
-                    onApprove = { item -> requestReaderCardAdapter.approveItem(item)},
-                    onReject = { item -> requestReaderCardAdapter.removeItem(item)}
-                    )
-
-                // Hiển thị danh sách Request Add Reader Card
-                recyclerView.adapter = requestReaderCardAdapter
-                currentAdapter = requestReaderCardAdapter
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("LoadAddReaderData", e.toString())
-            } finally {
-                loadingDialog.dismiss()
-            }
-        }
-    }
-
-
+    // Hàm để hiển thị AddBook fragment
+//    private fun showAddBook() {
+//        recyclerView.visibility = View.GONE
+//        binding.fragmentContainer.visibility = View.VISIBLE
+//
+//        parentFragmentManager.beginTransaction()
+//            .replace(R.id.fragmentContainer, AddBookFragment())
+//            .commit()
+//    }
 }
