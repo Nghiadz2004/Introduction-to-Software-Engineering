@@ -1,12 +1,6 @@
 package com.example.librarymanagementsystem.activity
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.InputType
-import android.util.TypedValue
-import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -28,17 +22,14 @@ import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
-import com.example.librarymanagementsystem.repository.BorrowingRepository
-import com.example.librarymanagementsystem.repository.FavoriteRepository
-import com.example.librarymanagementsystem.repository.RequestBorrowRepository
-import com.example.librarymanagementsystem.service.UIService
-import com.google.firebase.auth.FirebaseAuth
 
 class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
     private lateinit var auth: FirebaseAuth
     private lateinit var bookID: String
     private lateinit var binding: ActivityDetailBookBinding
+    private lateinit var borrowRepository: BorrowingRepository
+    private lateinit var requestBorrowRepository: RequestBorrowRepository
     private lateinit var errorDialog: ErrorDialog
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
@@ -77,17 +68,10 @@ class ActivityDetailBook : AppCompatActivity() {
 
 
     // function to display book details
-    @SuppressLint("SetTextI18n")
     private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
-        borrowingRepository = BorrowingRepository()
-        requestBorrowRepository = RequestBorrowRepository()
-        var queue = 0
-        var borrower = 0
-        lifecycleScope.launch {
-            queue = requestBorrowRepository.getNumBookPendingRequests(book.id.toString())
-            borrower = borrowingRepository.getNumBorrowById(book.id.toString())
-        }
+        val queue = 0
+        val borrower = 0
         binding.bdQueue.text = "$queue Queues"
         binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
@@ -111,6 +95,9 @@ class ActivityDetailBook : AppCompatActivity() {
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize necessary repositories
+        borrowRepository = BorrowingRepository()
+        requestBorrowRepository = RequestBorrowRepository()
 
         // Initialize error dialog
         errorDialog = ErrorDialog(this, "Error")
@@ -212,10 +199,24 @@ class ActivityDetailBook : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                displayBookDetails(book, binding)
+                val book: Book? = intent.getParcelableExtra<Book>("book")
+                if (book != null) {
+                    val queues = requestBorrowRepository.getPendingRequests()
+                    val queue = queues.count { it.bookId == book.id }
+                    val borrower = borrowRepository.getNumBorrowById(book.id!!)
+                    Log.d("ActivityDetailBook", "Queue: $queue")
+                    Log.d("ActivityDetailBook", "Borrower: $borrower")
+                    displayBookDetails(book, binding, queue, borrower)
+                }
+                else {
+                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {
+                        finish()
+                    })
+                    errorDialog.show()
+                }
             } catch (e: Exception) {
                 // Handle exception
-                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T Vui lòng thử lại sau ~~", onDismissCallback = {
+                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T\\nVui lòng thử lại sau ~~", onDismissCallback = {
                     finish()
                 })
                 errorDialog.show()
