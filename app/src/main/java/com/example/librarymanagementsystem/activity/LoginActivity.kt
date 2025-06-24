@@ -116,6 +116,8 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         } else if (userObject?.roleId == "librarian") {
                             startActivity(Intent(this@LoginActivity, ActivityLibrarian::class.java))
+                        } else if (userObject?.roleId == "storekeeper") {
+                            startActivity(Intent(this@LoginActivity, ActivityStorekeeper::class.java))
                         }
                         finish()
                     }

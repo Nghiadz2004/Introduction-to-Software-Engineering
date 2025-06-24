@@ -181,7 +181,7 @@ class LibrarianHomeFragment : Fragment() {
             try {
                 // Giả sử bạn lấy dữ liệu từ repository hoặc nguồn khác
                 val addReaderData: List<CardRequest> = cardRequestRepository.getPendingRequests()/* lấy dữ liệu của bạn */
-
+                Log.d("CARD_REQUESTS","${addReaderData.size}")
                 // Khởi tạo adapter và xử lý nút
                 requestReaderCardAdapter = CardRequestAdapter(
                     addReaderData,

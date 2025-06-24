@@ -1,6 +1,12 @@
 package com.example.librarymanagementsystem.activity
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.InputType
+import android.util.TypedValue
+import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -22,6 +28,11 @@ import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
+import com.example.librarymanagementsystem.repository.BorrowingRepository
+import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.repository.RequestBorrowRepository
+import com.example.librarymanagementsystem.service.UIService
+import com.google.firebase.auth.FirebaseAuth
 
 class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
@@ -34,8 +45,6 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
     private lateinit var btnBorrow: Button
-    private lateinit var borrowingRepository: BorrowingRepository
-    private lateinit var requestBorrowRepository: RequestBorrowRepository
     private var isFavorite: Boolean = false
 
     private fun showInputDialog(context: Context, title: String, onInputConfirmed: (String) -> Unit) {
@@ -68,10 +77,8 @@ class ActivityDetailBook : AppCompatActivity() {
 
 
     // function to display book details
-    private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
+    private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding, queue: Int, borrower: Int) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
-        val queue = 0
-        val borrower = 0
         binding.bdQueue.text = "$queue Queues"
         binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
@@ -201,11 +208,8 @@ class ActivityDetailBook : AppCompatActivity() {
             try {
                 val book: Book? = intent.getParcelableExtra<Book>("book")
                 if (book != null) {
-                    val queues = requestBorrowRepository.getPendingRequests()
-                    val queue = queues.count { it.bookId == book.id }
-                    val borrower = borrowRepository.getNumBorrowById(book.id!!)
-                    Log.d("ActivityDetailBook", "Queue: $queue")
-                    Log.d("ActivityDetailBook", "Borrower: $borrower")
+                    val queue = requestBorrowRepository.getNumBookPendingRequests(book.id!!)
+                    val borrower = borrowRepository.getNumBorrowById(book.id)
                     displayBookDetails(book, binding, queue, borrower)
                 }
                 else {

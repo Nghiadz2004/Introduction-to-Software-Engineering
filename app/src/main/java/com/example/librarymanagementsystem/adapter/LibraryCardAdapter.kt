@@ -50,7 +50,7 @@ class LibraryCardAdapter(
         holder.addressTV.text    = "Address: ${card.address}"
         holder.typeTV.text       = "Type: ${card.type}"
         holder.issuerTV.text     = "Issuer: ${card.librarianId}"
-        holder.issueDateTV.text  = "Issue Date: ${formatDate(card.createdAt)}"
+        holder.issueDateTV.text  = "Issue Date: ${formatDate(card.createdAt!!)}"
         holder.dueDateTV.text    = "Due Date: ${formatDate(card.getDueDate)}"
         holder.statusTV.text     = "Status: ${card.status}"
         holder.btnRemove.setOnClickListener {
