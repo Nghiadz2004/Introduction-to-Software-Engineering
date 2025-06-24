@@ -46,7 +46,7 @@ class LoanService(
             val reader = userMap[borrow.readerId] ?: return@mapNotNull null
             val librarian = librarianMap[borrow.librarianId] ?: return@mapNotNull null
 
-            val dueDate = borrow.expectedReturnDate!!.toDate()
+            val dueDate = borrow.expectedReturnDate!!
             val daysDiff = ((dueDate.time - today.time) / (1000 * 60 * 60 * 24)).toInt()
             val status = if (daysDiff >= 0) "$daysDiff days left" else "overdue ${-daysDiff} days"
 

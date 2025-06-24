@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
 data class CardRequest(
@@ -11,7 +12,8 @@ data class CardRequest(
     val address: String,
     val email: String,
     val type: String,
-    val requestAt: Date = Date(),
+    @ServerTimestamp
+    val requestAt: Date? = null,
     var status: String = RequestStatus.PENDING.value
 ) {
     fun getStatusEnum(): RequestStatus? = RequestStatus.fromString(status)

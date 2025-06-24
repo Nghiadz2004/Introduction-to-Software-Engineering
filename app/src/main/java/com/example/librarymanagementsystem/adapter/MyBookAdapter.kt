@@ -141,7 +141,7 @@ class MyBookAdapter(
                 // Kiểm tra và chuyển expectedReturnDate thành Date nếu cần
                 item.borrowBook?.expectedReturnDate?.let { timestamp ->
                     // Nếu expectedReturnDate là Timestamp, chuyển nó thành Date
-                    val dueDate = timestamp.toDate() // chuyển đổi Timestamp thành Date
+                    val dueDate = timestamp// chuyển đổi Timestamp thành Date
                     val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dueDate)
 
                     holder.dueDateLeftTV.visibility = View.GONE

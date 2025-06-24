@@ -135,7 +135,7 @@ class ProfileFragment : Fragment() {
 
                 if (user!!.roleId != "librarian") {
                     val libraryCard = LibraryCardCache.libraryCard
-                    val dueDate = libraryCardManager.getDueDate(libraryCard!!.createdAt)
+                    val dueDate = libraryCardManager.getDueDate(libraryCard!!.createdAt!!)
 
                     if (dueDate >= Date()) {
                         wrapper.visibility = View.GONE
@@ -145,7 +145,7 @@ class ProfileFragment : Fragment() {
                         typeTV.text = libraryCard.type
                         birthdayTV.text = formatDate(libraryCard.birthday)
                         dueDateTV.text =
-                            formatDate(libraryCardManager.getDueDate(libraryCard.createdAt))
+                            formatDate(libraryCardManager.getDueDate(libraryCard.createdAt!!))
                         statusIV.setColorFilter(
                             ContextCompat.getColor(
                                 requireContext(),

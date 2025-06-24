@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.model
 
 import com.google.firebase.firestore.DocumentId // Giả sử bạn đang dùng Firestore
+import com.google.firebase.firestore.ServerTimestamp
 import java.util.Calendar
 import java.util.Date
 
@@ -14,7 +15,8 @@ data class LibraryCard(
     val email: String = "",
     val type: String = "",
     val birthday: Date = Date(), // birthday datetime [not null]
-    val createdAt: Date = Date(), // created_at datetime [not null, default: `CURRENT_TIMESTAMP`] -> Đổi thành camelCase
+    @ServerTimestamp
+    val createdAt: Date? = null,
     val address: String = "",
     var status: String = UserStatus.ACTIVE.value, // status varchar(20)
 )
@@ -23,7 +25,7 @@ data class LibraryCard(
     val getDueDate: Date
         get() {
             val calendar = Calendar.getInstance()
-            calendar.time = createdAt
+            calendar.time = createdAt!!
             calendar.add(Calendar.MONTH,6) // cộng thêm 1 năm
             return calendar.time
         }

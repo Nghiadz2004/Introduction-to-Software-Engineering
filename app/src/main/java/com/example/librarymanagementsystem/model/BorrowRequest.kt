@@ -1,28 +1,28 @@
 package com.example.librarymanagementsystem.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
-
 
 data class BorrowRequest(
     @DocumentId
     val id: String? = null, // Firestore document ID nếu bạn cần
     val libraryCardId: String = "",
-    val readerId: String,
+    val readerId: String = "",
     val bookId: String = "",
-    val borrowDate: Date = Date(),
+    @ServerTimestamp
+    val borrowDate: Date? = null,
     val daysBorrow: Int = 1,
-    val expectedReturnDate: Date? = null,
     val status: String = RequestStatus.PENDING.value // Lưu dưới dạng string
 ) {
+    // Constructor không tham số cần thiết cho Firestore
     constructor() : this(
         id = null,
         libraryCardId = "",
         readerId = "",
         bookId = "",
-        borrowDate = Date(),
+        borrowDate = null,
         daysBorrow = 1,
-        expectedReturnDate = Date(),
         status = RequestStatus.PENDING.value
     )
 

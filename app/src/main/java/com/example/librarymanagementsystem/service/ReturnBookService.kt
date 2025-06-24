@@ -30,7 +30,7 @@ class ReturnBookService(
         return@withContext returnBorrows.mapNotNull { borrow ->
             val book = bookMap[borrow.bookId] ?: return@mapNotNull null
             val reader = userMap[borrow.readerId] ?: return@mapNotNull null
-            val dueDate = borrow.expectedReturnDate!!.toDate()
+            val dueDate = borrow.expectedReturnDate!!
             val borrowDate = borrow.borrowDate ?: return@mapNotNull null
 
             val days = ((today.time - dueDate.time) / (1000 * 60 * 60 * 24)).toInt()
