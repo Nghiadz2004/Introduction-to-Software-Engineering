@@ -10,9 +10,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.fragment.StatisticFragment
 import com.example.librarymanagementsystem.fragment.ProfileFragment
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -23,10 +20,8 @@ private const val TRANSACTION_ID = "TRANSACTION"
 private const val STATISTIC_ID = "STATISTIC"
 private const val PROFILE_ID = "PROFILE"
 
-class ActivityLibrarian : AppCompatActivity() {
-
+class ActivityStorekeeper : AppCompatActivity() {
     private lateinit var pageNamePlaceholderTV: TextView
-
     private lateinit var homeBtn: Button
     private lateinit var transactionBtn: Button
     private lateinit var statisticBtn: Button
@@ -44,11 +39,16 @@ class ActivityLibrarian : AppCompatActivity() {
         }
 
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
-        Log.d("ActivityLibrarianBase", "pageID = $pageID")
+        Log.d("ActivityStoreKeeperBase", "pageID = $pageID")
 
-        val currentUser = Firebase.auth.currentUser
-
-        val userID = currentUser!!.uid
+        userID = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        if (userID == null) {
+            Log.e("ActivityStoreKeeperBase", "User not logged in.")
+            //Navigate to login
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() // Đóng activity hiện tại nếu không cần giữ lại
+        }
 
 
         pageNamePlaceholderTV = findViewById(R.id.pageNamePlaceholderTV2)
@@ -83,7 +83,7 @@ class ActivityLibrarian : AppCompatActivity() {
         }
 
         else if (pageID == TRANSACTION_ID) {
-            val intent = Intent(this, LibrarianTransactionActivity::class.java)
+            val intent = Intent(this, StorekeeperTransactionActivity::class.java)
             intent.putExtra("PAGE_ID", TRANSACTION_ID)
             startActivity(intent)
             finish()
@@ -91,7 +91,7 @@ class ActivityLibrarian : AppCompatActivity() {
         }
 
         else if (pageID == HOME_ID) {
-            val intent = Intent(this, LibrarianHomeActivity::class.java)
+            val intent = Intent(this, StorekeeperHomeActivity::class.java)
             intent.putExtra("PAGE_ID", HOME_ID)
             startActivity(intent)
             finish()
@@ -101,14 +101,14 @@ class ActivityLibrarian : AppCompatActivity() {
 
     private fun handleMenuButton() {
         homeBtn.setOnClickListener {
-            val intent = Intent(this, LibrarianHomeActivity::class.java)
+            val intent = Intent(this, StorekeeperHomeActivity::class.java)
             intent.putExtra("PAGE_ID", HOME_ID)
             startActivity(intent)
             finish()
         }
 
         transactionBtn.setOnClickListener {
-            val intent = Intent(this, LibrarianTransactionActivity::class.java)
+            val intent = Intent(this, StorekeeperTransactionActivity::class.java)
             intent.putExtra("PAGE_ID", TRANSACTION_ID)
             startActivity(intent)
             finish()

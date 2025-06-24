@@ -5,8 +5,7 @@ import com.example.librarymanagementsystem.model.BorrowRequest
 import com.example.librarymanagementsystem.model.RequestStatus
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FieldValue
+import java.util.Calendar
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -27,6 +26,16 @@ class BorrowBookManager (
         val copyRef = db.collection("books").document(request.bookId).collection("book_copy").document(copyId)
         val requestRef = db.collection("request_borrow").document(request.id!!)
 
+        val borrowDate = request.borrowDate
+        val expectedReturnDate = if (borrowDate != null) {
+            val calendar = Calendar.getInstance()
+            calendar.time = borrowDate
+            calendar.add(Calendar.DAY_OF_YEAR, request.daysBorrow) // Cộng số ngày mượn vào borrowDate
+            calendar.time // Trả về ngày sau khi cộng
+        } else {
+            null // Trường hợp borrowDate null thì trả về null
+        }
+
         val borrowBook = BorrowBook(
             requestId = request.id,
             libraryCardId = request.libraryCardId,
@@ -35,9 +44,9 @@ class BorrowBookManager (
             bookId = request.bookId,
             borrowDate = request.borrowDate,
             librarianId = librarianId,
-            confirmDate = Timestamp.now(),
-            expectedReturnDate = Timestamp.now()
+            expectedReturnDate = expectedReturnDate, // Sử dụng ngày đã cộng
         )
+
 
         batch.set(newBorrowRef, borrowBook)
         batch.update(requestRef, "status", RequestStatus.APPROVED.name)

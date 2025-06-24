@@ -28,7 +28,6 @@ import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
-import com.example.librarymanagementsystem.model.BorrowRequest
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
@@ -40,12 +39,12 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var bookID: String
     private lateinit var binding: ActivityDetailBookBinding
+    private lateinit var borrowRepository: BorrowingRepository
+    private lateinit var requestBorrowRepository: RequestBorrowRepository
     private lateinit var errorDialog: ErrorDialog
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
     private lateinit var btnBorrow: Button
-    private lateinit var borrowingRepository: BorrowingRepository
-    private lateinit var requestBorrowRepository: RequestBorrowRepository
     private var isFavorite: Boolean = false
 
     private fun showInputDialog(context: Context, title: String, onInputConfirmed: (String) -> Unit) {
@@ -78,17 +77,8 @@ class ActivityDetailBook : AppCompatActivity() {
 
 
     // function to display book details
-    @SuppressLint("SetTextI18n")
-    private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding) {
+    private fun displayBookDetails(book: Book, binding: ActivityDetailBookBinding, queue: Int, borrower: Int) {
         Glide.with(this).load(book.cover).into(binding.bdBookCover)
-        borrowingRepository = BorrowingRepository()
-        requestBorrowRepository = RequestBorrowRepository()
-        var queue = 0
-        var borrower = 0
-        lifecycleScope.launch {
-            queue = requestBorrowRepository.getNumBookPendingRequests(book.id.toString())
-            borrower = borrowingRepository.getNumBorrowById(book.id.toString())
-        }
         binding.bdQueue.text = "$queue Queues"
         binding.bdBorrower.text = "$borrower Borrower"
         binding.bdBookTitle.text = book.title
@@ -112,6 +102,9 @@ class ActivityDetailBook : AppCompatActivity() {
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize necessary repositories
+        borrowRepository = BorrowingRepository()
+        requestBorrowRepository = RequestBorrowRepository()
 
         // Initialize error dialog
         errorDialog = ErrorDialog(this, "Error")
@@ -213,10 +206,21 @@ class ActivityDetailBook : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                displayBookDetails(book, binding)
+                val book: Book? = intent.getParcelableExtra<Book>("book")
+                if (book != null) {
+                    val queue = requestBorrowRepository.getNumBookPendingRequests(book.id!!)
+                    val borrower = borrowRepository.getNumBorrowById(book.id)
+                    displayBookDetails(book, binding, queue, borrower)
+                }
+                else {
+                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {
+                        finish()
+                    })
+                    errorDialog.show()
+                }
             } catch (e: Exception) {
                 // Handle exception
-                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T Vui lòng thử lại sau ~~", onDismissCallback = {
+                errorDialog = ErrorDialog(this@ActivityDetailBook, "Có lỗi xảy ra T.T\\nVui lòng thử lại sau ~~", onDismissCallback = {
                     finish()
                 })
                 errorDialog.show()

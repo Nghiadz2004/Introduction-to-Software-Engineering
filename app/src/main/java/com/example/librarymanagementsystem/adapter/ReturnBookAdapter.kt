@@ -62,8 +62,8 @@ class ReturnBookAdapter(
             CoroutineScope(Dispatchers.Main).launch {
                 val borrow = item.borrow
                 val today = Date()
-                val expected = borrow.expectedReturnDate!!.toDate()  // Chuyển Timestamp sang Date
-                val daysLate = ((today.time - expected.time) / (1000 * 60 * 60 * 24)).toInt()  // Tính số ngày trễ
+                val expected = borrow.expectedReturnDate  // Chuyển Timestamp sang Date
+                val daysLate = ((today.time - expected!!.time) / (1000 * 60 * 60 * 24)).toInt()  // Tính số ngày trễ
 
                 val fine = if (daysLate > 0) daysLate * 1000 else null
                 val reason = item.statusText

@@ -1,6 +1,8 @@
 package com.example.librarymanagementsystem.model
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
 data class LostBook(
@@ -12,6 +14,7 @@ data class LostBook(
     val recordDate: Date = Date(),
     var status: String = LostRequestStatus.PENDING.value,
     var confirmedBy: String? = null, // officerId nếu được duyệt
+    @ServerTimestamp
     var confirmedAt: Date? = null
 ){
     fun getEnumStatus(): LostRequestStatus? = LostRequestStatus.fromString(status)

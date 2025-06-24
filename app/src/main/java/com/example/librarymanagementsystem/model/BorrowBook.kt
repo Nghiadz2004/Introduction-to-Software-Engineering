@@ -1,7 +1,7 @@
 package com.example.librarymanagementsystem.model
 
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
 data class BorrowBook(
@@ -12,8 +12,9 @@ data class BorrowBook(
     val readerId: String? = null,
     val bookId: String? = null,
     val borrowDate: Date? = null,
-    val confirmDate: Timestamp? = null,
-    val expectedReturnDate: Timestamp? = null,
+    @ServerTimestamp
+    val confirmDate: Date? = null,
+    val expectedReturnDate: Date? = null,
     val actualReturnDate: Date? = null,
     val librarianId: String? = null
 )

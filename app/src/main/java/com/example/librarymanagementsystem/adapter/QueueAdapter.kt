@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
-import com.example.librarymanagementsystem.activity.LibrarianTransactionActivity
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.QueueDisplay
 import com.example.librarymanagementsystem.repository.BookCopyRepository
@@ -34,7 +33,7 @@ class QueueAdapter(
         val qAuthor: TextView = itemView.findViewById(R.id.qAuthor)
         val qCopyLeft: TextView = itemView.findViewById(R.id.qCopyLeft)
         val qReader: TextView = itemView.findViewById(R.id.qReader)
-        val qStatus: TextView = itemView.findViewById(R.id.qStatus)
+        val qDays: TextView = itemView.findViewById(R.id.qDays)
         val btnApprove: AppCompatButton = itemView.findViewById(R.id.btnApprove)
         val btnReject: AppCompatButton = itemView.findViewById(R.id.btnReject)
     }
@@ -51,7 +50,7 @@ class QueueAdapter(
         holder.qAuthor.text = "Author: ${queue.author ?: "Unknown"}"
         holder.qCopyLeft.text = "Copy left: ${queue.copyLeft}"
         holder.qReader.text = "Borrowed by: ${queue.readerName}"
-        holder.qStatus.text = "Status: ${queue.status}"
+        holder.qDays.text = "Borrow period: ${queue.daysBorrow}"
 
         Glide.with(holder.itemView.context)
             .load(queue.coverUrl)
@@ -85,8 +84,8 @@ class QueueAdapter(
                             BorrowingRepository()
                         )
                         manager.approveBorrowRequestBatch(queue.request, librarianId, availableCopy.copyId!!)
-                        loadingDialog.dismiss()
                         onQueueChanged()
+                        loadingDialog.dismiss()
                     }
                 }
             }

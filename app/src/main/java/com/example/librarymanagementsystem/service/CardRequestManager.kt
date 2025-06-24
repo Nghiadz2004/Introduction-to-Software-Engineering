@@ -47,7 +47,7 @@ class CardRequestManager (
         val card = LibraryCard(
             readerId = request.readerId,
             librarianId = librarianId,
-            birthday = request.birthday,
+            birthday = request.birthday!!,
             createdAt = Date()
         )
         val requestRef = db.collection("card_requests").document(request.id!!)
@@ -61,7 +61,7 @@ class CardRequestManager (
 
     // Kiểm tra logic tạo thẻ và tạo thẻ nếu thỏa điều kiện
     suspend fun createRequest(request: CardRequest): Boolean = withContext(Dispatchers.IO) {
-        val age = calculateAge(request.birthday)
+        val age = calculateAge(request.birthday!!)
 
         if (age !in 15..55) {
             return@withContext false // Tuổi không hợp lệ
