@@ -33,7 +33,7 @@ class QueueService(
 
             QueueDisplay(
                 coverUrl = book.cover,
-                title = book.title ?: "Unknown",
+                title = book.title,
                 author = book.author ?: "Unknown",
                 copyLeft = availableCopies[book.id]!!,
                 readerName = user.fullname ?: "Reader",
