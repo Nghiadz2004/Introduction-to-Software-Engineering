@@ -58,18 +58,20 @@
 
         <EditText
             android:id="@+id/userNameET"
-            android:layout_marginEnd="15dp"
             android:layout_width="290dp"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:background="@drawable/button_corner_radius"
             android:backgroundTint="@color/light_blue"
-            android:paddingStart="30dp"
-            android:hint="Username"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 700"
-            android:textSize="15dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:textColor="@color/white"
-            tools:ignore="Autofill,HardcodedText,RtlSymmetry,SpUsage,TextFields,UnusedAttribute" />
+            android:textSize="18sp"
+            tools:ignore="Autofill,HardcodedText,LabelFor,RtlSymmetry,TextFields,DuplicateSpeakableTextCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
 
     </LinearLayout>
 
@@ -96,18 +98,20 @@
 
         <EditText
             android:id="@+id/emailET"
-            android:layout_marginRight="10dp"
             android:layout_width="290dp"
             android:layout_height="match_parent"
             android:background="@drawable/button_corner_radius"
             android:backgroundTint="@color/light_blue"
-            android:paddingStart="30dp"
-            android:hint="Email"
             android:fontFamily="@font/inter_font"
-            android:fontVariationSettings="'wght' 700"
-            android:textSize="15dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:textColor="@color/white"
-            tools:ignore="Autofill,HardcodedText,RtlSymmetry,SpUsage,TextFields,UnusedAttribute" />
+            android:textSize="18sp"
+            tools:ignore="Autofill,HardcodedText,LabelFor,RtlSymmetry,TextFields,DuplicateSpeakableTextCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck,TextContrastCheck" />
 
     </LinearLayout>
 
@@ -129,7 +133,7 @@
             android:fontVariationSettings="'wght' 700"
             android:textColor="@color/black"
             android:textSize="18dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -138,28 +142,33 @@
             android:layout_height="28dp"
             android:layout_gravity="center_vertical"
             android:theme="@style/MyTextInputLayoutTheme"
-            android:background="@drawable/button_corner_radius"
-            android:backgroundTint="@color/light_blue"
-            android:paddingStart="30dp"
-            android:layout_marginRight="14dp"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/white"
-            tools:ignore="RtlSymmetry">
+            android:background="@drawable/button_corner_radius"
+            android:backgroundTint="@color/light_blue"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginEnd="14dp"
+            app:boxStrokeWidth="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:maxLength="12"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/inter_font"
                 android:fontVariationSettings="'wght' 700"
-                android:textSize="15dp"
-                android:paddingBottom="10dp"
-                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
                 android:inputType="textPassword"
-                tools:ignore="HardcodedText,SpUsage,UnusedAttribute"/>
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:scrollHorizontally="true"
+                android:paddingBottom="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15dp"
+                tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,7 +188,7 @@
             android:layout_height="wrap_content"
             android:gravity="center|start"
             android:text="Confirm Password"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/inter_font"
             android:fontVariationSettings="'wght' 700"
             android:textColor="@color/black"
@@ -196,10 +205,10 @@
             app:endIconTint="@color/white"
             android:background="@drawable/button_corner_radius"
             android:backgroundTint="@color/light_blue"
-            android:paddingStart="30dp"
-            android:layout_marginRight="14dp"
-            app:boxStrokeWidth="0dp"
-            tools:ignore="RtlSymmetry">
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginEnd="14dp"
+            app:boxStrokeWidth="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordET"
@@ -210,7 +219,10 @@
                 android:fontVariationSettings="'wght' 700"
                 android:gravity="center_vertical"
                 android:inputType="textPassword"
-                android:maxLength="12"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:scrollHorizontally="true"
                 android:paddingBottom="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
@@ -218,6 +230,7 @@
                 tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
 
     </LinearLayout>
 
@@ -263,6 +276,6 @@
             android:textSize="24dp"
             tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
-    </LinearLayout>\
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

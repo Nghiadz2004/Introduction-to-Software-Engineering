@@ -172,4 +172,3 @@ class MyBookFragment : Fragment() {
         }
     }
 }
-
