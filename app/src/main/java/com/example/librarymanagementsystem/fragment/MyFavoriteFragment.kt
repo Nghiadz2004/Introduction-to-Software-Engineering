@@ -19,6 +19,7 @@ import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import android.content.Intent
+import android.widget.TextView
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.service.FavoriteManager
@@ -26,6 +27,7 @@ import com.example.librarymanagementsystem.service.FavoriteManager
 class MyFavoriteFragment : Fragment() {
     private lateinit var recycleView: RecyclerView
     private lateinit var myFavoriteAdapter: MyFavoriteAdapter
+    private lateinit var notifyTV: TextView
     private val bookRepository = BookRepository()
     private var bookList = mutableListOf<Book>()
     private var favoriteManager = FavoriteManager(bookRepository)
@@ -41,6 +43,7 @@ class MyFavoriteFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_my_favorite, container, false)
         userID = Firebase.auth.currentUser!!.uid
 
+        notifyTV = view.findViewById(R.id.notifyTV)
         recycleView = view.findViewById(R.id.myFavoriteRV)
         recycleView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -60,13 +63,23 @@ class MyFavoriteFragment : Fragment() {
                 bookList.clear()
                 bookList.addAll(booksToShow)
 
-                myFavoriteAdapter = MyFavoriteAdapter(bookList) { book ->
-                    val intent = Intent(requireContext(), ActivityDetailBook::class.java)
-                    intent.putExtra("book", book)
-                    startActivity(intent)
-                }
+                if (bookList.isEmpty()) {
+                    // Danh sách trống
+                    notifyTV.visibility = View.VISIBLE
+                    recycleView.visibility = View.GONE
+                } else {
+                    // Danh sách có phần tử
+                    notifyTV.visibility = View.GONE
+                    recycleView.visibility = View.VISIBLE
 
-                recycleView.adapter = myFavoriteAdapter
+                    myFavoriteAdapter = MyFavoriteAdapter(bookList) { book ->
+                        val intent = Intent(requireContext(), ActivityDetailBook::class.java)
+                        intent.putExtra("book", book)
+                        startActivity(intent)
+                    }
+
+                    recycleView.adapter = myFavoriteAdapter
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("MyFavoriteFragment", e.toString())

@@ -302,14 +302,6 @@ class HomeActivity : AppCompatActivity() {
                 DrawableCompat.setTint(tinted, ContextCompat.getColor(this, R.color.light_purple))
 
                 val button = Button(this).apply {
-                    if (sectionName == BORROWED_ID) {
-                        UIService.setButtonColor(
-                            this@HomeActivity,
-                            this@apply,  // selected button
-                            selectedColorResId = R.color.pink,
-                        )
-                    }
-
                     text = sectionName
                     setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue))
                     setTextColor(ContextCompat.getColor(context, R.color.light_purple))
@@ -323,6 +315,14 @@ class HomeActivity : AppCompatActivity() {
 
                     setCompoundDrawablesWithIntrinsicBounds(null, tinted, null, null)
                     compoundDrawablePadding = 12
+
+                    if (sectionName == BORROWED_ID) {
+                        UIService.setButtonColor(
+                            this@HomeActivity,
+                            this@apply,  // selected button
+                            selectedColorResId = R.color.pink,
+                        )
+                    }
 
                     setOnClickListener {
                         UIService.setButtonColor(

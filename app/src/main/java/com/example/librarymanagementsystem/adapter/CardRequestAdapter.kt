@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.CardRequest
 import com.example.librarymanagementsystem.model.LibraryCard
+import com.example.librarymanagementsystem.repository.LibraryCardRepository
 
 class CardRequestAdapter(
     items: List<CardRequest>,
@@ -61,10 +62,12 @@ class CardRequestAdapter(
     }
 
     fun approveItem(item: CardRequest) {
+        // LibraryCardRepository().createLibraryCard()
         removeItem(item)
     }
 
     fun rejectItem(item: CardRequest) {
+
         removeItem(item)
     }
 

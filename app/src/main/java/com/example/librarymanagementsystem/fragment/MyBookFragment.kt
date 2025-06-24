@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ private const val LOST_ID = "LOST"
 class MyBookFragment : Fragment() {
     private lateinit var recycleView: RecyclerView
     private lateinit var loadingDialog: LoadingDialog
+    private lateinit var notifyTV: TextView
     private val myBookManager = MyBookManager()
 
     override fun onCreateView(
@@ -36,6 +38,7 @@ class MyBookFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_my_book, container, false)
 
+        notifyTV = view.findViewById(R.id.notifyTV)
         recycleView = view.findViewById(R.id.myBookRV)
         recycleView.layoutManager = LinearLayoutManager(view.context)
 
@@ -75,86 +78,92 @@ class MyBookFragment : Fragment() {
                             BookDisplayItem(book, borrow)
                         }
                     }
-
                     PENDING_ID -> {
                         val books = myBookManager.getReaderPendingBooks(userID)
                         books.map { book -> BookDisplayItem(book, null) }
                     }
-
                     LOST_ID -> {
                         val books = myBookManager.getReaderPendingLosts(userID)
                         books.map { book -> BookDisplayItem(book, null) }
                     }
-
                     else -> emptyList()
                 }
 
-                recycleView.adapter = MyBookAdapter(
-                    bookItems,
-                    myBookID,
-                    onItemClick = { item ->
-                        val intent = Intent(requireContext(), ActivityDetailBook::class.java).apply {
-                            putExtra("book", item.book)
-                            putExtra("expectedReturnDate", item.borrowBook?.expectedReturnDate)
-                        }
-                        startActivity(intent)
-                    },
-                    onReportLost = { item ->
-                        lifecycleScope.launch {
-                            try {
-                                val borrow = item.borrowBook!!
-                                myBookManager.submitLostRequest(
-                                    borrow.requestId!!,
-                                    Firebase.auth.currentUser!!.uid,
-                                    borrow.bookId!!,
-                                    borrow.copyId!!
-                                )
+                if (bookItems.isEmpty()) {
+                    notifyTV.visibility = View.VISIBLE
+                    recycleView.visibility = View.GONE
+                } else {
+                    notifyTV.visibility = View.GONE
+                    recycleView.visibility = View.VISIBLE
+                    recycleView.adapter = MyBookAdapter(
+                        bookItems,
+                        myBookID,
+                        onItemClick = { item ->
+                            val intent =
+                                Intent(requireContext(), ActivityDetailBook::class.java).apply {
+                                    putExtra("book", item.book)
+                                    putExtra(
+                                        "expectedReturnDate",
+                                        item.borrowBook?.expectedReturnDate
+                                    )
+                                }
+                            startActivity(intent)
+                        },
+                        onReportLost = { item ->
+                            lifecycleScope.launch {
+                                try {
+                                    val borrow = item.borrowBook!!
+                                    myBookManager.submitLostRequest(
+                                        borrow.requestId!!,
+                                        Firebase.auth.currentUser!!.uid,
+                                        borrow.bookId!!,
+                                        borrow.copyId!!
+                                    )
 
-                                // Remove from recycle view
-                                (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
+                                    // Remove from recycle view
+                                    (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
-                            } catch (e: Exception) {
-                                Log.e("REPORT_LOST", "Error: ${e.message}")
+                                } catch (e: Exception) {
+                                    Log.e("REPORT_LOST", "Error: ${e.message}")
+                                }
+                            }
+                        },
+                        onCancelPending = { item ->
+                            lifecycleScope.launch {
+                                try {
+                                    myBookManager.cancelPendingRequest(
+                                        item.book.id!!,
+                                        userID
+                                    )
+
+                                    // Remove from recycle view
+                                    (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
+
+                                } catch (e: Exception) {
+                                    Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}", e)
+                                }
+                            }
+                        },
+                        onCancelLost = { item ->
+                            lifecycleScope.launch {
+                                try {
+                                    Log.e("LOSTBOOK", item.book.id.toString())
+                                    Log.e("LOSTBOOK", userID)
+                                    myBookManager.cancelLostRequest(
+                                        item.book.id!!,
+                                        userID
+                                    )
+
+                                    // Remove from recycle view
+                                    (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
+
+                                } catch (e: Exception) {
+                                    Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}", e)
+                                }
                             }
                         }
-                    },
-                    onCancelPending = { item ->
-                        lifecycleScope.launch {
-                            try {
-                                myBookManager.cancelPendingRequest(
-                                    item.book.id!!,
-                                    userID
-                                )
-
-                                // Remove from recycle view
-                                (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
-
-                            } catch (e: Exception) {
-                                Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}", e)
-                            }
-                        }
-                    },
-                    onCancelLost = { item ->
-                        lifecycleScope.launch {
-                            try {
-                                Log.e("LOSTBOOK", item.book.id.toString())
-                                Log.e("LOSTBOOK", userID)
-                                myBookManager.cancelLostRequest(
-                                    item.book.id!!,
-                                    userID
-                                )
-
-                                // Remove from recycle view
-                                (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
-
-                            } catch (e: Exception) {
-                                Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}", e)
-                            }
-                        }
-                    }
-                )
-
-
+                    )
+                }
             } catch (e: Exception) {
                 Log.e("MyBookFragment", "Error loading books: ${e.message}")
             } finally {
@@ -163,4 +172,3 @@ class MyBookFragment : Fragment() {
         }
     }
 }
-
