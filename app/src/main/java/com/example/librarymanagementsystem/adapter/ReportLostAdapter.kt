@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.LostDisplay
 import com.example.librarymanagementsystem.service.ConfirmLostManager
 import kotlinx.coroutines.CoroutineScope
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class ReportLostAdapter(
     private val lostList: List<LostDisplay>,
     private val librarianId: String,
+    private val loadingDialog: LoadingDialog,
     private val onLostChanged: suspend () -> Unit
 ) : RecyclerView.Adapter<ReportLostAdapter.LostViewHolder>() {
 
@@ -56,6 +58,7 @@ class ReportLostAdapter(
 
         holder.btnConfirm.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
+                loadingDialog.show()
                 ConfirmLostManager().confirmLostBook(
                     requestId = item.requestId,
                     readerId = item.readerId,
@@ -64,6 +67,7 @@ class ReportLostAdapter(
                     bookId = item.bookId,
                     librarianId = librarianId
                 )
+                loadingDialog.dismiss()
                 onLostChanged()
             }
         }

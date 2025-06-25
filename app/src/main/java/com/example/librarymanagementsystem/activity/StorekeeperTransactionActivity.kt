@@ -22,7 +22,7 @@ import com.example.librarymanagementsystem.service.ReportLostService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-//import com.example.librarymanagementsystem.service.ReportLostService
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import kotlinx.coroutines.launch
 
 private const val HOME_ID = "HOME"
@@ -60,11 +60,15 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
 
         handleMenuButton(userID)
 
+        val loadingDialog = LoadingDialog(this)
+
         // Mặc định hiển thị Loans
         setActiveTab(btnLoans, listOf(btnQueues, btnReturnBook, btnReportLost))
         lifecycleScope.launch {
+            loadingDialog.show()
             val loanDisplays = LoanService().getAllLoanDisplays()
             recyclerView.adapter = LoanAdapter(loanDisplays)
+            loadingDialog.dismiss()
         }
 
         btnLoans.setOnClickListener {
@@ -93,7 +97,7 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
         btnReportLost.setOnClickListener {
             setActiveTab(btnReportLost, listOf(btnLoans, btnQueues, btnReturnBook))
             lifecycleScope.launch {
-                reloadLostReports(recyclerView, userID)
+                reloadLostReports(recyclerView, userID, loadingDialog)
             }
         }
     }
@@ -108,13 +112,14 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
         })
     }
 
-    private suspend fun reloadLostReports(recyclerView: RecyclerView, librarianId: String) {
+    private suspend fun reloadLostReports(recyclerView: RecyclerView, librarianId: String, loadingDialog: LoadingDialog) {
         val updated = ReportLostService().getAllLostDisplays()
         recyclerView.adapter = ReportLostAdapter(
             lostList = updated,
             librarianId = librarianId,
+            loadingDialog = loadingDialog,
             onLostChanged = {
-                reloadLostReports(recyclerView, librarianId)
+                reloadLostReports(recyclerView, librarianId, loadingDialog)
             }
         )
     }

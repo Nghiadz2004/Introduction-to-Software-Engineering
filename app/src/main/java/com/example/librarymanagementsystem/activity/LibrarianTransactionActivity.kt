@@ -22,7 +22,7 @@ import com.example.librarymanagementsystem.service.ReportLostService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-//import com.example.librarymanagementsystem.service.ReportLostService
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import kotlinx.coroutines.launch
 
 private const val HOME_ID = "HOME"
@@ -60,70 +60,89 @@ class LibrarianTransactionActivity : AppCompatActivity() {
 
         handleMenuButton(userID)
 
+        val loadingDialog = LoadingDialog(this)
+
         // Mặc định hiển thị Loans
         setActiveTab(btnLoans, listOf(btnQueues, btnReturnBook, btnReportLost))
         lifecycleScope.launch {
+            loadingDialog.show()
             val loanDisplays = LoanService().getAllLoanDisplays()
             recyclerView.adapter = LoanAdapter(loanDisplays)
+            loadingDialog.dismiss()
         }
 
         btnLoans.setOnClickListener {
             setActiveTab(btnLoans, listOf(btnQueues, btnReturnBook, btnReportLost))
             lifecycleScope.launch {
+                loadingDialog.show()
                 val loanDisplays = LoanService().getAllLoanDisplays()
                 Log.d("LOAN_SERVICE", "${loanDisplays.size}")
                 recyclerView.adapter = LoanAdapter(loanDisplays)
+                loadingDialog.dismiss()
             }
         }
 
         btnQueues.setOnClickListener {
             setActiveTab(btnQueues, listOf(btnLoans, btnReturnBook, btnReportLost))
             lifecycleScope.launch {
-                reloadQueueBooks(recyclerView, userID)
+                loadingDialog.show()
+                reloadQueueBooks(recyclerView, userID, loadingDialog)
             }
         }
 
         btnReturnBook.setOnClickListener {
             setActiveTab(btnReturnBook, listOf(btnLoans, btnQueues, btnReportLost))
             lifecycleScope.launch {
-                reloadReturnBooks(recyclerView)
+                loadingDialog.show()
+                reloadReturnBooks(recyclerView, loadingDialog)
             }
         }
 
         btnReportLost.setOnClickListener {
             setActiveTab(btnReportLost, listOf(btnLoans, btnQueues, btnReturnBook))
             lifecycleScope.launch {
-                reloadLostReports(recyclerView, userID)
+                loadingDialog.show()
+                reloadLostReports(recyclerView, userID, loadingDialog)
             }
         }
     }
 
-    private suspend fun reloadQueueBooks(recyclerView: RecyclerView, userId: String) {
+    private suspend fun reloadQueueBooks(recyclerView: RecyclerView, userId: String, loadingDialog: LoadingDialog) {
         val updated = QueueService().getAllQueueDisplays()
 
         recyclerView.adapter = QueueAdapter(updated, userId, onQueueChanged = {
             lifecycleScope.launch {
-                reloadQueueBooks(recyclerView, userId)
+                loadingDialog.show()
+                reloadQueueBooks(recyclerView, userId, loadingDialog)
+                loadingDialog.dismiss()
             }
         })
+        loadingDialog.dismiss()
     }
 
-    private suspend fun reloadLostReports(recyclerView: RecyclerView, librarianId: String) {
+    private suspend fun reloadLostReports(recyclerView: RecyclerView, librarianId: String, loadingDialog: LoadingDialog) {
         val updated = ReportLostService().getAllLostDisplays()
         recyclerView.adapter = ReportLostAdapter(
             lostList = updated,
             librarianId = librarianId,
+            loadingDialog = loadingDialog,
             onLostChanged = {
-                reloadLostReports(recyclerView, librarianId)
+                loadingDialog.show()
+                reloadLostReports(recyclerView, librarianId, loadingDialog)
+                loadingDialog.dismiss()
             }
         )
+        loadingDialog.dismiss()
     }
 
-    private suspend fun reloadReturnBooks(recyclerView: RecyclerView) {
+    private suspend fun reloadReturnBooks(recyclerView: RecyclerView, loadingDialog: LoadingDialog) {
         val updated = ReturnBookService().getAllReturnDisplays()
         recyclerView.adapter = ReturnBookAdapter(updated, onReturnChanged = {
-            reloadReturnBooks(recyclerView)
+            loadingDialog.show()
+            reloadReturnBooks(recyclerView, loadingDialog)
+            loadingDialog.dismiss()
         })
+        loadingDialog.dismiss()
     }
 
     private fun setActiveTab(active: Button, others: List<Button>) {
