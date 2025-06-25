@@ -14,8 +14,11 @@ import java.util.Calendar
 class LibraryCardRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
     // Ghi nhận một thẻ thư viện mới
     suspend fun createLibraryCard(card: LibraryCard): String = withContext(Dispatchers.IO) {
-        db.collection("library_cards").add(card).await().id
+        val docRef = db.collection("library_cards").document() // tạo document có id tự động
+        docRef.set(card).await()
+        return@withContext docRef.id
     }
+
 
     // Lấy danh sách tất cả các thẻ thư viện
     suspend fun getLibraryCards(): List<LibraryCard> = withContext(Dispatchers.IO) {
@@ -55,14 +58,14 @@ class LibraryCardRepository(private val db: FirebaseFirestore = FirebaseFirestor
 
     // Lấy thông tin thẻ thư viện ứng với Id yêu cầu tạo thẻ
     suspend fun getLibraryCardByRequest(requestId: String): LibraryCard? = withContext(Dispatchers.IO) {
-        val snapshot = db.collection("library_cards")
-            .whereEqualTo("requestId", requestId)
+        val documentSnapshot = db.collection("library_cards")
+            .document(requestId)
             .get()
             .await()
 
-        return@withContext snapshot.documents.firstOrNull()?.toObject(LibraryCard::class.java)
-
+        return@withContext documentSnapshot.toObject(LibraryCard::class.java)
     }
+
 
     // Lấy danh sách các thẻ thư viện được ghi nhận bởi một thủ thư
     suspend fun getLibraryCardByRecorder(librarianId: String): List<LibraryCard> = withContext(Dispatchers.IO) {

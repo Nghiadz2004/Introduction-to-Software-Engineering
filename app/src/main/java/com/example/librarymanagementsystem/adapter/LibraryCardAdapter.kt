@@ -31,7 +31,6 @@ class LibraryCardAdapter(
         val issueDateTV: TextView = view.findViewById(R.id.tvIssueDate)
         val dueDateTV: TextView   = view.findViewById(R.id.tvDueDate)
         val statusTV: TextView    = view.findViewById(R.id.tvStatus)
-        val btnEdit: Button       = view.findViewById(R.id.btnEdit)
         val btnRemove: Button     = view.findViewById(R.id.btnRemove)
     }
 
@@ -43,15 +42,16 @@ class LibraryCardAdapter(
 
     override fun onBindViewHolder(holder: LibraryCardViewHolder, position: Int) {
         val card = items[position]
-        holder.cardIdTV.text     = "Card ID: ${card.id}"
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        holder.cardIdTV.text     = "Card ID: ${card.requestId}"
         holder.fullNameTV.text   = "Full name: ${card.fullName}"
         holder.emailTV.text      = "Email: ${card.email}"
-        holder.birthdayTV.text   = "Birthday: ${formatDate(card.birthday)}"
+        holder.birthdayTV.text   = "Birthday: ${outputFormat.format(card.birthday)}"
         holder.addressTV.text    = "Address: ${card.address}"
         holder.typeTV.text       = "Type: ${card.type}"
-        holder.issuerTV.text     = "Issuer: ${card.librarianId}"
-        holder.issueDateTV.text  = "Issue Date: ${formatDate(card.createdAt!!)}"
-        holder.dueDateTV.text    = "Due Date: ${formatDate(card.getDueDate)}"
+        holder.issuerTV.text     = "Created by: ${card.librarianId}"
+        holder.issueDateTV.text  = "Created at: ${formatDate(card.createdAt!!)}"
+        holder.dueDateTV.text    = "Due Date: ${formatDate(card.getDueDate())}"
         holder.statusTV.text     = "Status: ${card.status}"
         holder.btnRemove.setOnClickListener {
             onRemove(card)

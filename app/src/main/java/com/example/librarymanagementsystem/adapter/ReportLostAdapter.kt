@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 class ReportLostAdapter(
     private val lostList: List<LostDisplay>,
     private val librarianId: String,
-    private val loadingDialog: LoadingDialog,
     private val onLostChanged: suspend () -> Unit
 ) : RecyclerView.Adapter<ReportLostAdapter.LostViewHolder>() {
 
@@ -58,6 +57,8 @@ class ReportLostAdapter(
 
         holder.btnConfirm.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
+                val context = holder.itemView.context // Lấy context đúng
+                val loadingDialog = LoadingDialog(context)
                 loadingDialog.show()
                 ConfirmLostManager().confirmLostBook(
                     requestId = item.requestId,
@@ -67,8 +68,8 @@ class ReportLostAdapter(
                     bookId = item.bookId,
                     librarianId = librarianId
                 )
-                loadingDialog.dismiss()
                 onLostChanged()
+                loadingDialog.dismiss()
             }
         }
     }

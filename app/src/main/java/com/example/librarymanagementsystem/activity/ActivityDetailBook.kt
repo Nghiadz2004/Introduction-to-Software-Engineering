@@ -47,7 +47,11 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var btnBorrow: Button
     private var isFavorite: Boolean = false
 
-    private fun showInputDialog(context: Context, title: String, onInputConfirmed: (String) -> Unit) {
+    private fun showInputDialog(
+        context: Context,
+        title: String,
+        onInputConfirmed: (Int) -> Unit // 👉 trả về Int thay vì String
+    ) {
         val titleView = TextView(context).apply {
             text = title
             gravity = Gravity.CENTER
@@ -57,23 +61,45 @@ class ActivityDetailBook : AppCompatActivity() {
         }
 
         val editText = EditText(context).apply {
-            inputType = InputType.TYPE_CLASS_TEXT
+            inputType = InputType.TYPE_CLASS_NUMBER // 👉 chỉ cho phép nhập số
             hint = "Days to borrow"
             gravity = Gravity.CENTER
         }
 
-        AlertDialog.Builder(context)
-            .setCustomTitle(titleView) // 👈 dùng title tùy chỉnh căn giữa
+        val dialog = AlertDialog.Builder(context)
+            .setCustomTitle(titleView)
             .setView(editText)
-            .setPositiveButton("OK") { _, _ ->
+            .setPositiveButton("OK", null) // 👉 set null để tự xử lý click
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.setOnShowListener {
+            val okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            okButton.setOnClickListener {
                 val input = editText.text.toString().trim()
-                if (input.isNotEmpty()) {
-                    onInputConfirmed(input)
+                val days = input.toIntOrNull()
+
+                when {
+                    input.isEmpty() -> {
+                        editText.error = "Please fill in the number"
+                    }
+                    days == null -> {
+                        editText.error = "Input must be a valid number"
+                    }
+                    days <= 0 -> {
+                        editText.error = "Borrow period must be greater than 0"
+                    }
+                    else -> {
+                        dialog.dismiss()
+                        onInputConfirmed(days)
+                    }
                 }
             }
-            .setNegativeButton("Cancel", null)
-            .show()
+        }
+
+        dialog.show()
     }
+
 
 
     // function to display book details
@@ -183,17 +209,24 @@ class ActivityDetailBook : AppCompatActivity() {
                 if (!BookOperateCache.statusMap.containsKey(bookID)) {
                     showInputDialog(this, "Input days to borrow"){input ->
                         lifecycleScope.launch {
-                            requestBorrowRepository.addRequestBorrow(libraryCardId = LibraryCardCache.libraryCard!!.id!!,
+                            requestBorrowRepository.addRequestBorrow(libraryCardId = LibraryCardCache.libraryCard!!.requestId,
                                 readerId = userId,
                                 bookId = bookID,
-                                daysBorrow = input.toInt())
+                                daysBorrow = input)
                         }
                         btnBorrow.text = "PENDING"
                         BookOperateCache.statusMap[bookID] = "PENDING"}
 
                 }
                 if (BookOperateCache.statusMap[bookID] == "PENDING") {
-
+                    BookOperateCache.statusMap.remove(bookID)
+                    btnBorrow.text = "BORROW"
+                    lifecycleScope.launch {
+                        RequestBorrowRepository().cancelPendingRequest(
+                            bookID,
+                            LibraryCardCache.libraryCard!!.readerId
+                        )
+                    }
                 }
 
             }

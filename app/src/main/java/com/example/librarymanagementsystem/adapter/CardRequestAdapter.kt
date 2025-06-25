@@ -5,11 +5,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.CardRequest
 import com.example.librarymanagementsystem.model.LibraryCard
+import com.example.librarymanagementsystem.model.RequestStatus
+import com.example.librarymanagementsystem.repository.CardRequestRepository
 import com.example.librarymanagementsystem.repository.LibraryCardRepository
+import com.example.librarymanagementsystem.service.LibraryCardManager
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CardRequestAdapter(
     items: List<CardRequest>,
@@ -19,6 +30,8 @@ class CardRequestAdapter(
 
     // Chuyển thành MultableList để thực hiện các thao tác thêm/xoá/sửa
     private val items: MutableList<CardRequest> = items.toMutableList()
+    val user = Firebase.auth.currentUser
+
 
     inner class CardRequestViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val requestIdTV: TextView = view.findViewById(R.id.requestIdTV)
@@ -38,12 +51,14 @@ class CardRequestAdapter(
     }
 
     override fun onBindViewHolder(holder: CardRequestViewHolder, position: Int) {
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
         val req = items[position]
-        holder.requestIdTV.text = req.id
+        holder.requestIdTV.text = (position + 1).toString()
         holder.fullNameTV.text = req.fullName
         holder.emailTV.text = req.email
-        holder.birthdayTV.text = req.birthday.toString()
-        holder.addressTV.text = req.address
+        holder.birthdayTV.text =  "${outputFormat.format(req.birthday)}"
+        holder.addressTV.text = if (req.address.isNullOrBlank()) "—" else req.address
         holder.typeTV.text = req.type
         holder.btnApprove.setOnClickListener {
             onApprove(req)
@@ -62,13 +77,29 @@ class CardRequestAdapter(
     }
 
     fun approveItem(item: CardRequest) {
-        // LibraryCardRepository().createLibraryCard()
+        val uid = user?.uid
+        val libraryCardManager = LibraryCardManager()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                libraryCardManager.approveCardRequestBatch(item, uid!!)
+            } catch (e: Exception) {
+                e.printStackTrace() // hoặc xử lý lỗi khác nếu cần
+            }
+        }
         removeItem(item)
     }
 
     fun rejectItem(item: CardRequest) {
-
-        removeItem(item)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val cardRequestRepository = CardRequestRepository()
+                cardRequestRepository.updateRequestStatus(item.id!!, RequestStatus.REJECTED)
+            } catch (e: Exception) {
+                e.printStackTrace() // hoặc xử lý lỗi khác nếu cần
+            }
+            removeItem(item)
+        }
     }
 
     override fun getItemCount(): Int = items.size

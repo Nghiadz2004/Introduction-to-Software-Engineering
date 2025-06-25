@@ -15,7 +15,7 @@ class ReportLostService(
 ) {
     suspend fun getAllLostDisplays(): List<LostDisplay> = withContext(Dispatchers.IO) {
         val lostRequests = lostRepo.getPendingRequests()
-        val borrows = borrowRepo.getAllBorrows()
+        val borrows = borrowRepo.getAllBorrowsByStatus(BorrowStatus.BORROWED.name)
         val books = bookRepo.getBooksByIds(lostRequests.mapNotNull { it.bookId })
         val users = userRepo.getUsers(lostRequests.mapNotNull { it.readerId })
 

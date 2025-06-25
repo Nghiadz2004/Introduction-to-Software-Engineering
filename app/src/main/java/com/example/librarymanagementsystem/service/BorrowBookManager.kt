@@ -2,9 +2,11 @@ package com.example.librarymanagementsystem.service
 
 import com.example.librarymanagementsystem.model.BorrowBook
 import com.example.librarymanagementsystem.model.BorrowRequest
+import com.example.librarymanagementsystem.model.BorrowStatus
 import com.example.librarymanagementsystem.model.RequestStatus
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
+import com.example.librarymanagementsystem.repository.fetchServerTime
 import java.util.Calendar
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -22,15 +24,15 @@ class BorrowBookManager (
         Dispatchers.IO) {
         val batch = db.batch()
 
-        val newBorrowRef = db.collection("borrow_book").document()
+        val newBorrowRef = db.collection("borrow_book").document(request.id!!)
         val copyRef = db.collection("books").document(request.bookId).collection("book_copy").document(copyId)
-        val requestRef = db.collection("request_borrow").document(request.id!!)
+        val requestRef = db.collection("request_borrow").document(request.id)
 
-        val borrowDate = request.borrowDate
-        val expectedReturnDate = if (borrowDate != null) {
+        val confirmDate = fetchServerTime()
+        val expectedReturnDate = if (confirmDate != null) {
             val calendar = Calendar.getInstance()
-            calendar.time = borrowDate
-            calendar.add(Calendar.DAY_OF_YEAR, request.daysBorrow) // Cộng số ngày mượn vào borrowDate
+            calendar.time = confirmDate
+            calendar.add(Calendar.DAY_OF_YEAR, request.daysBorrow + 1) // Cộng số ngày mượn vào borrowDate
             calendar.time // Trả về ngày sau khi cộng
         } else {
             null // Trường hợp borrowDate null thì trả về null
@@ -45,6 +47,7 @@ class BorrowBookManager (
             borrowDate = request.borrowDate,
             librarianId = librarianId,
             expectedReturnDate = expectedReturnDate, // Sử dụng ngày đã cộng
+            status = BorrowStatus.BORROWED.name
         )
 
 

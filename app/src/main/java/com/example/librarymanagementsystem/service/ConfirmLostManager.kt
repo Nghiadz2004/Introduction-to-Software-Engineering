@@ -1,6 +1,9 @@
 package com.example.librarymanagementsystem.service
 
 import com.example.librarymanagementsystem.model.*
+import com.example.librarymanagementsystem.repository.BookCopyRepository
+import com.example.librarymanagementsystem.repository.LostBookRepository
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -18,38 +21,37 @@ class ConfirmLostManager(
         fineAmount: Int,
         librarianId: String
     ) = withContext(Dispatchers.IO) {
-        val now = Date()
-
         val batch = db.batch()
 
-        // Tạo fine document
+        // 1. Tạo fine document
+        val fineRef = db.collection("fine").document(requestId)
         val fine = Fine(
             requestId = requestId,
-            readerId = readerId.toIntOrNull() ?: 0,
+            readerId = readerId,
             fineAmount = fineAmount,
             copyId = copyId,
             bookId = bookId,
-            reason = "Book lost"
+            reason = "Book lost",
         )
-        val fineRef = db.collection("fine").document(requestId)
         batch.set(fineRef, fine)
 
-        // Cập nhật trạng thái + người duyệt + thời gian cho lost_requests
+        // 2. Cập nhật status và librarianId trong request_lost
         val lostRequestRef = db.collection("lost_requests").document(requestId)
         batch.update(lostRequestRef, mapOf(
-            "status" to "CONFIRMED",
+            "status" to LostRequestStatus.CONFIRMED.value,
             "confirmedBy" to librarianId,
-            "confirmedAt" to now
+            "confirmedAt" to FieldValue.serverTimestamp()
         ))
 
-        // Cập nhật status trong book_copy
-        val bookCopyRef = db.collection("books")
-            .document(bookId)
-            .collection("book_copy")
-            .document(copyId)
-        batch.update(bookCopyRef, mapOf("status" to CopyStatus.LOST.value))
+        // 3. Cập nhật trạng thái copy thành LOST
+        val copyRef = db.collection("books").document(bookId).collection("book_copy").document(copyId)
+        batch.update(copyRef, "status", CopyStatus.LOST.value)
 
-        // Commit tất cả
+        val borrowBookRef = db.collection("borrow_book").document(requestId)
+        batch.update(borrowBookRef, "status", BorrowStatus.LOST.value)
+
+        // Commit toàn bộ batch
         batch.commit().await()
     }
+
 }

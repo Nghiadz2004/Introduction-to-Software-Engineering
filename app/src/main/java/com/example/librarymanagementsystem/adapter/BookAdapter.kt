@@ -10,10 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
-import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.model.BookDisplayItem
-import com.example.librarymanagementsystem.model.LibraryCard
 
 class BookAdapter(
     items: List<Book>,
