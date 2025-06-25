@@ -9,11 +9,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
-import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
-import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.UserRepository
-import com.example.librarymanagementsystem.service.FavoriteManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth

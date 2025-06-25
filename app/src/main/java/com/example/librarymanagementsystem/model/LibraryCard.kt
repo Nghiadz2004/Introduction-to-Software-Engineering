@@ -7,7 +7,6 @@ import java.util.Date
 
 data class LibraryCard(
     @DocumentId // Nếu bạn đang dùng Firestore và muốn ID tài liệu trùng với thuộc tính này
-    val id: String? =null, // id integer [primary key, increment] -> Có thể null khi tạo mới
     val requestId: String = "", // request_id integer [not null] -> Đổi thành camelCase
     val readerId: String = "", // reader_id integer [not null] -> Đổi thành camelCase
     val librarianId: String = "", // librarian_id integer [not null] -> Đổi thành camelCase
@@ -22,11 +21,11 @@ data class LibraryCard(
 )
 {
     // Hàm để tính dueDate dựa trên createdAt cộng thêm 1 năm
-    val getDueDate: Date
-        get() {
-            val calendar = Calendar.getInstance()
-            calendar.time = createdAt!!
-            calendar.add(Calendar.MONTH,6) // cộng thêm 1 năm
-            return calendar.time
-        }
+    fun getDueDate(): Date {
+        val calendar = Calendar.getInstance()
+        calendar.time = createdAt ?: Date()
+        calendar.add(Calendar.MONTH, 6)
+        return calendar.time
+    }
+
 }

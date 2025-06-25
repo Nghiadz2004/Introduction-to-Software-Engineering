@@ -5,9 +5,9 @@ import com.google.firebase.firestore.DocumentId // Tùy chọn: Nếu bạn dùn
 data class Fine(
     @DocumentId
     val requestId: String = "", // request_id integer [not null]
-    val readerId: Int = 0, // reader_id integer [not null, unique]
+    val readerId: String = "", // reader_id integer [not null, unique]
     val fineAmount: Int = 0, // fine_amount integer [not null]
-    val copyId: String,
-    val bookId: String,
-    val reason: String,
+    val copyId: String = "",
+    val bookId: String = "",
+    val reason: String = "",
 )

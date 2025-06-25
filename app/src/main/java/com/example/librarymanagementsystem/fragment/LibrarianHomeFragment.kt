@@ -186,7 +186,7 @@ class LibrarianHomeFragment : Fragment() {
                 requestReaderCardAdapter = CardRequestAdapter(
                     addReaderData,
                     onApprove = { item -> requestReaderCardAdapter.approveItem(item)},
-                    onReject = { item -> requestReaderCardAdapter.removeItem(item)}
+                    onReject = { item -> requestReaderCardAdapter.rejectItem(item)}
                     )
 
                 // Hiển thị danh sách Request Add Reader Card

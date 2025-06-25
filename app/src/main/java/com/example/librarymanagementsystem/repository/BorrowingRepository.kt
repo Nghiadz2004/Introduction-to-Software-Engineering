@@ -11,9 +11,20 @@ import java.util.Calendar
 import java.util.Date
 
 class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
-    // Lấy danh sách tất cả các bản ghi dữ liệu mượn sách trong cơ sở dữ liệu
     suspend fun getAllBorrows(): List<BorrowBook> = withContext(Dispatchers.IO) {
-        db.collection("borrow_book").get().await().toObjects(BorrowBook::class.java)
+        db.collection("borrow_book")
+            .get()
+            .await()
+            .toObjects(BorrowBook::class.java)
+    }
+
+    // Lấy danh sách tất cả các bản ghi dữ liệu mượn sách theo trạng thái trong cơ sở dữ liệu
+    suspend fun getAllBorrowsByStatus(status: String): List<BorrowBook> = withContext(Dispatchers.IO) {
+        db.collection("borrow_book")
+            .whereEqualTo("status", status)
+            .get()
+            .await()
+            .toObjects(BorrowBook::class.java)
     }
 
     suspend fun getUserBooksWithinFiveDays(readerId: String) = withContext(Dispatchers.IO){
@@ -123,9 +134,10 @@ class BorrowingRepository(private val db: FirebaseFirestore = FirebaseFirestore.
     }
 
     // Lấy ra danh sách các sách (bản logic) mà một người dùng mượn
-    suspend fun getBorrowBooksByReader(readerId: String): List<BorrowBook> = withContext(Dispatchers.IO) {
+    suspend fun getBorrowBooksByCardAndStatus(libraryCardId: String, status: String): List<BorrowBook> = withContext(Dispatchers.IO) {
         db.collection("borrow_book")
-            .whereEqualTo("readerId", readerId)
+            .whereEqualTo("libraryCardId", libraryCardId)
+            .whereEqualTo("status", status)
             .get()
             .await()
             .toObjects(BorrowBook::class.java)

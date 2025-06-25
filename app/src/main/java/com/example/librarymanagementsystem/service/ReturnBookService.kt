@@ -14,8 +14,8 @@ class ReturnBookService(
     private val lostRepo: LostBookRepository = LostBookRepository()
 ) {
     suspend fun getAllReturnDisplays(): List<ReturnDisplay> = withContext(Dispatchers.IO) {
-        val allBorrows = borrowingRepo.getAllBorrows()
-        val lostCopies = lostRepo.getPendingRequests().mapNotNull { it.copyId }.toSet()
+        val allBorrows = borrowingRepo.getAllBorrowsByStatus(BorrowStatus.BORROWED.name)
+        val lostCopies = lostRepo.getAllLostBook().mapNotNull { it.copyId }.toSet()
         val returnBorrows = allBorrows.filter { it.actualReturnDate == null && it.copyId !in lostCopies }
 
         val books = bookRepo.getBooksByIds(returnBorrows.mapNotNull { it.bookId }.distinct())

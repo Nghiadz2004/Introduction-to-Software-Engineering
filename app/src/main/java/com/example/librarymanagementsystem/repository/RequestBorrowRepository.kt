@@ -45,10 +45,10 @@ class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirest
     }
 
     // Lấy yêu cầu mượn sách đang đợi của một người dùng
-    suspend fun getReaderPendingRequests(readerId: String): List<BorrowRequest> = withContext(Dispatchers.IO) {
+    suspend fun getReaderPendingRequests(libraryCardId: String): List<BorrowRequest> = withContext(Dispatchers.IO) {
         db.collection("request_borrow")
             .whereEqualTo("status", RequestStatus.PENDING.value)
-            .whereEqualTo("readerId", readerId)
+            .whereEqualTo("libraryCardId", libraryCardId)
             .get()
             .await()
             .toObjects(BorrowRequest::class.java)
@@ -69,12 +69,15 @@ class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirest
         val snapshot = db.collection("request_borrow")
             .whereEqualTo("bookId", bookId)
             .whereEqualTo("readerId", readerId)
+            .whereEqualTo("status", RequestStatus.PENDING.value)
+            .limit(1) // Chỉ lấy 1 document
             .get()
             .await()
 
-        for (document in snapshot.documents) {
+        val doc = snapshot.documents.firstOrNull()
+        if (doc != null) {
             db.collection("request_borrow")
-                .document(document.id)
+                .document(doc.id)
                 .delete()
                 .await()
         }
