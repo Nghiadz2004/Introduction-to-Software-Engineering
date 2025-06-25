@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.LostDisplay
 import com.example.librarymanagementsystem.service.ConfirmLostManager
 import kotlinx.coroutines.CoroutineScope
@@ -56,6 +57,9 @@ class ReportLostAdapter(
 
         holder.btnConfirm.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
+                val context = holder.itemView.context // Lấy context đúng
+                val loadingDialog = LoadingDialog(context)
+                loadingDialog.show()
                 ConfirmLostManager().confirmLostBook(
                     requestId = item.requestId,
                     readerId = item.readerId,
@@ -65,6 +69,7 @@ class ReportLostAdapter(
                     librarianId = librarianId
                 )
                 onLostChanged()
+                loadingDialog.dismiss()
             }
         }
     }

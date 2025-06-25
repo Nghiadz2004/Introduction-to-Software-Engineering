@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.MyBookAdapter
+import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.BookDisplayItem
 import com.example.librarymanagementsystem.service.MyBookManager
@@ -73,13 +74,13 @@ class MyBookFragment : Fragment() {
             try {
                 val bookItems: List<BookDisplayItem> = when (myBookID) {
                     BORROWED_ID -> {
-                        val bookMap = myBookManager.getReaderBorrowingBooks(userID)
+                        val bookMap = myBookManager.getReaderBorrowingBooks()
                         bookMap.map { (book, borrow) ->
                             BookDisplayItem(book, borrow)
                         }
                     }
                     PENDING_ID -> {
-                        val books = myBookManager.getReaderPendingBooks(userID)
+                        val books = myBookManager.getReaderPendingBooks()
                         books.map { book -> BookDisplayItem(book, null) }
                     }
                     LOST_ID -> {
@@ -119,7 +120,7 @@ class MyBookFragment : Fragment() {
                                         borrow.bookId!!,
                                         borrow.copyId!!
                                     )
-
+                                    BookOperateCache.statusMap.remove(item.book.id)
                                     // Remove from recycle view
                                     (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
@@ -135,7 +136,7 @@ class MyBookFragment : Fragment() {
                                         item.book.id!!,
                                         userID
                                     )
-
+                                    BookOperateCache.statusMap[item.book.id] = "BORROWED"
                                     // Remove from recycle view
                                     (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 

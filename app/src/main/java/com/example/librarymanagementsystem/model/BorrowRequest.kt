@@ -25,6 +25,4 @@ data class BorrowRequest(
         daysBorrow = 1,
         status = RequestStatus.PENDING.value
     )
-
-    fun getStatusEnum(): RequestStatus? = RequestStatus.fromString(status)
 }

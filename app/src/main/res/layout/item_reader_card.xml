@@ -131,7 +131,7 @@
             android:id="@+id/btnEdit"
             android:layout_width="84dp"
             android:layout_height="31dp"
-            android:text="Edit"
+            android:text="Deactivate"
             android:textSize="16sp"
             android:fontFamily="@font/inter_font"
             android:textAllCaps="false"

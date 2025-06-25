@@ -11,13 +11,18 @@ data class LostBook(
     val bookId: String = "",
     val copyId: String = "",
     val readerId: String = "",
-    val recordDate: Date = Date(),
+    @ServerTimestamp
+    val recordDate: Date? = null,
     var status: String = LostRequestStatus.PENDING.value,
     var confirmedBy: String? = null, // officerId nếu được duyệt
-    @ServerTimestamp
     var confirmedAt: Date? = null
 ){
-    fun getEnumStatus(): LostRequestStatus? = LostRequestStatus.fromString(status)
+    constructor(): this(
+        requestId = null,
+        bookId = "",
+        copyId = "",
+        readerId = "",
+    )
 }
 
 enum class LostRequestStatus(val value: String) {

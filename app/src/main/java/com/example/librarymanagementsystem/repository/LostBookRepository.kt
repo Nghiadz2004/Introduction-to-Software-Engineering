@@ -74,6 +74,13 @@ class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
             .toObjects(LostBook::class.java)
     }
 
+    suspend fun getAllLostBook(): List<LostBook> = withContext(Dispatchers.IO) {
+        db.collection("lost_requests")
+            .get()
+            .await()
+            .toObjects(LostBook::class.java)
+    }
+
     // Cập nhật trạng thái yêu cầu mất sách (đang chờ -> đã được duyệt)
     suspend fun updateLostRequestStatus(
         requestId: String,
@@ -81,8 +88,7 @@ class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
     ) = withContext(Dispatchers.IO) {
         val updateData = mapOf(
             "status" to LostRequestStatus.CONFIRMED.value,
-            "confirmedBy" to librarianId,
-            "confirmedAt" to Date()
+            "confirmedBy" to librarianId
         )
         db.collection("lost_requests").document(requestId).update(updateData).await()
     }

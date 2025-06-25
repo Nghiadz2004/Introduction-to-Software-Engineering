@@ -32,6 +32,7 @@ import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.fragment.SearchHome
 import com.example.librarymanagementsystem.model.Book
+import com.example.librarymanagementsystem.model.BorrowStatus
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.service.UIService
@@ -86,11 +87,11 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val libraryCard = libraryCardRepository.getLatestLibraryCard(readerId)
             if (libraryCard != null) {
-                val pendingBorrowList = RequestBorrowRepository().getReaderPendingRequests(readerId)
+                val pendingBorrowList = RequestBorrowRepository().getReaderPendingRequests(libraryCard.requestId)
                 val pendingMap = pendingBorrowList.associate { it.bookId to "PENDING" }
 
-                val borrowingList  = BorrowingRepository().getBorrowBooksByCard(libraryCard.id!!)
-                val borrowingMap = borrowingList.associate { it.bookId!! to "BORROWING" }
+                val borrowingList  = BorrowingRepository().getBorrowBooksByCardAndStatus(libraryCard.requestId, BorrowStatus.BORROWED.name)
+                val borrowingMap = borrowingList.associate { it.bookId!! to "BORROWED" }
 
                 BookOperateCache.statusMap.putAll(borrowingMap)
                 BookOperateCache.statusMap.putAll(pendingMap)

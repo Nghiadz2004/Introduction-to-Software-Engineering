@@ -1,7 +1,10 @@
 package com.example.librarymanagementsystem.service
 
+import com.example.librarymanagementsystem.cache.BookOperateCache
+import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.BorrowBook
+import com.example.librarymanagementsystem.model.BorrowStatus
 import com.example.librarymanagementsystem.model.LostBook
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
@@ -17,24 +20,46 @@ class MyBookManager(
     private val lostBookRepository: LostBookRepository = LostBookRepository()
 ) {
     // Lấy danh sách các quyển sách đang được người dùng yêu cầu mượn để hiển thị trong section "My Book"
-    suspend fun getReaderPendingBooks(readerId: String): List<Book> = withContext(Dispatchers.IO) {
-        val request = requestBorrowRepository.getReaderPendingRequests(readerId)
-        val bookIds = request.map {it.bookId}
-        return@withContext bookRepository.getBooksByIds(bookIds)
+    suspend fun getReaderPendingBooks(): List<Book> = withContext(Dispatchers.IO) {
+        val card = LibraryCardCache.libraryCard ?: return@withContext emptyList()
+
+        val pendingList = requestBorrowRepository.getReaderPendingRequests(card.requestId)
+
+        val bookIds = pendingList.map { it.bookId }
+
+        // 1. Thêm (hoặc ghi đè) tất cả phần tử trong bookIds với value = "PENDING"
+        for (id in bookIds) {
+            BookOperateCache.statusMap[id] = "PENDING"
+        }
+
+        // 2. Xoá tất cả phần tử có value == "PENDING" mà không nằm trong bookIds
+            BookOperateCache.statusMap.entries.removeIf { (key, value) ->
+            value == "PENDING" && key !in bookIds
+        }
+
+        return@withContext bookRepository.getBooksByIds(bookIds.toList())
     }
 
     // Lấy danh sách các quyển sách đang được người dùng mượn để hiển thị trong section "My Book"
-    suspend fun getReaderBorrowingBooks(readerId: String): Map<Book, BorrowBook> = withContext(Dispatchers.IO) {
-        val borrowList = borrowingRepository.getBorrowBooksByReader(readerId)
-        val lostList = lostBookRepository.getReaderPendingRequests(readerId)
+    suspend fun getReaderBorrowingBooks(): Map<Book, BorrowBook> = withContext(Dispatchers.IO) {
+        val card = LibraryCardCache.libraryCard ?: return@withContext emptyMap()
 
-        val lostBookIds = lostList.map { it.bookId }.toSet()
-        val validBorrowList = borrowList.filterNot { it.bookId in lostBookIds }
-        val bookIds = validBorrowList.map { it.bookId }
+        val borrowList = borrowingRepository.getBorrowBooksByCardAndStatus(card.requestId,BorrowStatus.BORROWED.name)
 
-        val books = bookRepository.getBooksByIds(bookIds.filterNotNull())
+        val bookIds = borrowList.map { it.bookId!! }
+        val books = bookRepository.getBooksByIds(bookIds)
 
-        return@withContext validBorrowList.mapNotNull { borrow ->
+        // 1. Thêm (hoặc ghi đè) tất cả phần tử trong bookIds với value = "BORROWED"
+        for (id in bookIds) {
+            BookOperateCache.statusMap[id] = "BORROWED"
+        }
+
+        // 2. Xoá tất cả phần tử có value == "BORROWED" mà không nằm trong bookIds
+        BookOperateCache.statusMap.entries.removeIf { (key, value) ->
+            value == "BORROWED" && key !in bookIds
+        }
+
+        return@withContext borrowList.mapNotNull { borrow ->
             val book = books.find { it.id == borrow.bookId }
             book?.let { it to borrow }
         }.toMap()

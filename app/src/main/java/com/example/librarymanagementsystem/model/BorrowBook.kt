@@ -16,5 +16,32 @@ data class BorrowBook(
     val confirmDate: Date? = null,
     val expectedReturnDate: Date? = null,
     val actualReturnDate: Date? = null,
-    val librarianId: String? = null
-)
+    val librarianId: String? = null,
+    val status : String = BorrowStatus.BORROWED.value
+) {
+    constructor(): this(
+        requestId = null,
+        libraryCardId = null,
+        copyId = null,
+        readerId = null,
+        bookId = null,
+        borrowDate = null,
+        confirmDate = null,
+        expectedReturnDate = null,
+        actualReturnDate = null,
+        librarianId = null,
+        status = BorrowStatus.BORROWED.value
+    )
+}
+
+enum class BorrowStatus(val value: String) {
+    RETURNED("RETURNED"),
+    BORROWED("BORROWED"),
+    LOST("LOST");
+
+    companion object {
+        fun fromString(value: String): BorrowStatus? {
+            return BorrowStatus.entries.find { it.value == value }
+        }
+    }
+}
