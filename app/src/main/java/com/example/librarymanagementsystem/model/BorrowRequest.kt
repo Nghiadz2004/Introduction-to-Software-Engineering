@@ -10,6 +10,7 @@ data class BorrowRequest(
     val libraryCardId: String = "",
     val readerId: String = "",
     val bookId: String = "",
+    val category: String = "",
     @ServerTimestamp
     val borrowDate: Date? = null,
     val daysBorrow: Int = 1,
@@ -21,6 +22,7 @@ data class BorrowRequest(
         libraryCardId = "",
         readerId = "",
         bookId = "",
+        category = "",
         borrowDate = null,
         daysBorrow = 1,
         status = RequestStatus.PENDING.value

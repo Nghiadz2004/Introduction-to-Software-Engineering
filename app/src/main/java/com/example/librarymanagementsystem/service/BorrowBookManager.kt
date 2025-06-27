@@ -47,7 +47,8 @@ class BorrowBookManager (
             borrowDate = request.borrowDate,
             librarianId = librarianId,
             expectedReturnDate = expectedReturnDate, // Sử dụng ngày đã cộng
-            status = BorrowStatus.BORROWED.name
+            status = BorrowStatus.BORROWED.name,
+            category = request.category
         )
 
 

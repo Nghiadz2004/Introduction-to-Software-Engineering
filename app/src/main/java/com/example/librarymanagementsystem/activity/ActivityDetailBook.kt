@@ -38,6 +38,7 @@ class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
     private lateinit var auth: FirebaseAuth
     private lateinit var bookID: String
+    private lateinit var category: String
     private lateinit var binding: ActivityDetailBookBinding
     private lateinit var borrowRepository: BorrowingRepository
     private lateinit var requestBorrowRepository: RequestBorrowRepository
@@ -89,11 +90,15 @@ class ActivityDetailBook : AppCompatActivity() {
                     days <= 0 -> {
                         editText.error = "Borrow period must be greater than 0"
                     }
+                    days > 30 -> {
+                        editText.error = "Maximum borrow period is 30 days"
+                    }
                     else -> {
                         dialog.dismiss()
                         onInputConfirmed(days)
                     }
                 }
+
             }
         }
 
@@ -124,6 +129,7 @@ class ActivityDetailBook : AppCompatActivity() {
         setContentView(R.layout.activity_detail_book)
         val book: Book? = intent.getParcelableExtra("book")
         bookID = book!!.id.toString()
+        category = book.category
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -212,7 +218,8 @@ class ActivityDetailBook : AppCompatActivity() {
                             requestBorrowRepository.addRequestBorrow(libraryCardId = LibraryCardCache.libraryCard!!.requestId,
                                 readerId = userId,
                                 bookId = bookID,
-                                daysBorrow = input)
+                                daysBorrow = input,
+                                category = category)
                         }
                         btnBorrow.text = "PENDING"
                         BookOperateCache.statusMap[bookID] = "PENDING"}
