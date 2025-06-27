@@ -1,19 +1,33 @@
 package com.example.librarymanagementsystem.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.util.Log
 import android.widget.TextView
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.service.StatisticManager
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
+import android.graphics.Typeface
+import com.github.mikephil.charting.components.Legend
 
 class StatisticFragment : Fragment() {
 
@@ -28,7 +42,14 @@ class StatisticFragment : Fragment() {
     private lateinit var totalLostBooksNumberTV_2: TextView
     private lateinit var totalFineNumberTV_2: TextView
 
+    private lateinit var pieChart1: PieChart
+    private lateinit var pieChart2: PieChart
+    private lateinit var pieChart3: PieChart
+    private lateinit var pieChart4: PieChart
+
+
     private lateinit var loadingDialog: LoadingDialog
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +57,7 @@ class StatisticFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_statistic, container, false)
 
-        // Ánh xạ view
+        // View binding
         totalBooksNumberTV = view.findViewById(R.id.totalBooksNumberTV)
         totalBooksLentNumberTV = view.findViewById(R.id.totalBooksLentNumberTV)
         totalReturnBooksNumberTV = view.findViewById(R.id.totalReturnBooksNumberTV)
@@ -48,8 +69,14 @@ class StatisticFragment : Fragment() {
         totalLostBooksNumberTV_2 = view.findViewById(R.id.totalLostBooksNumberTV_2)
         totalFineNumberTV_2 = view.findViewById(R.id.totalFineNumberTV_2)
 
-        // Khởi tạo LoadingDialog
+        pieChart1 = view.findViewById(R.id.pieChart1)
+        pieChart2 = view.findViewById(R.id.pieChart2)
+        pieChart3 = view.findViewById(R.id.pieChart3)
+        pieChart4 = view.findViewById(R.id.pieChart4)
+
+        // Initiate LoadingDialog
         loadingDialog = LoadingDialog(requireContext())
+
 
         loadStatistic()
 
@@ -58,23 +85,188 @@ class StatisticFragment : Fragment() {
 
     private fun loadStatistic() {
         viewLifecycleOwner.lifecycleScope.launch {
-            // Hiện dialog
+            // Show dialog
             loadingDialog.show()
 
-            // Tải dữ liệu
-            totalBooksNumberTV.text = StatisticManager().getTotalBooks().toString()
-            totalBooksLentNumberTV.text = StatisticManager().getTotalBooksLent().toString()
-            totalReturnBooksNumberTV.text = StatisticManager().getTotalReturnBooks().toString()
-            totalLostBooksNumberTV.text = StatisticManager().getTotalLostBooks().toString()
-            totalFineNumberTV.text = StatisticManager().getTotalFine().toString()
+            val totalBook = StatisticManager().getTotalBooks()
 
-            totalBooksLentNumberTV_2.text = StatisticManager().getTotalBooksLent(7).toString()
-            totalReturnBooksNumberTV_2.text = StatisticManager().getTotalReturnBooks(7).toString()
-            totalLostBooksNumberTV_2.text = StatisticManager().getTotalLostBooks(7).toString()
-            totalFineNumberTV_2.text = StatisticManager().getTotalFine(7).toString()
+            val totalLent = StatisticManager().getTotalBooksLent()
+            val totalReturn = StatisticManager().getTotalReturnBooks()
+            val totalLost = StatisticManager().getTotalLostBooks()
+            val totalFine = StatisticManager().getTotalFine()
 
-            // Ẩn dialog khi tải xong
+            val totalLent7 = StatisticManager().getTotalBooksLent(7)
+            val totalReturn7 = StatisticManager().getTotalReturnBooks(7)
+            val totalLost7 = StatisticManager().getTotalLostBooks(7)
+            val totalFine7 = StatisticManager().getTotalFine(7)
+
+            totalBooksNumberTV.text = totalBook.toString()
+
+            totalBooksLentNumberTV.text = totalLent.toString()
+            totalReturnBooksNumberTV.text = totalReturn.toString()
+            totalLostBooksNumberTV.text = totalLost.toString()
+            totalFineNumberTV.text = totalFine.toString()
+
+            totalBooksLentNumberTV_2.text = totalLent7.toString()
+            totalReturnBooksNumberTV_2.text = totalReturn7.toString()
+            totalLostBooksNumberTV_2.text = totalLost7.toString()
+            totalFineNumberTV_2.text = totalFine7.toString()
+
+            setupPieChart(
+                pieChart1,
+                listOf(
+                    totalLent.toFloat(),
+                    totalReturn.toFloat(),
+                    totalLost.toFloat()
+                ),
+                listOf(
+                    "Lent",
+                    "Return",
+                    "Lost"
+                ),
+                "Book Statistic (All Time)",
+                false
+            )
+
+            setupPieChart(
+                pieChart2,
+                listOf(
+                    totalLent7.toFloat(),
+                    totalReturn7.toFloat(),
+                    totalLost7.toFloat()
+                ),
+                listOf(
+                    "Lent",
+                    "Return",
+                    "Lost"
+                ),
+                "Book Statistic (7 Days)",
+                false
+            )
+
+            val (startCurrent, endCurrent) = StatisticManager().getMonthDateRange(0)
+            val (startPrevious, endPrevious) = StatisticManager().getMonthDateRange(-1)
+
+            val currentMonthStats = StatisticManager().countCategory(startCurrent, endCurrent)
+            val previousMonthStats = StatisticManager().countCategory(startPrevious, endPrevious)
+
+            setupPieChart(
+                pieChart3,
+                currentMonthStats.values.map { it.toFloat() },
+                currentMonthStats.keys.toList(),
+                "Category Statistic (All Time)",
+                isLegend = true,
+                isLabel = false,
+                isValuePercentage = true,
+                bottomOffSet = 10f
+            )
+
+            setupPieChart(
+                pieChart4,
+                previousMonthStats.values.map { it.toFloat() },
+                previousMonthStats.keys.toList(),
+                "Category Statistic (7 Days)",
+                isLegend = true,
+                isLabel = false,
+                isValuePercentage = true,
+                bottomOffSet = 10f
+            )
+
+            // Dismiss dialog
             loadingDialog.dismiss()
         }
+    }
+
+    private fun setupPieChart(
+        pieChart: PieChart,
+        values: List<Float>,
+        labels: List<String>,
+        centerText: String,
+        isLegend: Boolean = true,
+        isLabel: Boolean = true,
+        isValue: Boolean = true,
+        isValuePercentage: Boolean = false,
+        bottomOffSet: Float = 0f
+    ) {
+        if (values.isEmpty() || values.all { it == 0f }) {
+            pieChart.clear()
+            pieChart.setNoDataText("No Data")
+            pieChart.setNoDataTextColor(R.color.light_blue)
+            pieChart.setNoDataTextTypeface(Typeface.DEFAULT_BOLD)
+            return
+        }
+
+        if (values.size != labels.size) {
+            throw IllegalArgumentException("Number of value and label doesnt match")
+        }
+
+        // Bỏ các phần tử có value = 0f
+        val filteredData = values.mapIndexedNotNull { index, value ->
+            if (value > 0f) PieEntry(value, labels[index]) else null
+        }
+
+        // Nếu tất cả đều bị loại (value == 0f), thì không hiển thị chart
+        if (filteredData.isEmpty()) {
+            pieChart.clear()
+            pieChart.centerText = SpannableString("Không có dữ liệu").apply {
+                setSpan(RelativeSizeSpan(0.9f), 0, length, 0)
+                setSpan(StyleSpan(Typeface.ITALIC), 0, length, 0)
+            }
+            pieChart.legend.isEnabled = false
+            pieChart.invalidate()
+            return
+        }
+
+        val dataSet = PieDataSet(filteredData, "")
+        dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
+        dataSet.sliceSpace = 1.5f
+        dataSet.valueTextSize = 8f
+
+        dataSet.xValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
+        dataSet.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
+
+        val pieData = PieData(dataSet)
+
+        // Center text có định dạng
+        val styledCenterText = SpannableString(centerText).apply {
+            setSpan(RelativeSizeSpan(1.0f), 0, length, 0)
+            setSpan(StyleSpan(Typeface.BOLD), 0, length, 0)
+        }
+
+        // Toggle value
+        pieData.setDrawValues(isValue)
+
+        // Toggle label
+        pieChart.setDrawEntryLabels(isLabel)
+
+        // Legend management
+        val legend = pieChart.legend
+        legend.isEnabled = isLegend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        legend.orientation = Legend.LegendOrientation.VERTICAL
+        legend.setDrawInside(false)
+        legend.isWordWrapEnabled = true // 👈 Cho phép tự xuống dòng nếu quá dài
+
+        // Content management
+        pieChart.data = pieData
+        pieChart.setUsePercentValues(isValuePercentage)
+        pieChart.setEntryLabelColor(Color.BLACK)
+        pieChart.description.isEnabled = false
+        pieChart.centerText = styledCenterText
+        pieChart.setExtraOffsets(0f, 2f, 0f, 10f) // thu hẹp hoặc nới lề
+
+        // Pie size management
+        pieChart.isDrawHoleEnabled = true // bật lỗ tròn giữa
+        pieChart.holeRadius = 50f
+        pieChart.transparentCircleRadius = 55f
+
+        // No data text management
+        pieChart.setNoDataText("No Data")
+        pieChart.setNoDataTextColor(R.color.light_blue)             // Đổi màu
+        pieChart.setNoDataTextTypeface(Typeface.DEFAULT_BOLD)       // Đổi font
+
+        pieChart.setEntryLabelTextSize(8f)
+        pieChart.invalidate()
     }
 }
