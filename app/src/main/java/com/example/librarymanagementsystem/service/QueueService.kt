@@ -12,7 +12,10 @@ class QueueService(
     private val requestRepo: RequestBorrowRepository = RequestBorrowRepository(),
     private val bookRepo: BookRepository = BookRepository(),
     private val userRepo: UserRepository = UserRepository(),
-    private val bookCopyRepo: BookCopyRepository = BookCopyRepository()
+    private val bookCopyRepo: BookCopyRepository = BookCopyRepository(),
+    private val borrowRequestRepository: RequestBorrowRepository = RequestBorrowRepository(),
+    private val borrowRepository: BorrowingRepository = BorrowingRepository(),
+    private val borrowService: BorrowBookManager = BorrowBookManager(borrowRequestRepository, borrowRepository)
 ) {
     suspend fun getAllQueueDisplays(): List<QueueDisplay> = withContext(Dispatchers.IO) {
         val requests = requestRepo.getPendingRequests()
@@ -32,6 +35,10 @@ class QueueService(
         return@withContext requests.mapNotNull { request ->
             val book = bookMap[request.bookId] ?: return@mapNotNull null
             val user = userMap[request.readerId] ?: return@mapNotNull null
+            val copyLeft = availableCopies[book.id] ?: 0
+
+            val canApprove = copyLeft > 0 &&
+                    borrowService.canBorrowMore(request.readerId).ok
 
             QueueDisplay(
                 coverUrl = book.cover,
@@ -41,7 +48,8 @@ class QueueService(
                 readerName = user.fullname ?: "Reader",
                 daysBorrow = if (daysBorrowMap[request.id] == 1) "1 day" else "${daysBorrowMap[request.id]} days",
                 bookId = book.id!!,
-                request = request
+                request = request,
+                canApprove = canApprove
             )
         }
     }

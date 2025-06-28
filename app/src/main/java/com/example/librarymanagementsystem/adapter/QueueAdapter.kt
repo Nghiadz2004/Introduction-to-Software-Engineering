@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -59,16 +60,22 @@ class QueueAdapter(
 
         // Set màu và trạng thái nút Approve
         val context = holder.itemView.context
-        if (queue.copyLeft == 0) {
-            holder.btnApprove.isEnabled = false
-            holder.btnApprove.setBackgroundColor(ContextCompat.getColor(context, R.color.light_gray))
-        } else {
-            holder.btnApprove.isEnabled = true
-            holder.btnApprove.setBackgroundColor(ContextCompat.getColor(context, R.color.green))
+
+        holder.btnApprove.isEnabled = queue.canApprove
+        if (holder.btnApprove.isEnabled) {
+            holder.btnApprove.backgroundTintList = ContextCompat.getColorStateList(context, R.color.green)
+        }
+        else {
+            holder.btnApprove.backgroundTintList = ContextCompat.getColorStateList(context, R.color.light_gray)
         }
 
         // Bắt sự kiện Approve
         holder.btnApprove.setOnClickListener {
+            if (!queue.canApprove) {
+                Toast.makeText(context, "Sách được mượn hết hoặc Độc giả không đủ điều kiện mượn", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             if (queue.copyLeft > 0) {
 
                 val loadingDialog = LoadingDialog(context)
