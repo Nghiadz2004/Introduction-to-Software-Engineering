@@ -159,7 +159,7 @@ class ActivityDetailBook : AppCompatActivity() {
         // Initialize necessary variables
         btnBack = findViewById(R.id.bdBtnBack)
         btnFavorite = findViewById(R.id.bdBtnFavorite)
-        isFavorite = FavoriteCache.favoriteBookIds.contains(book!!.id!!)
+        isFavorite = FavoriteCache.favoriteBookIds.contains(book.id!!)
         if (isFavorite) {
             UIService.setButtonIcon(
                 this@ActivityDetailBook,
@@ -192,6 +192,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     isFavorite = false
                     // Remove from cache
                     FavoriteCache.favoriteBookIds.remove(book.id)
+                    Toast.makeText(this@ActivityDetailBook, "Đã xoá khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show()
                 }
                 else {
                     UIService.setButtonIcon(
@@ -206,7 +207,9 @@ class ActivityDetailBook : AppCompatActivity() {
                     )
                     isFavorite = true
                     // Add to cache
-                    FavoriteCache.favoriteBookIds.add(book.id!!)
+                    FavoriteCache.favoriteBookIds.add(book.id)
+                    Toast.makeText(this@ActivityDetailBook, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show()
+
                 }
                 // Update database
                 FavoriteRepository().updateFavorite(userId, FavoriteCache.favoriteBookIds)
@@ -243,6 +246,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     BookOperateCache.statusMap.remove(bookID)
                     btnBorrow.text = "BORROW"
                 }
+                Toast.makeText(this, "Huỷ yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -271,6 +275,7 @@ class ActivityDetailBook : AppCompatActivity() {
 
                         btnBorrow.text = "PENDING"
                         BookOperateCache.statusMap[bookID] = "PENDING"
+                        Toast.makeText(this@ActivityDetailBook, "Gửi yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

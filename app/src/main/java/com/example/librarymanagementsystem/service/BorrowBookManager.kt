@@ -96,6 +96,7 @@ class BorrowBookManager (
 
         val countSnapshot = db.collection("borrow_book")
             .whereEqualTo("readerId", readerId)
+            .whereEqualTo("status", "BORROWED")
             .whereGreaterThanOrEqualTo("borrowDate", fourDaysAgo)
             .count()
             .get(AggregateSource.SERVER)

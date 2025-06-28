@@ -76,30 +76,30 @@ class QueueAdapter(
                 return@setOnClickListener
             }
 
-            if (queue.copyLeft > 0) {
+            val loadingDialog = LoadingDialog(context)
+            loadingDialog.show()
+            // Tìm copyId đầu tiên có thể dùng
+            CoroutineScope(Dispatchers.Main).launch {
+                val copyRepo = BookCopyRepository()
+                val availableCopy = copyRepo.getFirstBookCopiesByStatus(queue.bookId, "AVAILABLE")
 
-                val loadingDialog = LoadingDialog(context)
-                loadingDialog.show()
-                // Tìm copyId đầu tiên có thể dùng
-                CoroutineScope(Dispatchers.Main).launch {
-                    val copyRepo = BookCopyRepository()
-                    val availableCopy = copyRepo.getFirstBookCopiesByStatus(queue.bookId, "AVAILABLE")
-
-                    if (availableCopy != null) {
-                        val manager = BorrowBookManager(
-                            RequestBorrowRepository(),
-                            BorrowingRepository()
-                        )
-                        manager.approveBorrowRequestBatch(queue.request, librarianId, availableCopy.copyId!!)
-                        onQueueChanged()
-                        loadingDialog.dismiss()
-                    }
+                if (availableCopy != null) {
+                    val manager = BorrowBookManager(
+                        RequestBorrowRepository(),
+                        BorrowingRepository()
+                    )
+                    manager.approveBorrowRequestBatch(queue.request, librarianId, availableCopy.copyId!!)
+                    onQueueChanged()
+                    loadingDialog.dismiss()
+                    Toast.makeText(context, "Chấp thuận yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
         // Bắt sự kiện Reject
         holder.btnReject.setOnClickListener {
+            val loadingDialog = LoadingDialog(context)
+            loadingDialog.show()
             CoroutineScope(Dispatchers.Main).launch {
                 val manager = BorrowBookManager(
                     RequestBorrowRepository(),
@@ -107,6 +107,8 @@ class QueueAdapter(
                 )
                 manager.rejectBorrowRequest(queue.request, librarianId)
                 onQueueChanged()
+                loadingDialog.dismiss()
+                Toast.makeText(context, "Từ chối yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
             }
         }
     }
