@@ -95,6 +95,12 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (username.any { it.isWhitespace() }){
+                errorMessage.text = "Error: Username cannot contain whitespace"
+                errorMessage.visibility = View.VISIBLE
+                return@setOnClickListener
+            }
+
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val birthdayDate = try {
                 sdf.parse(birthdayStr)
