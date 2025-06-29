@@ -192,7 +192,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     isFavorite = false
                     // Remove from cache
                     FavoriteCache.favoriteBookIds.remove(book.id)
-                    Toast.makeText(this@ActivityDetailBook, "Đã xoá khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ActivityDetailBook, "Removed from favorites", Toast.LENGTH_SHORT).show()
                 }
                 else {
                     UIService.setButtonIcon(
@@ -208,7 +208,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     isFavorite = true
                     // Add to cache
                     FavoriteCache.favoriteBookIds.add(book.id)
-                    Toast.makeText(this@ActivityDetailBook, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ActivityDetailBook, "Add to favorites", Toast.LENGTH_SHORT).show()
 
                 }
                 // Update database
@@ -224,7 +224,7 @@ class ActivityDetailBook : AppCompatActivity() {
             // Lấy thông tin thẻ thư viện
             val card = LibraryCardCache.libraryCard
             if (card == null) {
-                Toast.makeText(this, "Vui lòng đăng ký thẻ thư viện trước khi mượn sách", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please register for a library card before borrowing books", Toast.LENGTH_SHORT).show()
             }
 
             // Xử lý trường hợp sách đã mượn
@@ -246,7 +246,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     BookOperateCache.statusMap.remove(bookID)
                     btnBorrow.text = "BORROW"
                 }
-                Toast.makeText(this, "Huỷ yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Book borrowing request cancelled successfully", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -263,7 +263,7 @@ class ActivityDetailBook : AppCompatActivity() {
                 }
 
                 // ---- Đủ ĐK ⇒ hỏi số ngày mượn rồi gửi yêu cầu ----
-                showInputDialog(this@ActivityDetailBook, "Nhập số ngày muốn mượn") { inputDays ->
+                showInputDialog(this@ActivityDetailBook, "Input borrow period") { inputDays ->
                     lifecycleScope.launch {
                         requestBorrowRepository.addRequestBorrow(
                             libraryCardId = card.requestId,
@@ -275,7 +275,7 @@ class ActivityDetailBook : AppCompatActivity() {
 
                         btnBorrow.text = "PENDING"
                         BookOperateCache.statusMap[bookID] = "PENDING"
-                        Toast.makeText(this@ActivityDetailBook, "Gửi yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ActivityDetailBook, "Book borrowing request sent successfully", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -326,7 +326,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     displayBookDetails(book, binding, queue, borrower)
                 }
                 else {
-                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {
+                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Book not found or no longer exists", onDismissCallback = {
                         finish()
                     })
                     errorDialog.show()

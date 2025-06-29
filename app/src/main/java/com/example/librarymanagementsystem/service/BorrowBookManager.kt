@@ -92,12 +92,38 @@ class BorrowBookManager (
      * @return          true nếu ĐK còn mượn được, false nếu đã vượt giới hạn
      */
     suspend fun canBorrowMore(readerId: String): CheckResult = withContext(Dispatchers.IO) {
-        val fourDaysAgo = Timestamp(Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(4)))
+        val todayTime = fetchServerTime()
+        val fourDaysAgo = if (todayTime != null) {
+            val calendar = Calendar.getInstance()
+            calendar.time = todayTime
+            calendar.add(Calendar.DAY_OF_YEAR, -4)
+            Timestamp(calendar.time) // Trả về Firestore Timestamp
+        } else {
+            null
+        }
+
+        val dueSnapshot = db.collection("borrow_book")
+            .whereEqualTo("readerId", readerId)
+            .whereEqualTo("status", "BORROWED")
+            .whereLessThan("expectedReturnDate", Timestamp(todayTime!!))
+            .limit(1)
+            .get()
+            .await()
+
+
+        Log.d("dueSnapshot", "dueSnapshot: ${dueSnapshot.size()}")
+        if (!dueSnapshot.isEmpty) {
+
+            return@withContext CheckResult(
+                ok = false,
+                message = "You had overdue borrowing book(s)"
+            )
+        }
 
         val countSnapshot = db.collection("borrow_book")
             .whereEqualTo("readerId", readerId)
             .whereEqualTo("status", "BORROWED")
-            .whereGreaterThanOrEqualTo("borrowDate", fourDaysAgo)
+            .whereGreaterThanOrEqualTo("borrowDate", fourDaysAgo!!)
             .count()
             .get(AggregateSource.SERVER)
             .await()
@@ -107,7 +133,7 @@ class BorrowBookManager (
         if (borrowCount >= 5) {
             return@withContext CheckResult(
                 ok = false,
-                message = "Bạn đã mượn tối đa 5 cuốn trong 4 ngày gần nhất. Vui lòng trả bớt hoặc đợi thêm."
+                message = "You've borrowed the maximum of 5 books in the past 4 days"
             )
         }
 
@@ -120,21 +146,21 @@ class BorrowBookManager (
         Log.d("BorrowBookManager", "checkCard: ${card}")
 
         if (card == null) {
-            return@withContext CheckResult(false, "Vui lòng đăng ký thẻ thư viện trước khi mượn sách")
+            return@withContext CheckResult(false, "Please register for a library card before borrowing books")
         }
 
         val now = Timestamp.now().toDate()
 
         if (card.getDueDate() <= now) {
-            return@withContext CheckResult(false, "Thẻ thư viện của bạn đã hết hạn. Vui lòng đăng ký thẻ mới.")
+            return@withContext CheckResult(false, "Your library card has expired. Please register for a new one")
         }
 
         if (card.status == "INACTIVE") {
-            return@withContext CheckResult(false, "Thẻ thư viện của bạn hiện không hoạt động. Vui lòng liên hệ thủ thư.")
+            return@withContext CheckResult(false, "Your library card is currently inactive. Please contact the librarian")
         }
 
         if (card.status == "BANNED") {
-            return@withContext CheckResult(false, "Thẻ thư viện của bạn đã bị khoá. Vui lòng liên hệ thủ thư.")
+            return@withContext CheckResult(false, "Your library card has been locked. Please contact the librarian")
         }
 
         CheckResult(ok = true)
@@ -155,7 +181,7 @@ class BorrowBookManager (
 
             CheckResult(true)          // ✅ tất cả OK
         } catch (e: Exception) {
-            CheckResult(false, "Đã xảy ra lỗi, vui lòng thử lại sau!")
+            CheckResult(false, "An error occurred, please try again later!")
         }
     }
 }

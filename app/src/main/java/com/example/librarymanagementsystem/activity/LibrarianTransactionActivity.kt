@@ -102,9 +102,7 @@ class LibrarianTransactionActivity : AppCompatActivity() {
         val updated = QueueService().getAllQueueDisplays()
 
         recyclerView.adapter = QueueAdapter(updated, userId, onQueueChanged = {
-            lifecycleScope.launch {
                 reloadQueueBooks(recyclerView, userId)
-            }
         })
     }
 

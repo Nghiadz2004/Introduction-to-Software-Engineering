@@ -21,6 +21,7 @@ import com.example.librarymanagementsystem.service.BorrowBookManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QueueAdapter(
     private var queues: List<QueueDisplay>,
@@ -72,26 +73,43 @@ class QueueAdapter(
         // Bắt sự kiện Approve
         holder.btnApprove.setOnClickListener {
             if (!queue.canApprove) {
-                Toast.makeText(context, "Sách được mượn hết hoặc Độc giả không đủ điều kiện mượn", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "All copies of the book have been borrowed or the reader is not eligible to borrow", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val loadingDialog = LoadingDialog(context)
             loadingDialog.show()
-            // Tìm copyId đầu tiên có thể dùng
             CoroutineScope(Dispatchers.Main).launch {
-                val copyRepo = BookCopyRepository()
-                val availableCopy = copyRepo.getFirstBookCopiesByStatus(queue.bookId, "AVAILABLE")
+                try {
+                    val copyRepo = BookCopyRepository()
+                    val availableCopy = withContext(Dispatchers.IO) {
+                        copyRepo.getFirstBookCopiesByStatus(queue.bookId, "AVAILABLE")
+                    }
 
-                if (availableCopy != null) {
-                    val manager = BorrowBookManager(
-                        RequestBorrowRepository(),
-                        BorrowingRepository()
-                    )
-                    manager.approveBorrowRequestBatch(queue.request, librarianId, availableCopy.copyId!!)
-                    onQueueChanged()
+                    if (availableCopy != null) {
+                        val manager = BorrowBookManager(
+                            RequestBorrowRepository(),
+                            BorrowingRepository()
+                        )
+                        // Gọi hàm approveBorrowRequestBatch
+                        withContext(Dispatchers.IO) {
+                            manager.approveBorrowRequestBatch(queue.request, librarianId, availableCopy.copyId!!)
+                        }
+                        // Sau khi approve xong, gọi onQueueChanged để refresh dữ liệu
+                        onQueueChanged()
+                        // Chỉ đóng dialog sau khi MỌI THAO TÁC BẤT ĐỒNG BỘ ĐÃ HOÀN TẤT
+                        loadingDialog.dismiss()
+                        Toast.makeText(context, "Book borrowing request approved", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Nếu không có bản sao nào, đóng dialog và thông báo
+                        loadingDialog.dismiss()
+                        Toast.makeText(context, "No available copies found for this book.", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Log.e("QueueAdapter", "Error approving request: ${e.message}", e)
+                    // Đóng dialog khi có lỗi
                     loadingDialog.dismiss()
-                    Toast.makeText(context, "Chấp thuận yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to approve request: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -101,14 +119,26 @@ class QueueAdapter(
             val loadingDialog = LoadingDialog(context)
             loadingDialog.show()
             CoroutineScope(Dispatchers.Main).launch {
-                val manager = BorrowBookManager(
-                    RequestBorrowRepository(),
-                    BorrowingRepository()
-                )
-                manager.rejectBorrowRequest(queue.request, librarianId)
-                onQueueChanged()
-                loadingDialog.dismiss()
-                Toast.makeText(context, "Từ chối yêu cầu mượn sách thành công", Toast.LENGTH_SHORT).show()
+                try {
+                    val manager = BorrowBookManager(
+                        RequestBorrowRepository(),
+                        BorrowingRepository()
+                    )
+                    // Gọi hàm rejectBorrowRequest
+                    withContext(Dispatchers.IO) {
+                        manager.rejectBorrowRequest(queue.request, librarianId)
+                    }
+                    // Sau khi reject xong, gọi onQueueChanged để refresh dữ liệu
+                    onQueueChanged()
+                    // Chỉ đóng dialog sau khi MỌI THAO TÁC BẤT ĐỒNG BỘ ĐÃ HOÀN TẤT
+                    loadingDialog.dismiss()
+                    Toast.makeText(context, "Book borrowing request rejected", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Log.e("QueueAdapter", "Error rejecting request: ${e.message}", e)
+                    // Đóng dialog khi có lỗi
+                    loadingDialog.dismiss()
+                    Toast.makeText(context, "Failed to reject request: ${e.message}", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
