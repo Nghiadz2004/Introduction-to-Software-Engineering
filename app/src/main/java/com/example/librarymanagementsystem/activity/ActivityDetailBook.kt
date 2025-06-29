@@ -225,6 +225,7 @@ class ActivityDetailBook : AppCompatActivity() {
             val card = LibraryCardCache.libraryCard
             if (card == null) {
                 Toast.makeText(this, "Please register for a library card before borrowing books", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
             // Xử lý trường hợp sách đã mượn
