@@ -58,8 +58,7 @@ class EditProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userID = arguments?.getString("USER_ID") ?: ""
-
+        userID = Firebase.auth.currentUser?.uid!!
         // Bind UI elements
         avatarIV = view.findViewById(R.id.avatarIV)
         editAvatarBtn = view.findViewById(R.id.editAvatarBtn)

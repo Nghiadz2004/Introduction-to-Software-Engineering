@@ -12,6 +12,7 @@ data class BorrowBook(
     val readerId: String? = null,
     val bookId: String? = null,
     val borrowDate: Date? = null,
+    val category: String = "",
     @ServerTimestamp
     val confirmDate: Date? = null,
     val expectedReturnDate: Date? = null,

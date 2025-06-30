@@ -10,6 +10,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:background="@color/light_purple"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -632,7 +633,7 @@
                                 android:layout_height="15dp"
                                 android:layout_marginTop="-6dp"
                                 android:fontFamily="@font/inter_font"
-                                android:text="Total Lost Books"
+                                android:text="Total Return Books"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold|italic"
@@ -810,24 +811,69 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="124dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_corner_radius"
-                android:backgroundTint="@color/light_blue"
+            <TextView
+                android:id="@+id/chartTV"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_marginTop="25dp"
                 android:fontFamily="@font/inter_font"
-                android:text="Report"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="24sp"
+                android:text="Book Statistic"
+                android:textColor="@color/light_blue"
+                android:textSize="22sp"
                 android:textStyle="bold|italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="HardcodedText,TextSizeCheck,TouchTargetSizeCheck" />
+                tools:ignore="HardcodedText,TextSizeCheck,TextContrastCheck" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:orientation="horizontal">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/chartTV3"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/inter_font"
+                android:text="Category Statistic"
+                android:textColor="@color/light_blue"
+                android:textSize="22sp"
+                android:textStyle="bold|italic"
+                tools:ignore="HardcodedText,TextSizeCheck,TextContrastCheck" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:orientation="horizontal">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    tools:ignore="TooManyViews" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -5,11 +5,13 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +32,9 @@ import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.FavoriteRepository
+import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
+import com.example.librarymanagementsystem.service.BorrowBookManager
 import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.auth.FirebaseAuth
 
@@ -38,9 +42,12 @@ class ActivityDetailBook : AppCompatActivity() {
     //Initialize necessary variable
     private lateinit var auth: FirebaseAuth
     private lateinit var bookID: String
+    private lateinit var category: String
     private lateinit var binding: ActivityDetailBookBinding
     private lateinit var borrowRepository: BorrowingRepository
     private lateinit var requestBorrowRepository: RequestBorrowRepository
+    private lateinit var libraryCardRepository: LibraryCardRepository
+    private lateinit var borrowManager: BorrowBookManager
     private lateinit var errorDialog: ErrorDialog
     private lateinit var btnBack: AppCompatImageButton
     private lateinit var btnFavorite: AppCompatImageButton
@@ -89,11 +96,15 @@ class ActivityDetailBook : AppCompatActivity() {
                     days <= 0 -> {
                         editText.error = "Borrow period must be greater than 0"
                     }
+                    days > 30 -> {
+                        editText.error = "Maximum borrow period is 30 days"
+                    }
                     else -> {
                         dialog.dismiss()
                         onInputConfirmed(days)
                     }
                 }
+
             }
         }
 
@@ -124,6 +135,7 @@ class ActivityDetailBook : AppCompatActivity() {
         setContentView(R.layout.activity_detail_book)
         val book: Book? = intent.getParcelableExtra("book")
         bookID = book!!.id.toString()
+        category = book.category
         // Initialize binding
         binding = ActivityDetailBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -131,6 +143,9 @@ class ActivityDetailBook : AppCompatActivity() {
         // Initialize necessary repositories
         borrowRepository = BorrowingRepository()
         requestBorrowRepository = RequestBorrowRepository()
+
+        // Initialize necessary managers
+        borrowManager = BorrowBookManager(requestBorrowRepository, borrowRepository)
 
         // Initialize error dialog
         errorDialog = ErrorDialog(this, "Error")
@@ -144,7 +159,7 @@ class ActivityDetailBook : AppCompatActivity() {
         // Initialize necessary variables
         btnBack = findViewById(R.id.bdBtnBack)
         btnFavorite = findViewById(R.id.bdBtnFavorite)
-        isFavorite = FavoriteCache.favoriteBookIds.contains(book!!.id!!)
+        isFavorite = FavoriteCache.favoriteBookIds.contains(book.id!!)
         if (isFavorite) {
             UIService.setButtonIcon(
                 this@ActivityDetailBook,
@@ -177,6 +192,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     isFavorite = false
                     // Remove from cache
                     FavoriteCache.favoriteBookIds.remove(book.id)
+                    Toast.makeText(this@ActivityDetailBook, "Removed from favorites", Toast.LENGTH_SHORT).show()
                 }
                 else {
                     UIService.setButtonIcon(
@@ -191,7 +207,9 @@ class ActivityDetailBook : AppCompatActivity() {
                     )
                     isFavorite = true
                     // Add to cache
-                    FavoriteCache.favoriteBookIds.add(book.id!!)
+                    FavoriteCache.favoriteBookIds.add(book.id)
+                    Toast.makeText(this@ActivityDetailBook, "Add to favorites", Toast.LENGTH_SHORT).show()
+
                 }
                 // Update database
                 FavoriteRepository().updateFavorite(userId, FavoriteCache.favoriteBookIds)
@@ -202,35 +220,98 @@ class ActivityDetailBook : AppCompatActivity() {
             btnBorrow.text = BookOperateCache.statusMap[bookID]
         }
 
-        //Handle borrow button
         btnBorrow.setOnClickListener {
-            //Handle borrow button
-            if (LibraryCardCache.libraryCard != null) {
-                if (!BookOperateCache.statusMap.containsKey(bookID)) {
-                    showInputDialog(this, "Input days to borrow"){input ->
-                        lifecycleScope.launch {
-                            requestBorrowRepository.addRequestBorrow(libraryCardId = LibraryCardCache.libraryCard!!.requestId,
-                                readerId = userId,
-                                bookId = bookID,
-                                daysBorrow = input)
-                        }
-                        btnBorrow.text = "PENDING"
-                        BookOperateCache.statusMap[bookID] = "PENDING"}
+            // Lấy thông tin thẻ thư viện
+            val card = LibraryCardCache.libraryCard
+            if (card == null) {
+                Toast.makeText(this, "Please register for a library card before borrowing books", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-                }
-                if (BookOperateCache.statusMap[bookID] == "PENDING") {
+            // Xử lý trường hợp sách đã mượn
+            val isBorrowed = BookOperateCache.statusMap[bookID] == "BORROWED"
+            if (isBorrowed) {
+                return@setOnClickListener
+            }
+
+            // Xử lý trường hợp sách đang chờ mượn
+            val isPending = BookOperateCache.statusMap[bookID] == "PENDING"
+            if (isPending) {
+                // ---- Huỷ yêu cầu đang chờ ----
+                lifecycleScope.launch {
+                    RequestBorrowRepository()
+                        .cancelPendingRequest(
+                            bookID,
+                            card!!.readerId)
+
                     BookOperateCache.statusMap.remove(bookID)
                     btnBorrow.text = "BORROW"
-                    lifecycleScope.launch {
-                        RequestBorrowRepository().cancelPendingRequest(
-                            bookID,
-                            LibraryCardCache.libraryCard!!.readerId
-                        )
-                    }
+                }
+                Toast.makeText(this, "Book borrowing request cancelled successfully", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // ---- Kiểm tra điều kiện mượn trước khi gửi yêu cầu mới ----
+            lifecycleScope.launch {
+                val eligibility = borrowManager.checkBorrowEligibility(
+                    card!!.readerId
+                )
+
+                if (!eligibility.ok) {
+                    // Không hợp lệ ⇒ thông báo lỗi & thoát
+                    Toast.makeText(this@ActivityDetailBook, eligibility.message, Toast.LENGTH_LONG).show()
+                    return@launch
                 }
 
+                // ---- Đủ ĐK ⇒ hỏi số ngày mượn rồi gửi yêu cầu ----
+                showInputDialog(this@ActivityDetailBook, "Input borrow period") { inputDays ->
+                    lifecycleScope.launch {
+                        requestBorrowRepository.addRequestBorrow(
+                            libraryCardId = card.requestId,
+                            readerId      = userId,
+                            bookId        = bookID,
+                            daysBorrow    = inputDays,
+                            category      = category
+                        )
+
+                        btnBorrow.text = "PENDING"
+                        BookOperateCache.statusMap[bookID] = "PENDING"
+                        Toast.makeText(this@ActivityDetailBook, "Book borrowing request sent successfully", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
+
+        //Handle borrow button
+//        btnBorrow.setOnClickListener {
+//            //Handle borrow button
+//            if (LibraryCardCache.libraryCard != null) {
+//                if (!BookOperateCache.statusMap.containsKey(bookID)) {
+//                    showInputDialog(this, "Input days to borrow"){input ->
+//                        lifecycleScope.launch {
+//                            requestBorrowRepository.addRequestBorrow(libraryCardId = LibraryCardCache.libraryCard!!.requestId,
+//                                readerId = userId,
+//                                bookId = bookID,
+//                                daysBorrow = input,
+//                                category = category)
+//                        }
+//                        btnBorrow.text = "PENDING"
+//                        BookOperateCache.statusMap[bookID] = "PENDING"}
+//
+//                }
+//                if (BookOperateCache.statusMap[bookID] == "PENDING") {
+//                    BookOperateCache.statusMap.remove(bookID)
+//                    btnBorrow.text = "BORROW"
+//                    lifecycleScope.launch {
+//                        RequestBorrowRepository().cancelPendingRequest(
+//                            bookID,
+//                            LibraryCardCache.libraryCard!!.readerId
+//                        )
+//                    }
+//                }
+//
+//            }
+//        }
 
         //Handle back button to return previous page
         btnBack.setOnClickListener {
@@ -246,7 +327,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     displayBookDetails(book, binding, queue, borrower)
                 }
                 else {
-                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Không tìm thấy sách hoặc sách không còn tồn tại", onDismissCallback = {
+                    errorDialog = ErrorDialog(this@ActivityDetailBook, "Book not found or no longer exists", onDismissCallback = {
                         finish()
                     })
                     errorDialog.show()

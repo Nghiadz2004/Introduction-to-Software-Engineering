@@ -8,5 +8,6 @@ data class QueueDisplay(
     val readerName: String,
     val daysBorrow: String,
     val bookId: String,
-    val request: BorrowRequest
+    val request: BorrowRequest,
+    val canApprove: Boolean
 )

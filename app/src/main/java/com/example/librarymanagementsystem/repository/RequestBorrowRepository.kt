@@ -11,13 +11,14 @@ import kotlinx.coroutines.withContext
 
 class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
-    suspend fun addRequestBorrow(libraryCardId: String, readerId: String, bookId: String, daysBorrow: Int): String = withContext(Dispatchers.IO) {
+    suspend fun addRequestBorrow(libraryCardId: String, readerId: String, bookId: String, daysBorrow: Int, category: String): String = withContext(Dispatchers.IO) {
         val data = hashMapOf(
             "libraryCardId" to libraryCardId,
             "readerId" to readerId,
             "bookId" to bookId,
             "daysBorrow" to daysBorrow,
             "status" to "PENDING",
+            "category" to category,
             "borrowDate" to FieldValue.serverTimestamp() // 👈 server time
         )
 

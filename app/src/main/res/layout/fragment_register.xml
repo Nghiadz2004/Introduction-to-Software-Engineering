@@ -25,88 +25,155 @@
     <!-- Input Full name field -->
 
     <!-- Input Username field -->
-    <EditText
-        android:id="@+id/rgFullname"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rgFullnameLayout"
+
         android:layout_width="340dp"
         android:layout_height="65dp"
         android:layout_marginTop="36dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:drawableStart="@drawable/full_name_icon"
-        android:drawablePadding="15dp"
-        android:drawableTint="@color/light_blue"
-        android:hint="Full name"
-        android:paddingLeft="20dp"
-        android:textAllCaps="false"
-        android:textColor="@color/light_blue"
-        android:textSize="16sp"
-        android:textStyle="italic|bold"
+        android:theme="@style/MyTextInputLayoutTheme"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="@color/light_purple"
+        app:boxCollapsedPaddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgHeaderText" />
+        app:layout_constraintTop_toBottomOf="@id/rgHeaderText"
+        app:layout_constraintHorizontal_bias="0.509">
 
-    <EditText
-        android:id="@+id/rgUsername"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rgFullname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Fullname"
+            android:background="@android:color/transparent"
+            android:paddingStart="17.5dp"
+            android:drawableStart="@drawable/full_name_icon"
+            android:drawableTint="@color/light_blue"
+            android:drawablePadding="15dp"
+            android:inputType="textPersonName"
+            android:textAllCaps="false"
+            android:textColor="@color/light_blue"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:fontFamily="@font/inter_font"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rgUsernameLayout"
         android:layout_width="340dp"
         android:layout_height="65dp"
         android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:hint="Username"
-        android:textSize="16sp"
-        android:textStyle="italic|bold"
-        android:textAllCaps="false"
-        android:textColor="@color/light_blue"
-        android:drawableStart="@drawable/register_icon"
-        android:drawableTint="@color/light_blue"
-        android:drawablePadding="15dp"
+        android:theme="@style/MyTextInputLayoutTheme"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="@color/light_purple"
+        app:boxCollapsedPaddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgFullname" />
+        app:layout_constraintTop_toBottomOf="@id/rgFullnameLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rgUsername"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Username"
+            android:background="@android:color/transparent"
+            android:paddingStart="17.5dp"
+            android:drawableStart="@drawable/register_icon"
+            android:drawableTint="@color/light_blue"
+            android:drawablePadding="15dp"
+            android:inputType="textPersonName"
+            android:textColor="@color/light_blue"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:singleLine="true"
+            android:fontFamily="@font/inter_font" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Input Password field-->
-    <EditText
-        android:id="@+id/rgPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rgPasswordLayout"
         android:layout_width="340dp"
         android:layout_height="65dp"
         android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:hint="Password"
-        android:textSize="16sp"
-        android:textStyle="italic|bold"
-        android:textAllCaps="false"
-        android:textColor="@color/light_blue"
-        android:drawableStart="@drawable/password_icon"
-        android:drawableTint="@color/light_blue"
-        android:drawablePadding="15dp"
+        android:theme="@style/MyTextInputLayoutTheme"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/light_blue"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="@color/light_purple"
+        app:boxCollapsedPaddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgUsername" />
+        app:layout_constraintTop_toBottomOf="@id/rgUsernameLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rgPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Password"
+            android:background="@android:color/transparent"
+            android:paddingStart="17.5dp"
+            android:drawableStart="@drawable/password_icon"
+            android:drawableTint="@color/light_blue"
+            android:drawablePadding="15dp"
+            android:inputType="textPassword"
+            android:textColor="@color/light_blue"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:singleLine="true"
+            android:fontFamily="@font/inter_font" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Input Email field-->
-    <EditText
-        android:id="@+id/rgEmail"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rgEmailLayout"
         android:layout_width="340dp"
         android:layout_height="65dp"
         android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:hint="Email"
-        android:textSize="16sp"
-        android:textStyle="italic|bold"
-        android:textAllCaps="false"
-        android:textColor="@color/light_blue"
-        android:drawableStart="@drawable/login_icon"
-        android:drawableTint="@color/light_blue"
-        android:drawablePadding="15dp"
+        android:theme="@style/MyTextInputLayoutTheme"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="@color/light_purple"
+        app:boxCollapsedPaddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgPassword" />
+        app:layout_constraintTop_toBottomOf="@id/rgPasswordLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rgEmail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Email"
+            android:background="@android:color/transparent"
+            android:paddingStart="17.5dp"
+            android:drawableStart="@drawable/login_icon"
+            android:drawableTint="@color/light_blue"
+            android:drawablePadding="15dp"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/light_blue"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:singleLine="true"
+            android:fontFamily="@font/inter_font" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Input Birthday field-->
     <EditText
@@ -126,9 +193,11 @@
         android:drawableStart="@drawable/birthday_icon"
         android:drawableTint="@color/light_blue"
         android:drawablePadding="20dp"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgEmail" />
+        app:layout_constraintTop_toBottomOf="@id/rgEmailLayout" />
 
     <!-- Error message -->
     <TextView
@@ -141,8 +210,8 @@
         android:textSize="15sp"
         android:textStyle="italic|bold"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@id/rgFullname"
-        app:layout_constraintEnd_toEndOf="@id/rgFullname"
+        app:layout_constraintStart_toStartOf="@id/rgFullnameLayout"
+        app:layout_constraintEnd_toEndOf="@id/rgFullnameLayout"
         app:layout_constraintTop_toBottomOf="@id/rgBirthday"
         app:layout_constraintBottom_toTopOf="@id/rgSubmit"/>
 

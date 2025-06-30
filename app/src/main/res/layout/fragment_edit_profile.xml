@@ -139,7 +139,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLayoutET"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:theme="@style/MyTextInputLayoutTheme"
             app:endIconMode="password_toggle"
@@ -198,7 +198,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmPasswordLayoutET"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:theme="@style/MyTextInputLayoutTheme"
             app:endIconMode="password_toggle"
@@ -276,6 +276,6 @@
             android:textSize="24dp"
             tools:ignore="HardcodedText,SpUsage,UnusedAttribute" />
 
-    </LinearLayout>
+    </LinearLayout>\
 
 </androidx.constraintlayout.widget.ConstraintLayout>

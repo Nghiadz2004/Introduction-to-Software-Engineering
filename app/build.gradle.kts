@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation ("com.google.android.material:material:1.12.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")

@@ -59,46 +59,81 @@
     <!-- Input Username field -->
 
 
-    <EditText
-        android:id="@+id/lgUsername"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lgUsernameLayout"
         android:layout_width="380dp"
         android:layout_height="65dp"
-        android:layout_marginTop="40dp"
-        android:paddingLeft="20dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:hint="Username/Email"
-        android:textSize="16sp"
-        android:textStyle="italic|bold"
-        android:textAllCaps="false"
-        android:textColor="@color/light_blue"
-        android:drawableStart="@drawable/register_icon"
-        android:drawableTint="@color/light_blue"
-        android:drawablePadding="15dp"
+        android:theme="@style/MyTextInputLayoutTheme"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="@color/light_purple"
+        app:boxCollapsedPaddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lgBannerImage" />
+        app:layout_constraintTop_toBottomOf="@id/lgBannerImage"
+        app:layout_constraintHorizontal_bias="0.509">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lgUsername"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Username/Email"
+            android:background="@android:color/transparent"
+            android:paddingStart="17.5dp"
+            android:drawableStart="@drawable/register_icon"
+            android:drawableTint="@color/light_blue"
+            android:drawablePadding="15dp"
+            android:inputType="textPersonName"
+            android:textAllCaps="false"
+            android:textColor="@color/light_blue"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:fontFamily="@font/inter_font"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Input Password field-->
-    <EditText
-        android:id="@+id/lgPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lgPasswordLayout"
         android:layout_width="380dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
-        android:paddingLeft="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
-        android:hint="Password"
-        android:textSize="16sp"
-        android:textStyle="italic|bold"
-        android:textAllCaps="false"
-        android:textColor="@color/light_blue"
-        android:drawableStart="@drawable/password_icon"
-        android:drawableTint="@color/light_blue"
-        android:drawablePadding="15dp"
+        android:theme="@style/MyTextInputLayoutTheme"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/light_blue"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="@color/light_purple"
+        app:boxCollapsedPaddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lgUsername" />
+        app:layout_constraintTop_toBottomOf="@id/lgUsernameLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lgPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Password"
+            android:background="@android:color/transparent"
+            android:paddingStart="17.5dp"
+            android:drawableStart="@drawable/password_icon"
+            android:drawableTint="@color/light_blue"
+            android:drawablePadding="15dp"
+            android:inputType="textPassword"
+            android:textColor="@color/light_blue"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:textAllCaps="false"
+            android:fontFamily="@font/inter_font"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Remember me checkbox with left side text -->
     <LinearLayout
@@ -110,8 +145,8 @@
         android:clickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackground"
-        app:layout_constraintStart_toStartOf="@id/lgPassword"
-        app:layout_constraintTop_toBottomOf="@id/lgPassword">
+        app:layout_constraintStart_toStartOf="@id/lgPasswordLayout"
+        app:layout_constraintTop_toBottomOf="@id/lgPasswordLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -145,8 +180,8 @@
         android:clickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackground"
-        app:layout_constraintEnd_toEndOf="@id/lgPassword"
-        app:layout_constraintTop_toBottomOf="@id/lgPassword" />
+        app:layout_constraintEnd_toEndOf="@id/lgPasswordLayout"
+        app:layout_constraintTop_toBottomOf="@id/lgPasswordLayout" />
 
     <TextView
         android:id="@+id/lgRegister"
