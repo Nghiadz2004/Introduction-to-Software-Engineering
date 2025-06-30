@@ -125,7 +125,6 @@ class LibrarianTransactionActivity : AppCompatActivity() {
         recyclerView.adapter = ReportLostAdapter(
             lostList = updated,
             librarianId = librarianId,
-            loadingDialog = loadingDialog,
             onLostChanged = {
                 loadingDialog.show()
                 reloadLostReports(recyclerView, librarianId, loadingDialog)

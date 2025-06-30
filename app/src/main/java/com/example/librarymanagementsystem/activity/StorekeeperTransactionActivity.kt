@@ -117,7 +117,6 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
         recyclerView.adapter = ReportLostAdapter(
             lostList = updated,
             librarianId = librarianId,
-            loadingDialog = loadingDialog,
             onLostChanged = {
                 reloadLostReports(recyclerView, librarianId, loadingDialog)
             }
