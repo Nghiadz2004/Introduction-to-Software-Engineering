@@ -633,7 +633,7 @@
                                 android:layout_height="15dp"
                                 android:layout_marginTop="-6dp"
                                 android:fontFamily="@font/inter_font"
-                                android:text="Total Lost Books"
+                                android:text="Total Return Books"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
                                 android:textStyle="bold|italic"
