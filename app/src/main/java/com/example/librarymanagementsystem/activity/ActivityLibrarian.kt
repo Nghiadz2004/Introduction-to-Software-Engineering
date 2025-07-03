@@ -11,7 +11,6 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.fragment.StatisticFragment
 import com.example.librarymanagementsystem.fragment.ProfileFragment
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import android.util.Log
 import android.widget.Button
@@ -64,7 +63,7 @@ class ActivityLibrarian : AppCompatActivity() {
     private fun loadActivity(pageID: String) {
         if (pageID == PROFILE_ID) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, ProfileFragment())
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -74,7 +73,7 @@ class ActivityLibrarian : AppCompatActivity() {
 
         else if (pageID == STATISTIC_ID) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, StatisticFragment())
+                .replace(R.id.fragment_container, StatisticFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -116,7 +115,7 @@ class ActivityLibrarian : AppCompatActivity() {
 
         statisticBtn.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, StatisticFragment())
+                .replace(R.id.fragment_container, StatisticFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -125,7 +124,7 @@ class ActivityLibrarian : AppCompatActivity() {
 
         profileBtn.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, ProfileFragment())
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 

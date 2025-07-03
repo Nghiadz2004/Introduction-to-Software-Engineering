@@ -31,22 +31,19 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/searchET"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
-        android:textColorHint="@color/white"
-        android:hint="Search by name, author"
-        android:padding="5dp"
-        android:textSize="18sp"
+        android:layout_height="50dp"
+        android:queryHint="Search by name, author"
+        android:iconifiedByDefault="false"
         android:background="@drawable/rounded_search_background"
-        android:drawableEnd="@drawable/baseline_search_24"
-        android:drawableTint="#E3E3E3"
-        android:paddingStart="30dp"
-        android:paddingEnd="20dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp" />
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+        />
+
+
 
     <TextView
         android:id="@+id/categoryTV"
@@ -61,7 +58,7 @@
         android:textColor="@color/white"
         android:paddingStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchET" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <HorizontalScrollView
         android:id="@+id/categoryScrollView"

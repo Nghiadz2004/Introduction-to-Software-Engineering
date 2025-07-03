@@ -2,7 +2,7 @@ package com.example.librarymanagementsystem.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.ColorStateList
+import android.util.Log
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Typeface
@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -29,6 +30,7 @@ import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.fragment.CategoryBooksFragment
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.fragment.SearchHome
@@ -40,6 +42,7 @@ import com.example.librarymanagementsystem.service.UIService
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 // Home menu id
@@ -60,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var favoriteBtn: Button
     private lateinit var profileBtn: Button
     private lateinit var categoryButtonContainer: LinearLayout
-    private lateinit var searchET: EditText
+    private lateinit var searchView: SearchView
 
     private val bookRepository = BookRepository()
     private lateinit var pageID: String
@@ -84,6 +87,14 @@ class HomeActivity : AppCompatActivity() {
 
 
         readerId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        FirebaseAuth.getInstance().addAuthStateListener { auth ->
+            val user = auth.currentUser
+            if (user != null) {
+                val readerId = user.uid
+
+            }
+        }
+
         pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         lifecycleScope.launch {
             val libraryCard = libraryCardRepository.getLatestLibraryCard(readerId)
@@ -98,6 +109,7 @@ class HomeActivity : AppCompatActivity() {
                 BookOperateCache.statusMap.putAll(pendingMap)
             }
 
+            Log.d("CURRENT_USER", readerId)
             val favBookList = favoriteRepository.getFavoriteBooksId(readerId)
             FavoriteCache.favoriteBookIds =
                 favBookList?.bookIdList?.toSet()?.toMutableSet() ?: mutableSetOf()
@@ -110,44 +122,43 @@ class HomeActivity : AppCompatActivity() {
         favoriteBtn = findViewById(R.id.favoriteBtn)
         profileBtn = findViewById(R.id.profileBtn)
         categoryButtonContainer = findViewById(R.id.categoryButtonContainer)
-        searchET = findViewById(R.id.searchET)
+        searchView = findViewById(R.id.searchView)
         loadActivity(pageID)
         handleMenuButton()
 
-        // Xử lý khi nhấn "Enter"/"Search"
-        searchET.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
-                val keyword = searchET.text.toString().trim()
-                if (keyword.isNotEmpty()) performSearch(keyword)
-                true
-            } else false
+        searchView.setOnClickListener {
+            // Làm gì đó khi toàn bộ SearchView được click
+            searchView.setIconified(false) // Để thanh tìm kiếm mở rộng ngay khi click
         }
 
-        // Xử lý khi chạm vào icon search (drawableEnd)
-        searchET.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                val drawableRight = 2 // vị trí drawableEnd
-                if (event.rawX >= (searchET.right - searchET.compoundDrawables[drawableRight].bounds.width())) {
-                    val keyword = searchET.text.toString().trim()
-                    if (keyword.isNotEmpty()) performSearch(keyword)
-                    return@setOnTouchListener true
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    performSearch(it)
                 }
+                return true
             }
-            false
-        }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Gọi nếu muốn lọc realtime
+                // performSearch(newText.orEmpty())
+                return false
+            }
+        })
     }
 
     private fun performSearch(keyword: String) {
         // Ẩn bàn phím
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(searchET.windowToken, 0)
-
+        imm.hideSoftInputFromWindow(searchView.windowToken, 0)
+        val loadingDialog = LoadingDialog(this)
+        loadingDialog.show()
         lifecycleScope.launch {
             try {
                 val searchResults: List<Book> = bookRepository.searchBooksByKeyword(keyword)
-
+                loadingDialog.dismiss()
                 if (searchResults.isEmpty()) {
-                    Toast.makeText(this@HomeActivity, "Không tìm thấy sách phù hợp.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@HomeActivity, "No matching books found", Toast.LENGTH_SHORT).show()
                 }
                 val fragment = SearchHome.newInstance(searchResults)
                 supportFragmentManager.beginTransaction()
@@ -155,8 +166,10 @@ class HomeActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             } catch (e: Exception) {
+                loadingDialog.dismiss()
                 e.printStackTrace()
-                Toast.makeText(this@HomeActivity, "Lỗi tìm kiếm: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.d("SEARCH", "Error: ${e.message}")
+                Toast.makeText(this@HomeActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
