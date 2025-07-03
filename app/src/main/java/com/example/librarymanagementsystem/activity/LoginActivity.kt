@@ -107,6 +107,7 @@ class LoginActivity : AppCompatActivity() {
 
                     val userRepository = UserRepository()
                     lifecycleScope.launch {
+
                         val userObject = userRepository.getUserByEmail(emailToUse)
 
                         if (userObject?.roleId == "reader") {

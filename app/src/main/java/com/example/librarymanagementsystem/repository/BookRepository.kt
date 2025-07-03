@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.repository
 
 import com.example.librarymanagementsystem.model.Book
 import com.google.firebase.firestore.AggregateSource
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -98,14 +99,59 @@ class BookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
     }
 
     suspend fun searchBooksByKeyword(keyword: String): List<Book> {
-        val db = FirebaseFirestore.getInstance()
-        val keywordLower = keyword.lowercase()
 
-        val snapshot = db.collection("books").get().await()
-        return snapshot.documents.mapNotNull { it.toObject(Book::class.java) }
-            .filter { book ->
-                book.title.contains(keywordLower, ignoreCase = true) ||
-                        (book.author?.contains(keywordLower, ignoreCase = true) == true)
+        val words = keyword
+            .lowercase()
+            .replace(Regex("[^a-zA-Z0-9\\sÀ-ỹ]"), "") // giữ lại tiếng Việt, số, chữ cái
+            .trim()
+            .split(Regex("\\s+"))
+            .filter { it.isNotBlank() }
+            .distinct() // loại trùng trước
+            .sortedByDescending { it.length }
+
+        if (words[0] == "")
+        {
+            return emptyList()
+        }
+        val snapshot = db.collectionGroup("keyword")
+            .whereEqualTo("word", words[0])
+            .get()
+            .await()
+
+        val parentDocs = snapshot.documents.mapNotNull { it.reference.parent.parent }
+
+        // Lấy dữ liệu các parent document (books)
+        val bookSnapshots: List<DocumentSnapshot> = parentDocs.map { it.get().await() }
+
+        if(words.size < 2) {
+            // Chuyển DocumentSnapshot sang Book
+            return bookSnapshots.mapNotNull { doc ->
+                if (doc.exists()) {
+                    doc.toObject(Book::class.java)
+                } else null
             }
+        }
+
+        val books = mutableListOf<Book>()
+        books.addAll(bookSnapshots.mapNotNull { doc ->
+            if (doc.exists()) {
+                doc.toObject(Book::class.java)
+            } else null
+        })
+        var filteredBooks = books.toMutableList()
+
+        for (i in 1..<words.size) {
+            filteredBooks = filteredBooks.filter { book ->
+                book.title.contains(words[i], ignoreCase = true) ||
+                        book.author!!.contains(words[i], ignoreCase = true)
+            }.toMutableList()
+
+            if (filteredBooks.isEmpty()) {
+                break
+            }
+        }
+        return filteredBooks
     }
+
+
 }

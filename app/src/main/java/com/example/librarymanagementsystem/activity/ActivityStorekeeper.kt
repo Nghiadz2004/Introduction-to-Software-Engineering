@@ -64,7 +64,7 @@ class ActivityStorekeeper : AppCompatActivity() {
     private fun loadActivity(pageID: String) {
         if (pageID == PROFILE_ID) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, ProfileFragment())
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -74,7 +74,7 @@ class ActivityStorekeeper : AppCompatActivity() {
 
         else if (pageID == STATISTIC_ID) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, StatisticFragment())
+                .replace(R.id.fragment_container, StatisticFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -116,7 +116,7 @@ class ActivityStorekeeper : AppCompatActivity() {
 
         statisticBtn.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, StatisticFragment())
+                .replace(R.id.fragment_container, StatisticFragment())
                 .addToBackStack(null)
                 .commit()
 
@@ -125,7 +125,7 @@ class ActivityStorekeeper : AppCompatActivity() {
 
         profileBtn.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.ofc_fragment_container, ProfileFragment())
+                .replace(R.id.fragment_container, ProfileFragment())
                 .addToBackStack(null)
                 .commit()
 
