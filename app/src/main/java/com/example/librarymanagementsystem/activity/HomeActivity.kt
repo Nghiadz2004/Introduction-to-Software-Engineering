@@ -28,6 +28,7 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
+import com.example.librarymanagementsystem.fragment.CategoryBooksFragment
 import com.example.librarymanagementsystem.fragment.HomeFragment
 import com.example.librarymanagementsystem.fragment.MyBookFragment
 import com.example.librarymanagementsystem.fragment.SearchHome
@@ -254,7 +255,7 @@ class HomeActivity : AppCompatActivity() {
                     compoundDrawablePadding = 12
 
                     setOnClickListener {
-                        // Xử lý khi click
+                        openCategoryFragment(categoryName)
                     }
                 }
 
@@ -341,5 +342,18 @@ class HomeActivity : AppCompatActivity() {
                 categoryButtonContainer.addView(button)
             }
         }
+    }
+
+    private fun openCategoryFragment(category: String) {
+        val fragment = CategoryBooksFragment().apply {
+            arguments = Bundle().apply {
+                putString("category", category)
+            }
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
