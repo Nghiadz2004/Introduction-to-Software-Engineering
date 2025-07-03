@@ -19,6 +19,7 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -84,10 +85,13 @@ class CardRequestAdapter(
             try {
                 libraryCardManager.approveCardRequestBatch(item, uid!!)
             } catch (e: Exception) {
-                e.printStackTrace() // hoặc xử lý lỗi khác nếu cần
+                e.printStackTrace()
+            }
+
+            withContext(Dispatchers.Main) {
+                removeItem(item)
             }
         }
-        removeItem(item)
     }
 
     fun rejectItem(item: CardRequest) {
@@ -96,9 +100,12 @@ class CardRequestAdapter(
                 val cardRequestRepository = CardRequestRepository()
                 cardRequestRepository.updateRequestStatus(item.id!!, RequestStatus.REJECTED)
             } catch (e: Exception) {
-                e.printStackTrace() // hoặc xử lý lỗi khác nếu cần
+                e.printStackTrace()
             }
-            removeItem(item)
+
+            withContext(Dispatchers.Main) {
+                removeItem(item)
+            }
         }
     }
 
