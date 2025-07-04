@@ -3,6 +3,7 @@ package com.example.librarymanagementsystem.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.R
 
@@ -18,7 +19,7 @@ class WelcomeActivity : AppCompatActivity() {
         loginByUsername = findViewById(R.id.loginByUsername)
         loginByGoogle = findViewById(R.id.loginByGoogle)
         register = findViewById(R.id.register)
-
+        Log.d("WELCOME_ACTIVITY", "onCreate called")
         loginByUsername.setOnClickListener {
             startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
         }

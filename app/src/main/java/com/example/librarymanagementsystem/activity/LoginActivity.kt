@@ -100,17 +100,18 @@ class LoginActivity : AppCompatActivity() {
 
                 try {
                     auth.signInWithEmailAndPassword(emailToUse!!, password).await()
-                    sharedPref.edit().putBoolean("remember_me", rememberMeCheckbox.isChecked).apply()
                     errorMessage.text = "Login successfully! Please wait..."
                     errorMessage.visibility = View.VISIBLE
                     loadingDialog.dismiss()
 
+                    sharedPref.edit().putBoolean("remember_me", rememberMeCheckbox.isChecked).apply()
                     val userRepository = UserRepository()
                     lifecycleScope.launch {
 
                         val userObject = userRepository.getUserByEmail(emailToUse)
 
                         if (userObject?.roleId == "reader") {
+                            Log.d("Login user", userObject.id!!)
                             startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         } else if (userObject?.roleId == "librarian") {
                             startActivity(Intent(this@LoginActivity, ActivityLibrarian::class.java))

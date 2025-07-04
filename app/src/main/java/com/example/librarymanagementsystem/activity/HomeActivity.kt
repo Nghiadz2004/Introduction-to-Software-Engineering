@@ -8,8 +8,6 @@ import android.graphics.Canvas
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -86,35 +84,33 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-        readerId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
-        FirebaseAuth.getInstance().addAuthStateListener { auth ->
-            val user = auth.currentUser
-            if (user != null) {
-                val readerId = user.uid
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            readerId = user.uid
+            Log.d("CURRENT_USER", readerId)
+            lifecycleScope.launch {
+                val libraryCard = libraryCardRepository.getLatestLibraryCard(readerId)
+                if (libraryCard != null) {
+                    val pendingBorrowList = RequestBorrowRepository().getReaderPendingRequests(libraryCard.requestId)
+                    val pendingMap = pendingBorrowList.associate { it.bookId to "PENDING" }
 
+                    val borrowingList  = BorrowingRepository().getBorrowBooksByCardAndStatus(libraryCard.requestId, BorrowStatus.BORROWED.name)
+                    val borrowingMap = borrowingList.associate { it.bookId!! to "BORROWED" }
+
+                    BookOperateCache.statusMap.putAll(borrowingMap)
+                    BookOperateCache.statusMap.putAll(pendingMap)
+                }
+
+                val favBookList = favoriteRepository.getFavoriteBooksId(readerId)
+                FavoriteCache.favoriteBookIds =
+                    favBookList?.bookIdList?.toSet()?.toMutableSet() ?: mutableSetOf()
+                LibraryCardCache.libraryCard = libraryCard
             }
         }
+
 
         pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
-        lifecycleScope.launch {
-            val libraryCard = libraryCardRepository.getLatestLibraryCard(readerId)
-            if (libraryCard != null) {
-                val pendingBorrowList = RequestBorrowRepository().getReaderPendingRequests(libraryCard.requestId)
-                val pendingMap = pendingBorrowList.associate { it.bookId to "PENDING" }
 
-                val borrowingList  = BorrowingRepository().getBorrowBooksByCardAndStatus(libraryCard.requestId, BorrowStatus.BORROWED.name)
-                val borrowingMap = borrowingList.associate { it.bookId!! to "BORROWED" }
-
-                BookOperateCache.statusMap.putAll(borrowingMap)
-                BookOperateCache.statusMap.putAll(pendingMap)
-            }
-
-            Log.d("CURRENT_USER", readerId)
-            val favBookList = favoriteRepository.getFavoriteBooksId(readerId)
-            FavoriteCache.favoriteBookIds =
-                favBookList?.bookIdList?.toSet()?.toMutableSet() ?: mutableSetOf()
-            LibraryCardCache.libraryCard = libraryCard
-        }
 
         // Ánh xạ view
         homeBtn = findViewById(R.id.homeBtn)

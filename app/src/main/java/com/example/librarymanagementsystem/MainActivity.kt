@@ -27,43 +27,28 @@ class MainActivity : AppCompatActivity() {
         val rememberMe = sharedPref.getBoolean("remember_me", false)
 
         // Sử dụng onAuthStateChangedListener để đảm bảo Firebase Auth đã sẵn sàng
-        auth.addAuthStateListener { firebaseAuth ->
-            val currentUser = firebaseAuth.currentUser
-            Log.d("MainActivity", "Current user in listener: $currentUser")
-
-            if (currentUser == null || !rememberMe) {
-                // Nếu không có người dùng đăng nhập hoặc "Remember Me" không được chọn,
-                // đảm bảo đăng xuất (nếu có user nào đó còn sót lại) và chuyển về WelcomeActivity
-                if (currentUser != null) { // Chỉ signOut nếu có currentUser hiện tại
-                    firebaseAuth.signOut()
-                }
-                startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
-                finish()
-            } else {
+        val currentUser = auth.currentUser
+        Log.d("Current user", "${currentUser.toString()} ${rememberMe}")
+        if ( currentUser == null || !rememberMe) {
+            auth.signOut()
+            startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
+            finish()
+        } else {
                 // Nếu có người dùng đăng nhập và "Remember Me" được chọn
                 val userRepository = UserRepository()
                 lifecycleScope.launch {
                     val userObject = userRepository.getUserById(currentUser.uid)
-                    when (userObject?.roleId) {
-                        "reader" -> {
-                            startActivity(Intent(this@MainActivity, HomeActivity::class.java))
-                        }
-                        "librarian" -> {
-                            startActivity(Intent(this@MainActivity, ActivityLibrarian::class.java))
-                        }
-                        "storekeeper" -> {
-                            startActivity(Intent(this@MainActivity, ActivityStorekeeper::class.java))
-                        }
-                        else -> {
-                            // Xử lý trường hợp roleId không xác định hoặc null
-                            // Có thể chuyển về LoginActivity hoặc WelcomeActivity
-                            firebaseAuth.signOut() // Đăng xuất nếu không xác định được vai trò
-                            startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
-                        }
+                    if (userObject?.roleId == "reader") {
+                        startActivity(Intent(this@MainActivity, HomeActivity::class.java))
+                    }
+                    else if (userObject?.roleId == "librarian") {
+                        startActivity(Intent(this@MainActivity, ActivityLibrarian::class.java))
+                    }
+                    else{
+                        startActivity(Intent(this@MainActivity, ActivityStorekeeper::class.java))
                     }
                     finish()
                 }
             }
-        }
     }
 }
