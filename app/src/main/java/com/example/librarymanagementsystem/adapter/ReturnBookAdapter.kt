@@ -78,6 +78,7 @@ class ReturnBookAdapter(
                 // Reload lại adapter hoặc update UI
                 onReturnChanged()
                 loadingDialog.dismiss()
+                Toast.makeText(context, "Đánh dấu sách đã trả thành công", Toast.LENGTH_SHORT).show()
             }
 
         }

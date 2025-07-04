@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.ErrorDialog
+import com.example.librarymanagementsystem.fragment.AddBookFragment
 import com.example.librarymanagementsystem.fragment.LibrarianHomeFragment
 import com.example.librarymanagementsystem.fragment.StorekeeperHomeFragment
 import com.example.librarymanagementsystem.repository.BookRepository
+import com.google.firebase.auth.FirebaseAuth
 
 private const val HOME_ID = "HOME"
 private const val TRANSACTION_ID = "TRANSACTION"
@@ -27,6 +29,9 @@ class StorekeeperHomeActivity: AppCompatActivity() {
     private lateinit var errorDialog: ErrorDialog
     private lateinit var userID: String
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var authListener: FirebaseAuth.AuthStateListener
+
     private lateinit var homeBtn: Button
     private lateinit var transactionBtn: Button
     private lateinit var statisticBtn: Button
@@ -41,14 +46,28 @@ class StorekeeperHomeActivity: AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_storekeeper_home)
 
-        userID = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
-        if (userID == null) {
+        val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
             Log.e("StorekeeperHomeActivity", "User not logged in.")
             //Navigate to login
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish() // Đóng activity hiện tại nếu không cần giữ lại
         }
+        userID = currentUser!!.uid
+
+//        auth = FirebaseAuth.getInstance()
+//
+//        authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+//            val user = firebaseAuth.currentUser
+//            if (user != null) {
+//                userID = user.uid
+//                // Tiếp tục xử lý bình thường
+//            } else {
+//                startActivity(Intent(this, LoginActivity::class.java))
+//                finish()
+//            }
+//        }
 
         // Initialize book repository
         bookRepository = BookRepository()
@@ -83,12 +102,44 @@ class StorekeeperHomeActivity: AppCompatActivity() {
         handleMenuButton()
     }
 
+//    override fun onStart() {
+//        super.onStart()
+//        auth.addAuthStateListener(authListener)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        auth.removeAuthStateListener(authListener)
+//    }
+
     private fun switchFragment(fragmentId: String) {
-        // Kiểm tra nếu currentFragment là AllBookFragment và có cùng ID thì không làm gì
+        Log.d("StorekeeperHomeActivity", "Switching to fragment: $fragmentId")
         if (currentFragment is StorekeeperHomeFragment &&
-            (currentFragment as StorekeeperHomeFragment).getFragmentId() == fragmentId) {
+            (currentFragment as? StorekeeperHomeFragment)?.getFragmentId() == fragmentId) {
             return
         }
+        Log.d("StorekeeperHomeActivity", "Switching to fragment success")
+
+        val fragment: Fragment = when (fragmentId) {
+            ALLBOOK_ID -> StorekeeperHomeFragment().apply {
+                arguments = Bundle().apply {
+                    putString("FRAGMENT_ID", ALLBOOK_ID)
+                }
+            }
+            ADDBOOK_ID -> AddBookFragment()
+            else -> StorekeeperHomeFragment().apply {
+                arguments = Bundle().apply {
+                    putString("FRAGMENT_ID", ALLBOOK_ID)
+                }
+            }
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fgManageBook, fragment)
+            .addToBackStack(null)
+            .commit()
+
+        currentFragment = fragment
     }
 
     private fun handleMenuButton() {

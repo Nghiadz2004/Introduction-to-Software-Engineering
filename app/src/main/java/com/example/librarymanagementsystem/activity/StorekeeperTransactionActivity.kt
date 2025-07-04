@@ -44,8 +44,10 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_manage_transaction)
 
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
-        auth = Firebase.auth
-        userID = auth.currentUser!!.uid
+
+        val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        userID = currentUser!!.uid
+
         homeBtn = findViewById(R.id.libHomeBtn)
         transactionBtn = findViewById(R.id.libTransBtn)
         statisticBtn = findViewById(R.id.libStatBtn)
