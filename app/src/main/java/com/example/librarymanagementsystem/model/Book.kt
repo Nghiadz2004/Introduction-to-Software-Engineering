@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class Book(
     @DocumentId // Nếu bạn đang làm việc với Firestore và muốn ID tài liệu trùng với thuộc tính này
     val id: String? = null,
-    val cover: String? = null,
+    var cover: String? = null,
     val title: String = "", // title varchar(100) [not null]
     val category: String = "",
     val summary: String? = null,

@@ -24,22 +24,16 @@ private const val ALLBOOK_ID = "ALLBOOK"
 private const val ADDBOOK_ID = "ADDBOOK"
 
 class StorekeeperHomeFragment : Fragment() {
-    // Khởi tạo Recycler View
     private lateinit var recyclerView: RecyclerView
+    private var addBookFragment: AddBookFragment? = null
 
-    // Khởi tạo biến lưu ID của fragment
-    private var fragmentId: String = ALLBOOK_ID  // hoặc nullable tùy ý
+    private var fragmentId: String = ALLBOOK_ID
 
-    // Khởi tạo biến lưu adapter hiện tại
     private var currentAdapter: RecyclerView.Adapter<*>? = null
 
-    // Khởi tạo các adapter hỗ trợ hiển thị các danh sách
     private lateinit var bookAdapter: BookAdapter
 
-    // Khởi tạo các biến repos để lấy dữ liệu
     private var bookRepository = BookRepository()
-
-    private lateinit var userID: String
 
     private lateinit var loadingDialog: LoadingDialog
 
@@ -54,27 +48,21 @@ class StorekeeperHomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_officer_home, container, false)
 
-        // Khởi tạo RecyclerView
-        recyclerView = view.findViewById<RecyclerView>(R.id.librarianHomeRV)
+        recyclerView = view.findViewById(R.id.librarianHomeRV)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Lấy userID của người dùng hiện tại
-        val user = Firebase.auth.currentUser
-        if (user == null) {
-            Log.e("MyBookFragment", "User not logged in.")
-            return view
-        }
+//        val user = Firebase.auth.currentUser
+//        if (user == null) {
+//            Log.e("StorekeeperHomeFragment", "User not logged in.")
+//            return view
+//        }
 
-        // Khởi tạo loading dialog
         loadingDialog = LoadingDialog(requireContext())
 
-//        val fragmentId = getFragmentId()
-//        if (fragmentId == ALLBOOK_ID) {
-//            loadAllBook()
-//        } else if (fragmentId == ADDBOOK_ID) {
-//            loadAddBook()
-//
-        loadAllBook()
+        when (getFragmentId()) {
+            ALLBOOK_ID -> loadAllBook()
+            ADDBOOK_ID -> loadAddBook()
+        }
 
         return view
     }
@@ -83,30 +71,24 @@ class StorekeeperHomeFragment : Fragment() {
         return fragmentId
     }
 
-    // Hàm load dữ liệu cho danh sách AllBooks
     private fun loadAllBook() {
         viewLifecycleOwner.lifecycleScope.launch {
             loadingDialog.show()
             try {
                 val allBooks: List<Book> = bookRepository.getBooks()
 
-                // Khởi tạo adapter, xử lý click vào sách
                 bookAdapter = BookAdapter(
                     allBooks,
-                    // Xử lý click vào sách
                     onItemClick = { item ->
                         val intent = Intent(requireContext(), ActivityDetailBook::class.java).apply {
                             putExtra("book", item)
                         }
                         startActivity(intent)
                     },
-                    // Xử lý nút xoá sách
                     onRemove = { item ->
                         lifecycleScope.launch {
                             try {
-                                // Xoá item book ra khỏi adapter
                                 bookAdapter.removeItem(item)
-
                             } catch (e: Exception) {
                                 Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}")
                             }
@@ -125,21 +107,10 @@ class StorekeeperHomeFragment : Fragment() {
         }
     }
 
-    // Hàm để hiển thị danh sách all book
-    private fun showAllBooks() {
-//        recyclerView.visibility = View.VISIBLE
-//        binding.fragmentContainer.visibility = View.GONE
-        // Load dữ liệu như bình thường
-        loadAllBook()
+    private fun loadAddBook() {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_add_book, AddBookFragment())
+            .addToBackStack(null)
+            .commit()
     }
-
-    // Hàm để hiển thị AddBook fragment
-//    private fun showAddBook() {
-//        recyclerView.visibility = View.GONE
-//        binding.fragmentContainer.visibility = View.VISIBLE
-//
-//        parentFragmentManager.beginTransaction()
-//            .replace(R.id.fragmentContainer, AddBookFragment())
-//            .commit()
-//    }
 }
