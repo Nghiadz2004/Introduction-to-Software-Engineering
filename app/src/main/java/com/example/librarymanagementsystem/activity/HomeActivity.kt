@@ -42,6 +42,7 @@ import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import com.example.librarymanagementsystem.fragment.HomeSearchFragment
 
 // Home menu id
 private const val HOME_ID = "HOME"
@@ -156,11 +157,17 @@ class HomeActivity : AppCompatActivity() {
                 if (searchResults.isEmpty()) {
                     Toast.makeText(this@HomeActivity, "No matching books found", Toast.LENGTH_SHORT).show()
                 }
-                val fragment = SearchHome.newInstance(searchResults)
+//                val fragment = SearchHome.newInstance(searchResults)
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.fragmentContainer, fragment)
+//                    .addToBackStack(null)
+//                    .commit()
+                val fragment = HomeSearchFragment.newInstance(searchResults)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit()
+
             } catch (e: Exception) {
                 loadingDialog.dismiss()
                 e.printStackTrace()
