@@ -3,14 +3,22 @@ package com.example.librarymanagementsystem.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.ErrorDialog
+import com.example.librarymanagementsystem.dialog.LoadingDialog
+import com.example.librarymanagementsystem.fragment.HomeSearchFragment
 import com.example.librarymanagementsystem.fragment.LibrarianHomeFragment
+import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
+import kotlinx.coroutines.launch
 
 private const val HOME_ID = "HOME"
 private const val TRANSACTION_ID = "TRANSACTION"
@@ -36,6 +44,7 @@ class LibrarianHomeActivity: AppCompatActivity() {
     private lateinit var btnAllBook: Button
     private lateinit var btnRdcard: Button
     private lateinit var btnAddRdcard: Button
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +76,7 @@ class LibrarianHomeActivity: AppCompatActivity() {
         btnAllBook = findViewById(R.id.mnbAllBookBtn)
         btnRdcard = findViewById(R.id.mnbRdcardBtn)
         btnAddRdcard = findViewById(R.id.mnbAddRdcardBtn)
+        searchView = findViewById(R.id.searchView)
 
         //Handle all book button
         btnAllBook.setOnClickListener {
@@ -87,6 +97,26 @@ class LibrarianHomeActivity: AppCompatActivity() {
         if (savedInstanceState == null) {
             switchFragment(ALLBOOK_ID)
         }
+
+        searchView.setOnClickListener {
+            // Làm gì đó khi toàn bộ SearchView được click
+            searchView.setIconified(false) // Để thanh tìm kiếm mở rộng ngay khi click
+        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    performSearch(it)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Gọi nếu muốn lọc realtime
+                // performSearch(newText.orEmpty())
+                return false
+            }
+        })
 
         handleMenuButton()
     }
@@ -110,6 +140,39 @@ class LibrarianHomeActivity: AppCompatActivity() {
             .commit()
 
         currentFragment = fragment
+    }
+
+    private fun performSearch(keyword: String) {
+        // Ẩn bàn phím
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(searchView.windowToken, 0)
+        val loadingDialog = LoadingDialog(this)
+        loadingDialog.show()
+        lifecycleScope.launch {
+            try {
+                val searchResults: List<Book> = bookRepository.searchBooksByKeyword(keyword)
+                loadingDialog.dismiss()
+                if (searchResults.isEmpty()) {
+                    Toast.makeText(this@LibrarianHomeActivity, "No matching books found", Toast.LENGTH_SHORT).show()
+                }
+//                val fragment = SearchHome.newInstance(searchResults)
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.fragmentContainer, fragment)
+//                    .addToBackStack(null)
+//                    .commit()
+                val fragment = HomeSearchFragment.newInstance(searchResults)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fgManageBook, fragment)
+                    .addToBackStack(null)
+                    .commit()
+
+            } catch (e: Exception) {
+                loadingDialog.dismiss()
+                e.printStackTrace()
+                Log.d("SEARCH", "Error: ${e.message}")
+                Toast.makeText(this@LibrarianHomeActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun handleMenuButton() {
