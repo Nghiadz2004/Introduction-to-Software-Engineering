@@ -9,13 +9,56 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
+fun tokenize(title: String, author: String): List<String> {
+    val text = "$title $author".lowercase()
+    val cleanText = text.replace(Regex("[^\\w\\sÀ-ỹ]"), "")
+    val words = cleanText.split("\\s+".toRegex())
+
+    return words
+        .distinct() // loại trùng nhưng giữ thứ tự xuất hiện đầu tiên
+        .sortedByDescending { it.length } // sắp xếp theo độ dài giảm dần
+}
+
+
 class BookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
 
     // Thêm một quyển sách mới vào cơ sở dữ liệu
     suspend fun addBook(book: Book): String = withContext(Dispatchers.IO) {
-        val docRef = db.collection("books").add(book).await()
-        docRef.id
+        // 1. Thêm document sách
+        val bookRef = db.collection("books").add(book).await()
+        val bookId = bookRef.id
+
+        // 2. Tạo batch để thêm các bản sao
+        val batch = db.batch()
+        val bookCopiesRef = bookRef.collection("book_copy")
+
+        for (i in 1..book.quantity!!) {
+            val copyRef = bookCopiesRef.document() // Auto-id
+            val copyData = mapOf(
+                "status" to "AVAILABLE"
+            )
+            batch.set(copyRef, copyData)
+        }
+
+        // 3. Thêm các từ khóa vào collection "keyword"
+        val keyword = tokenize(book.title, book.author!!)
+        val keywordRef = bookRef.collection("keyword")
+
+        for (word in keyword) {
+            val wordRef = keywordRef.document(word)
+            val wordData = mapOf(
+                "word" to word
+            )
+            batch.set(wordRef, wordData)
+        }
+
+        // 4. Commit batch
+        batch.commit().await()
+
+        // 5. Trả về id của book
+        bookId
     }
+
 
     // Lấy danh sách tất cả các sách (bản logic) có trong cơ sở dữ liệu
     suspend fun getBooks(): List<Book> = withContext(Dispatchers.IO) {

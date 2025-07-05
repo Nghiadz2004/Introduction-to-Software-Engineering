@@ -129,7 +129,7 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
         val updated = ReturnBookService().getAllReturnDisplays()
         recyclerView.adapter = ReturnBookAdapter(updated, onReturnChanged = {
             reloadReturnBooks(recyclerView)
-        })
+        }, false)
     }
 
     private fun setActiveTab(active: Button, others: List<Button>) {

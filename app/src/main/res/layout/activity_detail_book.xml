@@ -145,20 +145,6 @@
                         app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
                         app:layout_constraintTop_toBottomOf="@id/bdBookAuthor" />
 
-                    <!-- Series-->
-                    <TextView
-                        android:id="@+id/bdBookSeries"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Series: Harry Potter"
-                        android:textColor="@color/light_gray_2"
-                        android:textSize="20sp"
-                        android:textStyle="italic|bold"
-                        app:layout_constraintEnd_toEndOf="@id/bdInfoTextHolder"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@id/bdInfoTextHolder"
-                        app:layout_constraintTop_toBottomOf="@id/bdBookCategory" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

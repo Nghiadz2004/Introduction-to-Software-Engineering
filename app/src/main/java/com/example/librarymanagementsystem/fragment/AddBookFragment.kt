@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.service.ImageManager
@@ -110,6 +111,8 @@ class AddBookFragment : Fragment() {
                     summary = summary,
                 )
 
+                val loadingDialog = LoadingDialog(requireContext())
+                loadingDialog.show()
                 // Avatar upload
                 if (selectedAvatarUri != null) {
                     try {
@@ -122,11 +125,13 @@ class AddBookFragment : Fragment() {
                         newBook.cover = imageUrl
 
                         bookRepository.addBook(newBook)
+                        loadingDialog.dismiss()
                         clearForm()
                         Toast.makeText(context, "Book added successfully!", Toast.LENGTH_SHORT).show()
 
                     } catch (e: Exception) {
                         Log.e("UploadAvatar", "Lỗi khi cập nhật avatar", e)
+                        loadingDialog.dismiss()
                         Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_LONG)
                             .show()
                     }
@@ -135,9 +140,11 @@ class AddBookFragment : Fragment() {
                     try {
                         bookRepository.addBook(newBook)
                         clearForm()
+                        loadingDialog.dismiss()
                         Toast.makeText(context, "Book added successfully!", Toast.LENGTH_SHORT).show()
                     } catch (e: Exception) {
                         Log.e("UploadAvatar", "Lỗi khi cập nhật avatar", e)
+                        loadingDialog.dismiss()
                         Toast.makeText(requireContext(), "Lỗi: ${e.message}", Toast.LENGTH_LONG)
                             .show()
                     }

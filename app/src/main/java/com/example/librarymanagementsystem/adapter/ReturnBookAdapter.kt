@@ -18,7 +18,8 @@ import java.util.Date
 
 class ReturnBookAdapter(
     private val returnList: List<ReturnDisplay>,
-    private val onReturnChanged: suspend () -> Unit
+    private val onReturnChanged: suspend () -> Unit,
+    private val isLibrarian: Boolean = true
 ) :
     RecyclerView.Adapter<ReturnBookAdapter.ViewHolder>() {
 
@@ -62,6 +63,10 @@ class ReturnBookAdapter(
         holder.btnReturn.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 val context = holder.itemView.context // Lấy context đúng
+                if (!isLibrarian) {
+                    Toast.makeText(context, "You are not a librarian", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
                 val loadingDialog = LoadingDialog(context)
                 loadingDialog.show()
                 val borrow = item.borrow
@@ -78,7 +83,7 @@ class ReturnBookAdapter(
                 // Reload lại adapter hoặc update UI
                 onReturnChanged()
                 loadingDialog.dismiss()
-                Toast.makeText(context, "Đánh dấu sách đã trả thành công", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Mark as returned successfully", Toast.LENGTH_SHORT).show()
             }
 
         }
