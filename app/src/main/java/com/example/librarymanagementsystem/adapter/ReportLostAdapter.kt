@@ -17,7 +17,8 @@ import kotlinx.coroutines.launch
 class ReportLostAdapter(
     private val lostList: List<LostDisplay>,
     private val librarianId: String,
-    private val onLostChanged: suspend () -> Unit
+    private val onLostChanged: suspend () -> Unit,
+    private val isLibrarian: Boolean = true
 ) : RecyclerView.Adapter<ReportLostAdapter.LostViewHolder>() {
 
     inner class LostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -58,6 +59,10 @@ class ReportLostAdapter(
         holder.btnConfirm.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 val context = holder.itemView.context // Lấy context đúng
+                if (!isLibrarian) {
+                    Toast.makeText(context, "You are not a librarian", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
                 val loadingDialog = LoadingDialog(context)
                 loadingDialog.show()
                 ConfirmLostManager().confirmLostBook(
@@ -70,6 +75,7 @@ class ReportLostAdapter(
                 )
                 onLostChanged()
                 loadingDialog.dismiss()
+                Toast.makeText(context, "Lost confirmed successfully", Toast.LENGTH_SHORT).show()
             }
         }
     }

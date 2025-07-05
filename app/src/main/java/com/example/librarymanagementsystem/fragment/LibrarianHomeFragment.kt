@@ -148,12 +148,18 @@ class LibrarianHomeFragment : Fragment() {
                 // Khởi tạo adapter
                 libraryCardAdapter = LibraryCardAdapter(
                     libraryCards,
-                    // Xử lý xoá library card
-                    onRemove = { item ->
+                    onDeactivate = { item ->
                         lifecycleScope.launch {
                             try {
-                                // Xoá item library card ra khỏi adapter
-                                libraryCardAdapter.removeItem(item)
+                                val newStatus = if (item.status == "ACTIVE") "INACTIVE" else "ACTIVE"
+
+                                LibraryCardRepository().updateLibraryCard(item.requestId, newStatus)
+                                item.status = newStatus
+
+                                val index = libraryCards.indexOfFirst { it.requestId == item.requestId }
+                                if (index != -1) {
+                                    libraryCardAdapter.notifyItemChanged(index)
+                                }
 
                             } catch (e: Exception) {
                                 Log.e("REMOVE_REPORT_LOST", "Error: ${e.message}")
@@ -161,6 +167,7 @@ class LibrarianHomeFragment : Fragment() {
                         }
                     }
                 )
+
 
                 // Hiển thị danh sách LibraryCards
                 recyclerView.adapter = libraryCardAdapter

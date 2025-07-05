@@ -123,12 +123,24 @@ class ProfileFragment : Fragment() {
                     }
                 }
 
-                if (user!!.roleId != "librarian") {
+                if (user!!.roleId == "reader") {
                     val libraryCard = LibraryCardCache.libraryCard
                     val dueDate = LibraryCardManager().getDueDate(libraryCard!!.createdAt!!)
 
                     if (dueDate >= Date()) {
-                        wrapper.visibility = View.GONE
+                        if (libraryCard.status == "ACTIVE") {
+                            wrapper.visibility = View.GONE
+                            statusIV.setColorFilter(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.green
+                                )
+                            )
+                        }
+                        else
+                        {
+                            registerBtn.visibility = View.GONE
+                        }
                         fullNameTV.text = libraryCard.fullName
                         emailTV.text = libraryCard.email
                         addressTV.text = libraryCard.address
@@ -136,12 +148,7 @@ class ProfileFragment : Fragment() {
                         birthdayTV.text = formatDate(libraryCard.birthday)
                         dueDateTV.text =
                             formatDate(LibraryCardManager().getDueDate(libraryCard.createdAt!!))
-                        statusIV.setColorFilter(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.green
-                            )
-                        )
+
                         statusTV.text = libraryCard.status
                     }
                     else

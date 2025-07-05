@@ -47,12 +47,17 @@ class MyBookManager(
         val borrowList = borrowingRepository.getBorrowBooksByCardAndStatus(card.requestId,BorrowStatus.BORROWED.name)
 
         val bookIds = borrowList.map { it.bookId!! }
-        val books = bookRepository.getBooksByIds(bookIds)
-
         // 1. Thêm (hoặc ghi đè) tất cả phần tử trong bookIds với value = "BORROWED"
         for (id in bookIds) {
-            BookOperateCache.statusMap[id] = "BORROWED"
+            if (BookOperateCache.statusMap[id] == "PENDING") {
+                BookOperateCache.statusMap[id] = "BORROWED"
+            }
         }
+
+        val books = bookRepository.getBooksByIds(
+            BookOperateCache.statusMap.filter { it.value == "BORROWED" }
+            .keys
+            .toList())
 
         // 2. Xoá tất cả phần tử có value == "BORROWED" mà không nằm trong bookIds
         BookOperateCache.statusMap.entries.removeIf { (key, value) ->

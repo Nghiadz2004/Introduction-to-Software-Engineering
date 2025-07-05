@@ -91,8 +91,8 @@ class BorrowBookManager (
      * @param readerId  ID của độc giả
      * @return          true nếu ĐK còn mượn được, false nếu đã vượt giới hạn
      */
-    suspend fun canBorrowMore(readerId: String): CheckResult = withContext(Dispatchers.IO) {
-        val todayTime = fetchServerTime()
+    suspend fun canBorrowMore(readerId: String, todayTime: Date?): CheckResult = withContext(Dispatchers.IO) {
+
         val fourDaysAgo = if (todayTime != null) {
             val calendar = Calendar.getInstance()
             calendar.time = todayTime
@@ -140,7 +140,7 @@ class BorrowBookManager (
         CheckResult(ok = true)
     }
 
-    suspend fun isLibraryCardValid(readerId: String): CheckResult = withContext(Dispatchers.IO) {
+    suspend fun isLibraryCardValid(readerId: String, now: Date): CheckResult = withContext(Dispatchers.IO) {
         val card = LibraryCardCache.libraryCard
 
         Log.d("BorrowBookManager", "checkCard: ${card}")
@@ -148,8 +148,6 @@ class BorrowBookManager (
         if (card == null) {
             return@withContext CheckResult(false, "Please register for a library card before borrowing books")
         }
-
-        val now = Timestamp.now().toDate()
 
         if (card.getDueDate() <= now) {
             return@withContext CheckResult(false, "Your library card has expired. Please register for a new one")
@@ -168,8 +166,9 @@ class BorrowBookManager (
 
     suspend fun checkBorrowEligibility(readerId: String): CheckResult = coroutineScope {
         try {
-            val card   = async { isLibraryCardValid(readerId) }
-            val limit  = async { canBorrowMore(readerId) }
+            val todayTime = fetchServerTime()
+            val card   = async { isLibraryCardValid(readerId, todayTime!!) }
+            val limit  = async { canBorrowMore(readerId, todayTime) }
 
             // 1. Thẻ
             val cardRes = card.await()

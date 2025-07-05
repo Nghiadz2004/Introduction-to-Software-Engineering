@@ -36,9 +36,10 @@ class QueueService(
             val book = bookMap[request.bookId] ?: return@mapNotNull null
             val user = userMap[request.readerId] ?: return@mapNotNull null
             val copyLeft = availableCopies[book.id] ?: 0
+            val now = fetchServerTime()
 
             val canApprove = copyLeft > 0 &&
-                    borrowService.canBorrowMore(request.readerId).ok
+                    borrowService.canBorrowMore(request.readerId, now).ok
 
             QueueDisplay(
                 coverUrl = book.cover,

@@ -326,6 +326,7 @@
                     android:backgroundTint="@color/light_blue"
                     android:fontFamily="@font/inter_font"
                     android:hint="Enter price"
+                    android:inputType="number"
                     android:paddingStart="16dp"
                     android:textColor="@color/white"
                     android:textSize="16sp"

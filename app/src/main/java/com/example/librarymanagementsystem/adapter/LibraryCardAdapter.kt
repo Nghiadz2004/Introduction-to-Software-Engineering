@@ -5,16 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.LibraryCard
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date
+import kotlinx.coroutines.withContext
 
 class LibraryCardAdapter(
     items: List<LibraryCard>,
-    private val onRemove: (LibraryCard) -> Unit,
+    private val onDeactivate: (LibraryCard) -> Unit,
 ) : RecyclerView.Adapter<LibraryCardAdapter.LibraryCardViewHolder>() {
 
     // Chuyển thành MultableList để thực hiện các thao tác thêm/xoá/sửa
@@ -53,8 +55,17 @@ class LibraryCardAdapter(
         holder.issueDateTV.text  = "Created at: ${formatDate(card.createdAt!!)}"
         holder.dueDateTV.text    = "Due Date: ${formatDate(card.getDueDate())}"
         holder.statusTV.text     = "Status: ${card.status}"
+        val context = holder.itemView.context
+        if (card.status == "INACTIVE") {
+            holder.btnRemove.text = "Activate"
+            holder.btnRemove.backgroundTintList = ContextCompat.getColorStateList(context, R.color.green)
+        } else {
+            holder.btnRemove.text = "Deactivate"
+            holder.btnRemove.backgroundTintList = ContextCompat.getColorStateList(context, R.color.red)
+        }
+
         holder.btnRemove.setOnClickListener {
-            onRemove(card)
+            onDeactivate(card)
         }
     }
 

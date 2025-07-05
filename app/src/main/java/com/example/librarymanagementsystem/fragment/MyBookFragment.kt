@@ -120,7 +120,7 @@ class MyBookFragment : Fragment() {
                                         borrow.bookId!!,
                                         borrow.copyId!!
                                     )
-                                    BookOperateCache.statusMap.remove(item.book.id)
+                                    BookOperateCache.statusMap[item.book.id!!] = "PENDING_LOST"
                                     // Remove from recycle view
                                     (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
@@ -136,7 +136,8 @@ class MyBookFragment : Fragment() {
                                         item.book.id!!,
                                         userID
                                     )
-                                    BookOperateCache.statusMap[item.book.id] = "BORROWED"
+
+                                    BookOperateCache.statusMap.remove(item.book.id)
                                     // Remove from recycle view
                                     (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 
@@ -154,7 +155,7 @@ class MyBookFragment : Fragment() {
                                         item.book.id!!,
                                         userID
                                     )
-
+                                    BookOperateCache.statusMap[item.book.id] = "BORROWED"
                                     // Remove from recycle view
                                     (recycleView.adapter as? MyBookAdapter)?.removeItem(item)
 

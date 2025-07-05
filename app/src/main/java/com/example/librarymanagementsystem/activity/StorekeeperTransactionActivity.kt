@@ -111,7 +111,7 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 reloadQueueBooks(recyclerView, userId)
             }
-        })
+        }, false)
     }
 
     private suspend fun reloadLostReports(recyclerView: RecyclerView, librarianId: String, loadingDialog: LoadingDialog) {
@@ -121,7 +121,8 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
             librarianId = librarianId,
             onLostChanged = {
                 reloadLostReports(recyclerView, librarianId, loadingDialog)
-            }
+            },
+            false
         )
     }
 

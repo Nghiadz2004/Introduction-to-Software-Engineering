@@ -75,4 +75,11 @@ class LibraryCardRepository(private val db: FirebaseFirestore = FirebaseFirestor
             .await()
             .toObjects(LibraryCard::class.java)
     }
+
+    suspend fun updateLibraryCard(cardId: String, status: String) = withContext(Dispatchers.IO) {
+        db.collection("library_cards")
+            .document(cardId)
+            .update("status", status)
+            .await()
+    }
 }

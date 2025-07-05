@@ -39,7 +39,7 @@ class LoanService(
 
         Log.d("LOAN_SERVICE","${bookMap.size} ${userMap.size}")
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        val today = Date()
+
 
         return@withContext borrows.mapNotNull { borrow ->
             val book = bookMap[borrow.bookId] ?: return@mapNotNull null
@@ -47,8 +47,17 @@ class LoanService(
             val librarian = librarianMap[borrow.librarianId] ?: return@mapNotNull null
 
             val dueDate = borrow.expectedReturnDate!!
-            val daysDiff = ((dueDate.time - today.time) / (1000 * 60 * 60 * 24)).toInt()
-            val status = if (daysDiff >= 0) "$daysDiff days left" else "overdue ${-daysDiff} days"
+
+            val status: String = when (borrow.status) {
+                "BORROWED" -> {
+                    val today = Date()
+                    val daysDiff = ((dueDate.time - today.time) / (1000 * 60 * 60 * 24)).toInt()
+                    if (daysDiff >= 0) "$daysDiff days left" else "overdue ${-daysDiff} days"
+                }
+                "LOST" -> "Lost"
+                else -> "Returned on ${dateFormat.format(borrow.actualReturnDate!!)}"
+            }
+
 
             LoanDisplay(
                 borrow = borrow,

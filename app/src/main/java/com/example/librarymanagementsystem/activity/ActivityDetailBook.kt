@@ -217,7 +217,12 @@ class ActivityDetailBook : AppCompatActivity() {
         }
 
         if (BookOperateCache.statusMap.containsKey(bookID)) {
-            btnBorrow.text = BookOperateCache.statusMap[bookID]
+            if (BookOperateCache.statusMap[bookID] == "PENDING_LOST") {
+                btnBorrow.text = "BORROWED"
+            }
+            else {
+                btnBorrow.text = BookOperateCache.statusMap[bookID]
+            }
         }
 
         btnBorrow.setOnClickListener {
@@ -229,7 +234,7 @@ class ActivityDetailBook : AppCompatActivity() {
             }
 
             // Xử lý trường hợp sách đã mượn
-            val isBorrowed = BookOperateCache.statusMap[bookID] == "BORROWED"
+            val isBorrowed = BookOperateCache.statusMap[bookID] == "BORROWED" || BookOperateCache.statusMap[bookID] == "PENDING_LOST"
             if (isBorrowed) {
                 return@setOnClickListener
             }
@@ -242,7 +247,7 @@ class ActivityDetailBook : AppCompatActivity() {
                     RequestBorrowRepository()
                         .cancelPendingRequest(
                             bookID,
-                            card!!.readerId)
+                            card.readerId)
 
                     BookOperateCache.statusMap.remove(bookID)
                     btnBorrow.text = "BORROW"
