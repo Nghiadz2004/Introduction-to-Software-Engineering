@@ -1,7 +1,7 @@
 package com.example.librarymanagementsystem.model
 
-import com.google.firebase.firestore.DocumentId // Giả sử bạn đang dùng Firestore
-import java.util.Date // Để sử dụng kiểu Date cho created_at
+import com.google.firebase.firestore.DocumentId
+import java.util.Date
 
 enum class UserStatus(val value: String) {
     ACTIVE("ACTIVE"),
@@ -16,8 +16,8 @@ enum class UserStatus(val value: String) {
 }
 
 data class User(
-    @DocumentId // Nếu bạn đang làm việc với Firestore và muốn ID tài liệu trùng với thuộc tính này
-    val id: String? = null, // id integer [primary key, increment] -> Có thể null khi thêm mới
+    @DocumentId
+    val id: String? = null,
     var username: String = "", // username varchar(50) [not null, unique]
     var birthday: Date, // password varchar(50) [not null]
     val fullname: String, // fullname varchar(50)

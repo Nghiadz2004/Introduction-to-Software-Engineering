@@ -6,7 +6,7 @@ import java.util.Date
 
 data class BorrowRequest(
     @DocumentId
-    val id: String? = null, // Firestore document ID nếu bạn cần
+    val id: String? = null,
     val libraryCardId: String = "",
     val readerId: String = "",
     val bookId: String = "",
@@ -14,9 +14,8 @@ data class BorrowRequest(
     @ServerTimestamp
     val borrowDate: Date? = null,
     val daysBorrow: Int = 1,
-    val status: String = RequestStatus.PENDING.value // Lưu dưới dạng string
+    val status: String = RequestStatus.PENDING.value
 ) {
-    // Constructor không tham số cần thiết cho Firestore
     constructor() : this(
         id = null,
         libraryCardId = "",

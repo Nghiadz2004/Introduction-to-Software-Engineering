@@ -1,12 +1,12 @@
 package com.example.librarymanagementsystem.model
 
-import com.google.firebase.firestore.DocumentId // Tùy chọn: Nếu bạn dùng Firestore
+import com.google.firebase.firestore.DocumentId
 
 data class Fine(
     @DocumentId
-    val requestId: String = "", // request_id integer [not null]
-    val readerId: String = "", // reader_id integer [not null, unique]
-    val fineAmount: Int = 0, // fine_amount integer [not null]
+    val requestId: String = "",
+    val readerId: String = "",
+    val fineAmount: Int = 0,
     val copyId: String = "",
     val bookId: String = "",
     val reason: String = "",
