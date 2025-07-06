@@ -16,11 +16,11 @@ Bạn có thể tải xuống file APK tại đây:
 
 ### 1. Trên thiết bị Android
 
-1. Nhấn vào link \*\*Download APK\*\* ở trên.
+1. Nhấn vào link **Download APK** ở trên.
 
-2. Khi được hỏi, chọn \*\*Tải xuống (Download)\*\*.
+2. Khi được hỏi, chọn **Tải xuống (Download)**.
 
-3. Sau khi tải xong, mở file APK từ \*\*thanh thông báo\*\* hoặc \*\*trình quản lý file\*\*.
+3. Sau khi tải xong, mở file APK từ **thanh thông báo** hoặc **trình quản lý file**.
 
 4. Có thể sẽ hiện cảnh báo "Cài đặt từ nguồn không xác định", hãy làm như sau:
 
