@@ -8,7 +8,7 @@
 
 Bạn có thể tải xuống file APK tại đây:
 
-📥 **[Download APK](https://drive.google.com/file/d/1BoJnN\_LpFZ-sqaZPdgI3L5EudszriaT2/view?usp=sharing)**  
+📥 **[Download APK](https://drive.google.com/file/d/1bHJ9QWCwYCrUI8NEJi3LB5MbCylxfmdd/view?usp=sharing)**  
 
 ---
 
