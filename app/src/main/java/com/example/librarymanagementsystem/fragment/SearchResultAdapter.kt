@@ -18,17 +18,11 @@ class SearchResultAdapter(
         private val titleTV: TextView = itemView.findViewById(R.id.bookTitleTV)
         private val authorTV: TextView = itemView.findViewById(R.id.bookAuthorTV)
         private val categoryTV: TextView = itemView.findViewById(R.id.bookCategoryTV)
-        private val dueTV: TextView = itemView.findViewById(R.id.bookDueDateLeftTV)
-        private val bookImg: ImageView = itemView.findViewById(R.id.bookImg)
 
         fun bind(book: Book) {
             titleTV.text = book.title ?: "No title"
             authorTV.text = book.author ?: "Unknown"
             categoryTV.text = book.category ?: "Unknown"
-
-
-            // Nếu bạn có dùng ảnh từ link thì dùng Glide/Picasso để load
-            // Glide.with(itemView).load(book.imageUrl).into(bookImg)
 
             itemView.setOnClickListener {
                 onItemClick(book)
@@ -40,15 +34,13 @@ class SearchResultAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_book_grid, parent, false)
 
-// ⚠️ Chia đúng chiều rộng để hiển thị 3 item 1 hàng
+        // Chia đúng chiều rộng để hiển thị 3 item 1 hàng
         val layoutParams = view.layoutParams
         layoutParams.width = parent.measuredWidth / 3
         view.layoutParams = layoutParams
 
-
         return BookViewHolder(view)
     }
-
 
     override fun getItemCount(): Int = books.size
 

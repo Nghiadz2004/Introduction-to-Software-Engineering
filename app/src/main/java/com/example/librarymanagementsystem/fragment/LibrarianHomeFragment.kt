@@ -50,8 +50,6 @@ class LibrarianHomeFragment : Fragment() {
     private var libraryCardRepository = LibraryCardRepository()
     private var cardRequestRepository = CardRequestRepository()
 
-    private lateinit var userID: String
-
     private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {

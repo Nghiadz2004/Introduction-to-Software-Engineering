@@ -73,7 +73,6 @@ class StatisticFragment : Fragment() {
         // Initiate LoadingDialog
         loadingDialog = LoadingDialog(requireContext())
 
-
         loadStatistic()
 
         return view
@@ -179,27 +178,6 @@ class StatisticFragment : Fragment() {
             // Dismiss dialog
             loadingDialog.dismiss()
         }
-    }
-
-    private fun groupSmallSlicesIntoOthers(entries: List<PieEntry>, thresholdPercent: Float = 5f): List<PieEntry> {
-        val total = entries.sumOf { it.value.toDouble() }.toFloat()
-        val mainEntries = mutableListOf<PieEntry>()
-        var othersValue = 0f
-
-        for (entry in entries) {
-            val percent = (entry.value / total) * 100f
-            if (percent < thresholdPercent) {
-                othersValue += entry.value
-            } else {
-                mainEntries.add(entry)
-            }
-        }
-
-        if (othersValue > 0f) {
-            mainEntries.add(PieEntry(othersValue, "Others"))
-        }
-
-        return mainEntries
     }
 
     private fun setupPieChart(
