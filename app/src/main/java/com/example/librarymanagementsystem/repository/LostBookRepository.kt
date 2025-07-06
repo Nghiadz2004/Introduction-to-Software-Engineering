@@ -36,7 +36,7 @@ class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
     }
 
     suspend fun getConfirmedLostBookCountInRange(days: Int? = null): Long = withContext(Dispatchers.IO) {
-        val collection = db.collection("lost_book")
+        val collection = db.collection("lost_requests")
 
         val query = if (days != null) {
             val calendar = Calendar.getInstance()

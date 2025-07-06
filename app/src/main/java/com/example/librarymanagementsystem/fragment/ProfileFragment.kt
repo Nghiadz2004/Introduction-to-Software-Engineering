@@ -116,7 +116,7 @@ class ProfileFragment : Fragment() {
                         profileEmailTV.text = it.email
                         Glide.with(avatarIV)
                             .load(it.avatar)
-                            .placeholder(R.drawable.ic_launcher_background)
+                            .placeholder(R.drawable.ano_avatar)
                             .into(avatarIV)
                     } ?: run {
                         Toast.makeText(requireContext(), "User not found", Toast.LENGTH_LONG).show()
@@ -211,7 +211,7 @@ class ProfileFragment : Fragment() {
             emailTV.text = email
             Glide.with(avatarIV)
                 .load(avatar)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.ano_avatar)
                 .into(avatarIV)
         }
     }

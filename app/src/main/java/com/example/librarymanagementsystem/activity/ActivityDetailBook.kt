@@ -46,7 +46,6 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBookBinding
     private lateinit var borrowRepository: BorrowingRepository
     private lateinit var requestBorrowRepository: RequestBorrowRepository
-    private lateinit var libraryCardRepository: LibraryCardRepository
     private lateinit var borrowManager: BorrowBookManager
     private lateinit var errorDialog: ErrorDialog
     private lateinit var btnBack: AppCompatImageButton

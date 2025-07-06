@@ -95,7 +95,7 @@
                                 android:layout_marginTop="-8dp"
                                 android:fontFamily="@font/inter_font"
                                 android:gravity="center"
-                                android:text="23"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="32sp"
                                 android:textStyle="bold|italic"
@@ -166,7 +166,7 @@
                                 android:layout_marginTop="-8dp"
                                 android:fontFamily="@font/inter_font"
                                 android:gravity="center"
-                                android:text="15"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="32sp"
                                 android:textStyle="bold|italic"
@@ -267,7 +267,7 @@
                                 android:layout_marginTop="-8dp"
                                 android:fontFamily="@font/inter_font"
                                 android:gravity="center"
-                                android:text="12"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="32sp"
                                 android:textStyle="bold|italic"
@@ -349,7 +349,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="-8dp"
                                 android:gravity="center"
-                                android:text="3"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/inter_font"
                                 android:textSize="32sp"
@@ -427,7 +427,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="-8dp"
                                 android:gravity="center"
-                                android:text="15000 VND"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/inter_font"
                                 android:textSize="16sp"
@@ -467,7 +467,7 @@
                 android:layout_height="27dp"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/inter_font"
-                android:text="Last month"
+                android:text="Last week"
                 android:textColor="@color/light_blue"
                 android:textSize="22sp"
                 android:textStyle="bold|italic"
@@ -525,7 +525,7 @@
                                 android:layout_marginTop="-8dp"
                                 android:fontFamily="@font/inter_font"
                                 android:gravity="center"
-                                android:text="15"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="32sp"
                                 android:textStyle="bold|italic"
@@ -617,7 +617,7 @@
                                 android:layout_marginTop="-8dp"
                                 android:fontFamily="@font/inter_font"
                                 android:gravity="center"
-                                android:text="12"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="32sp"
                                 android:textStyle="bold|italic"
@@ -707,7 +707,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="-8dp"
                                 android:gravity="center"
-                                android:text="3"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/inter_font"
                                 android:textSize="32sp"
@@ -777,7 +777,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="-8dp"
                                 android:gravity="center"
-                                android:text="15000 VND"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:fontFamily="@font/inter_font"
                                 android:textSize="16sp"
@@ -857,20 +857,19 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="16dp"/>
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
                     tools:ignore="TooManyViews" />
 
             </LinearLayout>
