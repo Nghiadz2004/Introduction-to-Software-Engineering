@@ -5,14 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.model.CardRequest
-import com.example.librarymanagementsystem.model.LibraryCard
 import com.example.librarymanagementsystem.model.RequestStatus
 import com.example.librarymanagementsystem.repository.CardRequestRepository
-import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.example.librarymanagementsystem.service.LibraryCardManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

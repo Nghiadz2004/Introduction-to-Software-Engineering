@@ -1,11 +1,9 @@
 package com.example.librarymanagementsystem.activity
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.Button
@@ -25,9 +23,7 @@ import com.example.librarymanagementsystem.cache.BookOperateCache
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.cache.LibraryCardCache
 import com.example.librarymanagementsystem.databinding.ActivityDetailBookBinding
-import com.google.firebase.auth.FirebaseAuthException
 import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.repository.BookRepository
 import kotlinx.coroutines.launch
 import com.example.librarymanagementsystem.dialog.ErrorDialog
 import com.example.librarymanagementsystem.repository.BorrowingRepository
@@ -46,7 +42,6 @@ class ActivityDetailBook : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBookBinding
     private lateinit var borrowRepository: BorrowingRepository
     private lateinit var requestBorrowRepository: RequestBorrowRepository
-    private lateinit var libraryCardRepository: LibraryCardRepository
     private lateinit var borrowManager: BorrowBookManager
     private lateinit var errorDialog: ErrorDialog
     private lateinit var btnBack: AppCompatImageButton
@@ -286,37 +281,6 @@ class ActivityDetailBook : AppCompatActivity() {
                 }
             }
         }
-
-        //Handle borrow button
-//        btnBorrow.setOnClickListener {
-//            //Handle borrow button
-//            if (LibraryCardCache.libraryCard != null) {
-//                if (!BookOperateCache.statusMap.containsKey(bookID)) {
-//                    showInputDialog(this, "Input days to borrow"){input ->
-//                        lifecycleScope.launch {
-//                            requestBorrowRepository.addRequestBorrow(libraryCardId = LibraryCardCache.libraryCard!!.requestId,
-//                                readerId = userId,
-//                                bookId = bookID,
-//                                daysBorrow = input,
-//                                category = category)
-//                        }
-//                        btnBorrow.text = "PENDING"
-//                        BookOperateCache.statusMap[bookID] = "PENDING"}
-//
-//                }
-//                if (BookOperateCache.statusMap[bookID] == "PENDING") {
-//                    BookOperateCache.statusMap.remove(bookID)
-//                    btnBorrow.text = "BORROW"
-//                    lifecycleScope.launch {
-//                        RequestBorrowRepository().cancelPendingRequest(
-//                            bookID,
-//                            LibraryCardCache.libraryCard!!.readerId
-//                        )
-//                    }
-//                }
-//
-//            }
-//        }
 
         //Handle back button to return previous page
         btnBack.setOnClickListener {

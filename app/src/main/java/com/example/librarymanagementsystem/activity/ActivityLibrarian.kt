@@ -10,8 +10,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.fragment.StatisticFragment
 import com.example.librarymanagementsystem.fragment.ProfileFragment
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -30,7 +28,6 @@ class ActivityLibrarian : AppCompatActivity() {
     private lateinit var transactionBtn: Button
     private lateinit var statisticBtn: Button
     private lateinit var profileBtn: Button
-    private lateinit var userID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +41,6 @@ class ActivityLibrarian : AppCompatActivity() {
 
         val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         Log.d("ActivityLibrarianBase", "pageID = $pageID")
-
-        val currentUser = Firebase.auth.currentUser
-
-        val userID = currentUser!!.uid
 
 
         pageNamePlaceholderTV = findViewById(R.id.pageNamePlaceholderTV2)

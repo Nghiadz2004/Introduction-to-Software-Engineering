@@ -43,7 +43,6 @@ class LibrarianTransactionActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_manage_transaction)
 
-        val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
         auth = Firebase.auth
         userID = auth.currentUser!!.uid
         homeBtn = findViewById(R.id.libHomeBtn)

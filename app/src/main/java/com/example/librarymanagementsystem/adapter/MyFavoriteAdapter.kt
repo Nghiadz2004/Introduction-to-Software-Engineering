@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.FavoriteRepository
-import com.example.librarymanagementsystem.service.UIService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.CoroutineScope

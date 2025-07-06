@@ -8,11 +8,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.LoadingDialog
@@ -20,9 +17,7 @@ import com.example.librarymanagementsystem.model.User
 import com.example.librarymanagementsystem.model.UserStatus
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.UserRepository
-import com.example.librarymanagementsystem.service.calculateAge
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 import com.google.firebase.auth.FirebaseAuth

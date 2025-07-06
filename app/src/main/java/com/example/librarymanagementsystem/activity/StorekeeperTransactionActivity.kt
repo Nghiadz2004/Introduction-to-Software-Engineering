@@ -35,7 +35,6 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
     private lateinit var transactionBtn: Button
     private lateinit var statisticBtn: Button
     private lateinit var profileBtn: Button
-    private lateinit var auth: FirebaseAuth
     private lateinit var userID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +42,6 @@ class StorekeeperTransactionActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_manage_transaction)
 
-        val pageID = intent.getStringExtra("PAGE_ID") ?: HOME_ID
 
         val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
         userID = currentUser!!.uid

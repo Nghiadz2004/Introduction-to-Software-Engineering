@@ -16,11 +16,9 @@ import com.example.librarymanagementsystem.dialog.ErrorDialog
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.fragment.AddBookFragment
 import com.example.librarymanagementsystem.fragment.HomeSearchFragment
-import com.example.librarymanagementsystem.fragment.LibrarianHomeFragment
 import com.example.librarymanagementsystem.fragment.StorekeeperHomeFragment
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 private const val HOME_ID = "HOME"
@@ -37,8 +35,6 @@ class StorekeeperHomeActivity: AppCompatActivity() {
     private lateinit var errorDialog: ErrorDialog
     private lateinit var userID: String
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var authListener: FirebaseAuth.AuthStateListener
     private lateinit var searchView: SearchView
 
     private lateinit var homeBtn: Button
@@ -64,19 +60,6 @@ class StorekeeperHomeActivity: AppCompatActivity() {
             finish() // Đóng activity hiện tại nếu không cần giữ lại
         }
         userID = currentUser!!.uid
-
-//        auth = FirebaseAuth.getInstance()
-//
-//        authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-//            val user = firebaseAuth.currentUser
-//            if (user != null) {
-//                userID = user.uid
-//                // Tiếp tục xử lý bình thường
-//            } else {
-//                startActivity(Intent(this, LoginActivity::class.java))
-//                finish()
-//            }
-//        }
 
         // Initialize book repository
         bookRepository = BookRepository()
@@ -132,15 +115,6 @@ class StorekeeperHomeActivity: AppCompatActivity() {
         handleMenuButton()
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        auth.addAuthStateListener(authListener)
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        auth.removeAuthStateListener(authListener)
-//    }
 
     private fun switchFragment(fragmentId: String) {
         Log.d("StorekeeperHomeActivity", "Switching to fragment: $fragmentId")
@@ -215,11 +189,7 @@ class StorekeeperHomeActivity: AppCompatActivity() {
                 if (searchResults.isEmpty()) {
                     Toast.makeText(this@StorekeeperHomeActivity, "No matching books found", Toast.LENGTH_SHORT).show()
                 }
-//                val fragment = SearchHome.newInstance(searchResults)
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.fragmentContainer, fragment)
-//                    .addToBackStack(null)
-//                    .commit()
+
                 val fragment = HomeSearchFragment.newInstance(searchResults)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fgManageBook, fragment)

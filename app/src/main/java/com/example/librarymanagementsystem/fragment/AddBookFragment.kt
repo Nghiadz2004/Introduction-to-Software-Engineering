@@ -158,16 +158,6 @@ class AddBookFragment : Fragment() {
                             .show()
                     }
                 }
-//            FirebaseFirestore.getInstance()
-//                .collection("books")
-//                .add(newBook)
-//                .addOnSuccessListener {
-//                    Toast.makeText(requireContext(), "Book added successfully!", Toast.LENGTH_SHORT).show()
-//                    clearForm()
-//                }
-//                .addOnFailureListener {
-//                    Toast.makeText(requireContext(), "Failed to add book: ${it.message}", Toast.LENGTH_SHORT).show()
-//                }
             }
         }
     }

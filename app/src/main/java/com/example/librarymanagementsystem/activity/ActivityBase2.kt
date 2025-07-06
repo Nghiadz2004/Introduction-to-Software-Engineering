@@ -49,12 +49,6 @@ class ActivityBase2 : AppCompatActivity() {
         favoriteBtn = findViewById(R.id.favoriteBtn)
         profileBtn = findViewById(R.id.profileBtn)
 
-//        if (pageID == "STATISTIC_ID") {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.fragment_container, StatisticFragment())
-//                .commit()
-//        }
-
         loadActivity(pageID)
         handleMenuButton()
     }

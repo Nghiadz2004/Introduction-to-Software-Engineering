@@ -155,11 +155,6 @@ class LibrarianHomeActivity: AppCompatActivity() {
                 if (searchResults.isEmpty()) {
                     Toast.makeText(this@LibrarianHomeActivity, "No matching books found", Toast.LENGTH_SHORT).show()
                 }
-//                val fragment = SearchHome.newInstance(searchResults)
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.fragmentContainer, fragment)
-//                    .addToBackStack(null)
-//                    .commit()
                 val fragment = HomeSearchFragment.newInstance(searchResults)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fgManageBook, fragment)

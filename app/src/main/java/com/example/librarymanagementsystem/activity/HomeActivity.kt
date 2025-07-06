@@ -10,12 +10,10 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -82,8 +80,6 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
 
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -157,11 +153,7 @@ class HomeActivity : AppCompatActivity() {
                 if (searchResults.isEmpty()) {
                     Toast.makeText(this@HomeActivity, "No matching books found", Toast.LENGTH_SHORT).show()
                 }
-//                val fragment = SearchHome.newInstance(searchResults)
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.fragmentContainer, fragment)
-//                    .addToBackStack(null)
-//                    .commit()
+
                 val fragment = HomeSearchFragment.newInstance(searchResults)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, fragment)
