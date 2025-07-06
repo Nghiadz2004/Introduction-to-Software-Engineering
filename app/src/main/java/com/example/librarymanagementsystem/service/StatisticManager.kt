@@ -1,6 +1,5 @@
 package com.example.librarymanagementsystem.service
 
-import android.util.Log
 import com.example.librarymanagementsystem.repository.BookRepository
 import com.example.librarymanagementsystem.repository.BorrowingRepository
 import com.example.librarymanagementsystem.repository.FineRepository

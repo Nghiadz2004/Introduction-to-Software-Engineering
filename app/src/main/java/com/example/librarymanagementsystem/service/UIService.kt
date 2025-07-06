@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.service
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat
 import com.example.librarymanagementsystem.R
 
 object UIService {
+    @SuppressLint("UseCompatTextViewDrawableApis")
     fun setButtonColor(
         context: Context,
         selectedBtn: View,

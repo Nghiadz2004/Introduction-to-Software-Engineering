@@ -1,8 +1,6 @@
 package com.example.librarymanagementsystem.repository
 
 import android.util.Log
-import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.model.BookAcquisition
 import com.example.librarymanagementsystem.model.User
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
@@ -53,22 +51,6 @@ class UserRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
             .await()
             .toObjects(User::class.java)
             .firstOrNull()
-    }
-
-    // Tìm kiếm người dùng theo role
-    suspend fun getUserByRoleId(roleId: String): List<User> = withContext(Dispatchers.IO) {
-        db.collection("users")
-            .whereEqualTo("roleId", roleId)
-            .get().await().toObjects(User::class.java)
-    }
-
-    // Tìm kiếm người dùng theo trạng thái
-    suspend fun getUserByStatus(status: String): List<User> = withContext(Dispatchers.IO) {
-        db.collection("users")
-            .whereEqualTo("status",status)
-            .get()
-            .await()
-            .toObjects(User::class.java)
     }
 
     // Tìm kiếm người dùng theo địa chỉ email đã đăng ký

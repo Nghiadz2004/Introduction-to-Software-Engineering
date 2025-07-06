@@ -1,9 +1,6 @@
 package com.example.librarymanagementsystem.service
 
-import android.util.Log
-import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.model.QueueDisplay
-import com.example.librarymanagementsystem.model.User
 import com.example.librarymanagementsystem.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

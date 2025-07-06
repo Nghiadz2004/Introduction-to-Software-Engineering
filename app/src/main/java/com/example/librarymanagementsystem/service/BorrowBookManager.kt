@@ -7,25 +7,19 @@ import com.example.librarymanagementsystem.model.BorrowRequest
 import com.example.librarymanagementsystem.model.BorrowStatus
 import com.example.librarymanagementsystem.model.RequestStatus
 import com.example.librarymanagementsystem.repository.BorrowingRepository
-import com.example.librarymanagementsystem.repository.LibraryCardRepository
 import com.example.librarymanagementsystem.repository.RequestBorrowRepository
 import com.example.librarymanagementsystem.repository.fetchServerTime
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.AggregateSource
 import java.util.Calendar
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.Date
-import java.util.concurrent.TimeUnit
 
-/**
- * Kết quả kèm thông điệp (null nếu thành công).
- */
 data class CheckResult(
     val ok: Boolean,
     val message: String? = null
@@ -143,7 +137,7 @@ class BorrowBookManager (
     suspend fun isLibraryCardValid(readerId: String, now: Date): CheckResult = withContext(Dispatchers.IO) {
         val card = LibraryCardCache.libraryCard
 
-        Log.d("BorrowBookManager", "checkCard: ${card}")
+        Log.d("BorrowBookManager", "checkCard: $card")
 
         if (card == null) {
             return@withContext CheckResult(false, "Please register for a library card before borrowing books")

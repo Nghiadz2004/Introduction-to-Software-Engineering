@@ -1,14 +1,11 @@
 package com.example.librarymanagementsystem.service
 
 import com.example.librarymanagementsystem.model.*
-import com.example.librarymanagementsystem.repository.BookCopyRepository
-import com.example.librarymanagementsystem.repository.LostBookRepository
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.util.Date
 
 class ConfirmLostManager(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()

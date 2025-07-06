@@ -1,9 +1,6 @@
 package com.example.librarymanagementsystem.repository
 
-import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.model.BorrowBook
 import com.example.librarymanagementsystem.model.LibraryCard
-import com.example.librarymanagementsystem.model.User
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -12,26 +9,9 @@ import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class LibraryCardRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
-    // Ghi nhận một thẻ thư viện mới
-    suspend fun createLibraryCard(card: LibraryCard): String = withContext(Dispatchers.IO) {
-        val docRef = db.collection("library_cards").document() // tạo document có id tự động
-        docRef.set(card).await()
-        return@withContext docRef.id
-    }
-
-
     // Lấy danh sách tất cả các thẻ thư viện
     suspend fun getLibraryCards(): List<LibraryCard> = withContext(Dispatchers.IO) {
         db.collection("library_cards").get().await().toObjects(LibraryCard::class.java)
-    }
-
-    // Lấy danh sách thẻ thư viện (đã tạo) theo Id của độc giả
-    suspend fun getLibraryCardByReader(readerId: String): List<LibraryCard> = withContext(Dispatchers.IO) {
-         db.collection("library_cards")
-            .whereEqualTo("readerId", readerId)
-            .get()
-            .await()
-            .toObjects(LibraryCard::class.java)
     }
 
     suspend fun getLatestLibraryCard(readerId: String): LibraryCard? = withContext(Dispatchers.IO) {
@@ -54,26 +34,6 @@ class LibraryCardRepository(private val db: FirebaseFirestore = FirebaseFirestor
         } else {
             null
         }
-    }
-
-    // Lấy thông tin thẻ thư viện ứng với Id yêu cầu tạo thẻ
-    suspend fun getLibraryCardByRequest(requestId: String): LibraryCard? = withContext(Dispatchers.IO) {
-        val documentSnapshot = db.collection("library_cards")
-            .document(requestId)
-            .get()
-            .await()
-
-        return@withContext documentSnapshot.toObject(LibraryCard::class.java)
-    }
-
-
-    // Lấy danh sách các thẻ thư viện được ghi nhận bởi một thủ thư
-    suspend fun getLibraryCardByRecorder(librarianId: String): List<LibraryCard> = withContext(Dispatchers.IO) {
-        db.collection("library_cards")
-            .whereEqualTo("librarianId", librarianId)
-            .get()
-            .await()
-            .toObjects(LibraryCard::class.java)
     }
 
     suspend fun updateLibraryCard(cardId: String, status: String) = withContext(Dispatchers.IO) {

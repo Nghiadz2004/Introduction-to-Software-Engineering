@@ -25,17 +25,6 @@ class RequestBorrowRepository(private val db: FirebaseFirestore = FirebaseFirest
         db.collection("request_borrow").add(data).await().id
     }
 
-
-    // Lấy tất cả các yêu cầu mượn sách của 1 người dùng (bao gồm đang yêu cầu mượn, bị từ chối, đã trả)
-    suspend fun getRequestBooksByReader(readerId: String): List<BorrowRequest> = withContext(
-        Dispatchers.IO) {
-        db.collection("request_borrow")
-            .whereEqualTo("readerId", readerId)
-            .get()
-            .await()
-            .toObjects(BorrowRequest::class.java)
-    }
-
     // Lấy yêu cầu mượn sách đang đợi của tất cả người dùng
     suspend fun getPendingRequests(): List<BorrowRequest> = withContext(Dispatchers.IO) {
         db.collection("request_borrow")

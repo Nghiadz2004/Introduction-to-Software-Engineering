@@ -20,9 +20,7 @@ import com.example.librarymanagementsystem.model.User
 import com.example.librarymanagementsystem.model.UserStatus
 import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.example.librarymanagementsystem.repository.UserRepository
-import com.example.librarymanagementsystem.service.calculateAge
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 import com.google.firebase.auth.FirebaseAuth
