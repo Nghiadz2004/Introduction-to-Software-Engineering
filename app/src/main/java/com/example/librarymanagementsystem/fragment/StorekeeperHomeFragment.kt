@@ -16,8 +16,6 @@ import com.example.librarymanagementsystem.adapter.BookAdapter
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 private const val ALLBOOK_ID = "ALLBOOK"
@@ -25,16 +23,10 @@ private const val ADDBOOK_ID = "ADDBOOK"
 
 class StorekeeperHomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private var addBookFragment: AddBookFragment? = null
-
     private var fragmentId: String = ALLBOOK_ID
-
     private var currentAdapter: RecyclerView.Adapter<*>? = null
-
     private lateinit var bookAdapter: BookAdapter
-
     private var bookRepository = BookRepository()
-
     private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,12 +42,6 @@ class StorekeeperHomeFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.librarianHomeRV)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-//        val user = Firebase.auth.currentUser
-//        if (user == null) {
-//            Log.e("StorekeeperHomeFragment", "User not logged in.")
-//            return view
-//        }
 
         loadingDialog = LoadingDialog(requireContext())
 

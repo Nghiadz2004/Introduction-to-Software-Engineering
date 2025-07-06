@@ -1,4 +1,5 @@
 package com.example.librarymanagementsystem.fragment
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
 import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
+
 class HomeSearchFragment : Fragment() {
 
     private var searchResultBooks: List<Book> = emptyList()

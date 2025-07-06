@@ -78,11 +78,11 @@ class EditProfileFragment : Fragment() {
                 if (!it.avatar.isNullOrEmpty()) {
                     Glide.with(avatarIV.context)
                         .load(it.avatar)
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .error(R.drawable.ic_launcher_background)
+                        .placeholder(R.drawable.ano_avatar)
+                        .error(R.drawable.ano_avatar)
                         .into(avatarIV)
                 } else {
-                    avatarIV.setImageResource(R.drawable.ic_launcher_background)
+                    avatarIV.setImageResource(R.drawable.ano_avatar)
                 }
 
             }

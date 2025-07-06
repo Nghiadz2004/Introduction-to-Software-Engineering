@@ -11,12 +11,11 @@ data class CardRequest(
     val birthday: Date? = null,
     val address: String = "",
     val email: String = "",
-    val type: String = ReaderType.GOLD.value, // Mặc định là GOLD
+    val type: String = ReaderType.GOLD.value,
     @ServerTimestamp
     val requestAt: Date? = null,
-    var status: String = RequestStatus.PENDING.value // Mặc định là PENDING
+    var status: String = RequestStatus.PENDING.value
 ) {
-    // Constructor không tham số để Firestore có thể deserialize được
     constructor() : this(
         id = null,
         readerId = "",

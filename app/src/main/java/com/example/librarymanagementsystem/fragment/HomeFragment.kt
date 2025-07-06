@@ -46,13 +46,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        // Bước 1: Gán các view
+        // Gán các view
         recyclerFeatured = view.findViewById(R.id.recyclerFeatured)
         recyclerNewRelease = view.findViewById(R.id.recyclerNewRelease)
         seeAllNewReleaseTV = view.findViewById(R.id.seeAllNewReleaseTV)
         seeAllFeatureTV = view.findViewById(R.id.seeAllFeatureTV)
 
-        // Bước 2: Nếu có dữ liệu tìm kiếm thì hiển thị luôn
+        // Nếu có dữ liệu tìm kiếm thì hiển thị luôn
         arguments?.getParcelableArrayList<Book>(ARG_BOOK_LIST)?.let { bookList ->
             // Hiển thị danh sách tìm kiếm
             recyclerFeatured.layoutManager =
@@ -96,7 +96,7 @@ class HomeFragment : Fragment() {
                 .commit()
         }
 
-        // Bước 4: Nếu không tìm kiếm thì tải dữ liệu từ Firestore như thường
+        // Nếu không tìm kiếm thì tải dữ liệu từ Firestore như thường
         loadBooksFromFirestore()
         return view
     }

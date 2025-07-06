@@ -36,7 +36,7 @@ class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
     }
 
     suspend fun getConfirmedLostBookCountInRange(days: Int? = null): Long = withContext(Dispatchers.IO) {
-        val collection = db.collection("lost_book")
+        val collection = db.collection("lost_requests")
 
         val query = if (days != null) {
             val calendar = Calendar.getInstance()
@@ -79,22 +79,5 @@ class LostBookRepository(private val db: FirebaseFirestore = FirebaseFirestore.g
             .get()
             .await()
             .toObjects(LostBook::class.java)
-    }
-
-    // Cập nhật trạng thái yêu cầu mất sách (đang chờ -> đã được duyệt)
-    suspend fun updateLostRequestStatus(
-        requestId: String,
-        librarianId: String
-    ) = withContext(Dispatchers.IO) {
-        val updateData = mapOf(
-            "status" to LostRequestStatus.CONFIRMED.value,
-            "confirmedBy" to librarianId
-        )
-        db.collection("lost_requests").document(requestId).update(updateData).await()
-    }
-
-    // Người dùng hủy báo cáo mất sách đã gửi trước đó
-    suspend fun removeLostRequest (requestId: String) = withContext(Dispatchers.IO){
-        db.collection("lost_requests").document(requestId).delete().await()
     }
 }

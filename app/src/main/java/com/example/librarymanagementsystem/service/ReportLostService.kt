@@ -39,7 +39,7 @@ class ReportLostService(
                 copyId = lost.copyId ?: "",
                 formattedLoanDate = confirmDate?.let { dateFormat.format(it) } ?: "N/A",
                 formattedDueDate = dueDate?.let { dateFormat.format(it) } ?: "N/A",
-                fine = "${fineAmount} VNĐ",
+                fine = "$fineAmount VNĐ",
 
                 requestId = lost.requestId ?: "",
                 readerId = lost.readerId ?: "",

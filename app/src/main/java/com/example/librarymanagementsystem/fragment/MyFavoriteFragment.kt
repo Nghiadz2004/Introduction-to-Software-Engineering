@@ -15,13 +15,11 @@ import com.example.librarymanagementsystem.adapter.MyFavoriteAdapter
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.model.Book
 import com.example.librarymanagementsystem.repository.BookRepository
-import com.example.librarymanagementsystem.repository.FavoriteRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import android.content.Intent
 import android.widget.TextView
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
-import com.example.librarymanagementsystem.cache.FavoriteCache
 import com.example.librarymanagementsystem.service.FavoriteManager
 
 class MyFavoriteFragment : Fragment() {

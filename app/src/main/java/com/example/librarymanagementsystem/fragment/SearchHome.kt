@@ -2,24 +2,14 @@ package com.example.librarymanagementsystem.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.activity.ActivityDetailBook
-import com.example.librarymanagementsystem.adapter.BookHomeAdapter
 import com.example.librarymanagementsystem.model.Book
-import com.example.librarymanagementsystem.repository.BookRepository
-import com.example.librarymanagementsystem.repository.BorrowingRepository
-import com.example.librarymanagementsystem.service.BookStatistics
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.librarymanagementsystem.adapter.SearchResultAdapter
 

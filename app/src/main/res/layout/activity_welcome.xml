@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_blue"
@@ -12,18 +13,19 @@
         android:id="@+id/wcHeaderText"
         android:layout_width="300dp"
         android:layout_height="105dp"
-        android:layout_marginTop="30dp"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:paddingBottom="8dp"
         android:text="Welcome to Group 1's Library"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="italic|bold"
-        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/wcMessageHolder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/wcMessageHolder" />
+        tools:ignore="HardcodedText,TextSizeCheck" />
 
     <!-- Banner image -->
     <ImageView
@@ -32,35 +34,40 @@
         android:layout_height="165dp"
         android:layout_gravity="center"
         android:layout_marginTop="90dp"
+        android:contentDescription="Owl"
         android:src="@drawable/banner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wcHeaderText" />
+        app:layout_constraintTop_toBottomOf="@id/wcHeaderText"
+        tools:ignore="HardcodedText,ImageContrastCheck" />
 
     <!-- Banner message -->
     <ImageView
         android:id="@+id/wcMessageHolder"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginEnd="-40dp"
         android:layout_marginBottom="-30dp"
-        android:layout_marginRight="-40dp"
+        android:contentDescription="Message"
         android:background="@drawable/circle"
         android:backgroundTint="@color/light_purple"
+        app:layout_constraintBottom_toTopOf="@id/wcBannerImage"
         app:layout_constraintEnd_toStartOf="@id/wcBannerImage"
-        app:layout_constraintBottom_toTopOf="@id/wcBannerImage" />
+        tools:ignore="HardcodedText,ImageContrastCheck" />
 
     <TextView
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginEnd="-40dp"
         android:layout_marginBottom="-30dp"
-        android:layout_marginRight="-40dp"
         android:gravity="center"
         android:text="Hi!"
+        android:textColor="@color/light_blue"
         android:textSize="48sp"
         android:textStyle="italic|bold"
-        android:textColor="@color/light_blue"
+        app:layout_constraintBottom_toTopOf="@id/wcBannerImage"
         app:layout_constraintEnd_toStartOf="@id/wcBannerImage"
-        app:layout_constraintBottom_toTopOf="@id/wcBannerImage" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <!-- Button navigate to login page -->
 
@@ -76,7 +83,7 @@
         android:drawableStart="@drawable/login_icon"
         android:drawablePadding="-10dp"
         android:drawableTint="@color/light_blue"
-        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
         android:text="Login with Username"
         android:textAllCaps="false"
         android:textColor="@color/light_blue"
@@ -85,27 +92,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wcBannerImage" />
-
-    <Button
-        android:id="@+id/loginByGoogle"
-        android:layout_width="330dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="20dp"
-        android:background="@drawable/rectangle_border_bg"
-        android:backgroundTint="@color/light_purple"
-        android:text="Login with Google"
-        android:textSize="24sp"
-        android:textStyle="italic|bold"
-        android:textAllCaps="false"
-        android:textColor="@color/light_blue"
-        android:drawableStart="@drawable/facebook_icon"
-        android:drawableTint="@color/light_blue"
-        android:drawablePadding="-10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginByUsername" />
+        app:layout_constraintTop_toBottomOf="@id/wcBannerImage"
+        tools:ignore="HardcodedText,RtlSymmetry,TextContrastCheck" />
 
     <!-- Button navigate to register page -->
     <Button
@@ -113,19 +101,20 @@
         android:layout_width="330dp"
         android:layout_height="65dp"
         android:layout_marginTop="20dp"
-        android:paddingLeft="20dp"
         android:background="@drawable/rectangle_border_bg"
         android:backgroundTint="@color/light_purple"
+        android:drawableStart="@drawable/register_icon"
+        android:drawablePadding="-50dp"
+        android:drawableTint="@color/light_blue"
+        android:paddingStart="20dp"
         android:text="Register an user"
-        android:textSize="24sp"
-        android:textStyle="italic|bold"
         android:textAllCaps="false"
         android:textColor="@color/light_blue"
-        android:drawableStart="@drawable/register_icon"
-        android:drawableTint="@color/light_blue"
-        android:drawablePadding="-50dp"
+        android:textSize="24sp"
+        android:textStyle="italic|bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginByGoogle" />
+        app:layout_constraintTop_toBottomOf="@id/loginByUsername"
+        tools:ignore="HardcodedText,RtlSymmetry,TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

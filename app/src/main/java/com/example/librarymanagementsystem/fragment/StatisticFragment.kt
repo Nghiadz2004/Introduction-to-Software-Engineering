@@ -6,18 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.dialog.LoadingDialog
 import com.example.librarymanagementsystem.service.StatisticManager
 import kotlinx.coroutines.launch
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -28,6 +22,9 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.graphics.Typeface
 import com.github.mikephil.charting.components.Legend
+import java.text.NumberFormat
+import java.util.Locale
+import android.util.Log
 
 class StatisticFragment : Fragment() {
 
@@ -46,7 +43,6 @@ class StatisticFragment : Fragment() {
     private lateinit var pieChart2: PieChart
     private lateinit var pieChart3: PieChart
     private lateinit var pieChart4: PieChart
-
 
     private lateinit var loadingDialog: LoadingDialog
 
@@ -77,10 +73,14 @@ class StatisticFragment : Fragment() {
         // Initiate LoadingDialog
         loadingDialog = LoadingDialog(requireContext())
 
-
         loadStatistic()
 
         return view
+    }
+
+    private fun formatCurrencyVND(amount: Long): String {
+        val formatter = NumberFormat.getInstance(Locale("vi", "VN"))
+        return "${formatter.format(amount)} VND"
     }
 
     private fun loadStatistic() {
@@ -105,7 +105,7 @@ class StatisticFragment : Fragment() {
             totalBooksLentNumberTV.text = totalLent.toString()
             totalReturnBooksNumberTV.text = totalReturn.toString()
             totalLostBooksNumberTV.text = totalLost.toString()
-            totalFineNumberTV.text = totalFine.toString()
+            totalFineNumberTV.text = formatCurrencyVND(totalFine.toLong())
 
             totalBooksLentNumberTV_2.text = totalLent7.toString()
             totalReturnBooksNumberTV_2.text = totalReturn7.toString()
@@ -124,7 +124,7 @@ class StatisticFragment : Fragment() {
                     "Return",
                     "Lost"
                 ),
-                "Book Statistic (All Time)",
+                "All Time",
                 false
             )
 
@@ -140,7 +140,7 @@ class StatisticFragment : Fragment() {
                     "Return",
                     "Lost"
                 ),
-                "Book Statistic (7 Days)",
+                "7 Days",
                 false
             )
 
@@ -150,11 +150,14 @@ class StatisticFragment : Fragment() {
             val currentMonthStats = StatisticManager().countCategory(startCurrent, endCurrent)
             val previousMonthStats = StatisticManager().countCategory(startPrevious, endPrevious)
 
+            Log.e("LEGENDKEYCURRENT", currentMonthStats.keys.toList().toString())
+            Log.e("LEGENDKEYPREVIOUS", previousMonthStats.keys.toList().toString())
+
             setupPieChart(
                 pieChart3,
                 currentMonthStats.values.map { it.toFloat() },
                 currentMonthStats.keys.toList(),
-                "Category Statistic (All Time)",
+                "All Time",
                 isLegend = true,
                 isLabel = false,
                 isValuePercentage = true,
@@ -165,7 +168,7 @@ class StatisticFragment : Fragment() {
                 pieChart4,
                 previousMonthStats.values.map { it.toFloat() },
                 previousMonthStats.keys.toList(),
-                "Category Statistic (7 Days)",
+                "Previous Month",
                 isLegend = true,
                 isLabel = false,
                 isValuePercentage = true,
@@ -218,7 +221,10 @@ class StatisticFragment : Fragment() {
         }
 
         val dataSet = PieDataSet(filteredData, "")
-        dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
+        val colors = mutableListOf<Int>()
+        colors.addAll(ColorTemplate.MATERIAL_COLORS.toList())
+        colors.addAll(ColorTemplate.COLORFUL_COLORS.toList())
+        dataSet.colors = colors
         dataSet.sliceSpace = 1.5f
         dataSet.valueTextSize = 8f
 
@@ -242,11 +248,11 @@ class StatisticFragment : Fragment() {
         // Legend management
         val legend = pieChart.legend
         legend.isEnabled = isLegend
-        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.CENTER
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
         legend.orientation = Legend.LegendOrientation.VERTICAL
         legend.setDrawInside(false)
-        legend.isWordWrapEnabled = true // 👈 Cho phép tự xuống dòng nếu quá dài
+        legend.isWordWrapEnabled = true
 
         // Content management
         pieChart.data = pieData
@@ -254,7 +260,7 @@ class StatisticFragment : Fragment() {
         pieChart.setEntryLabelColor(Color.BLACK)
         pieChart.description.isEnabled = false
         pieChart.centerText = styledCenterText
-        pieChart.setExtraOffsets(0f, 2f, 0f, 10f) // thu hẹp hoặc nới lề
+        pieChart.setExtraOffsets(0f, 2f, 0f, bottomOffSet) // thu hẹp hoặc nới lề
 
         // Pie size management
         pieChart.isDrawHoleEnabled = true // bật lỗ tròn giữa

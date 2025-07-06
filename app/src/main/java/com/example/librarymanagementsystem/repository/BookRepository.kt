@@ -74,50 +74,10 @@ class BookRepository(private val db: FirebaseFirestore = FirebaseFirestore.getIn
         countResult.count
     }
 
-    // Tìm kiếm sách theo Id
-    suspend fun getBookById(bookId: String): Book? = withContext(Dispatchers.IO) {
-        db.collection("books")
-          .document(bookId)
-          .get().await().toObject(Book::class.java)
-    }
-
-    // Cập nhật thông tin số lượng sách
-    suspend fun updateBookQuantity(bookId: String, newQuantity: Int) = withContext(Dispatchers.IO) {
-        db.collection("books").document(bookId).update("quantity", newQuantity).await()
-    }
-
-    // Tìm kiếm sách theo tác giả
-    suspend fun getBookByAuthor(author: String): List<Book> = withContext(Dispatchers.IO) {
-        db.collection("books")
-          .whereEqualTo("author", author)
-          .get().await().toObjects(Book::class.java)
-    }
-
-    // Tìm kiếm sách theo tựa đề
-    suspend fun getBookByTitle(title: String): List<Book> = withContext(Dispatchers.IO) {
-        db.collection("books")
-            .whereEqualTo("title", title)
-            .get().await().toObjects(Book::class.java)
-    }
-
     // Tìm kiếm sách theo thể loại
     suspend fun getBookByCategory(category: String): List<Book> = withContext(Dispatchers.IO) {
         db.collection("books")
             .whereEqualTo("category", category)
-            .get().await().toObjects(Book::class.java)
-    }
-
-    // Tìm kiếm sách theo năm xuất bản
-    suspend fun getBookByPublishYear(publishYear: Int): List<Book> = withContext(Dispatchers.IO) {
-        db.collection("books")
-            .whereEqualTo("publishYear", publishYear)
-            .get().await().toObjects(Book::class.java)
-    }
-
-    // Tìm kiếm sách theo nhà xuất bản
-    suspend fun getBookByPublisher(publisher: String): List<Book> = withContext(Dispatchers.IO) {
-        db.collection("books")
-            .whereEqualTo("publisher", publisher)
             .get().await().toObjects(Book::class.java)
     }
 

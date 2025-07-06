@@ -8,12 +8,6 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class BookCopyRepository(private val db: FirebaseFirestore = FirebaseFirestore.getInstance()) {
-    suspend fun getBookCopies(bookId: String): List<BookCopy> = withContext(Dispatchers.IO) {
-        val copiesRef = db.collection("books").document(bookId).collection("copies")
-        val snapshot = copiesRef.get().await()
-        snapshot.toObjects(BookCopy::class.java) // ✅ return implicit
-    }
-
     // Tốn số lượt read = len(bookIds)
     suspend fun getNumAvailableCopies(bookIds: List<String>): Map<String, Int> = withContext(Dispatchers.IO) {
         val result = mutableMapOf<String, Int>()
