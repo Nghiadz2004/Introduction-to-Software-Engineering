@@ -62,7 +62,7 @@ class AddBookFragment : Fragment() {
         publisherEditText = view.findViewById(R.id.publisherEditText)
         publishYearEditText = view.findViewById(R.id.publishYearEditText)
         quantityEditText = view.findViewById(R.id.copyNumEditText)
-        priceEditText = view.findViewById(R.id.totalPagesEditText)
+        priceEditText = view.findViewById(R.id.priceEditText)
         categoryEditText = view.findViewById(R.id.categoryEditText)
         summaryEditText = view.findViewById(R.id.summaryEditText)
         submitButton = view.findViewById(R.id.submitButton)
@@ -95,6 +95,15 @@ class AddBookFragment : Fragment() {
                     Toast.makeText(
                         requireContext(),
                         "Please fill all required fields!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@launch
+                }
+
+                if (price <= 0 || quantity <= 0 || publishYear <= 0) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Price, quantity, and publish year must be greater than 0!",
                         Toast.LENGTH_SHORT
                     ).show()
                     return@launch
