@@ -38,4 +38,4 @@ Bạn có thể tải xuống file APK tại đây:
 
 3. Trên điện thoại, mở ứng dụng **Files** hoặc **Trình quản lý file**, tìm đến file vừa sao chép và cài đặt như trên.
 
-> Cảm ơn bạn đã sử dụng ứng dụng! 🙌
+> # **Cảm ơn bạn đã sử dụng ứng dụng! 🙌**
