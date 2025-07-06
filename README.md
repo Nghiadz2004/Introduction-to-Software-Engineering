@@ -12,7 +12,7 @@
 
 Bạn có thể tải xuống file APK tại đây:
 
-📥 **[Download APK](https://drive.google.com/file/d/1bHJ9QWCwYCrUI8NEJi3LB5MbCylxfmdd/view?usp=sharing)**  
+📥 **[Download APK](https://github.com/Nghiadz2004/Introduction-to-Software-Engineering/releases/download/Mobile/Library.Management.apk)**  
 
 ---
 
